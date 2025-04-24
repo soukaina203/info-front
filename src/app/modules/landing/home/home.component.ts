@@ -19,6 +19,9 @@ import { CommonModule } from '@angular/common';
         ,CtaComponent,TestimonialComponent,
     HeroComponent,HeaderComponent,FooterComponent,CommonModule
     ],
+    styleUrls: ['./home.component.scss'],
+
+
 })
 export class LandingHomeComponent {
     /**

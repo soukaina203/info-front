@@ -1,30 +1,30 @@
 <section id="about" class="py-20 bg-gray-50">
-    <div class="container mx-auto px-4 md:px-6">
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+    <div class="container px-4 mx-auto md:px-6">
+      <div class="max-w-3xl mx-auto mb-16 text-center">
+        <h2 class="mb-4 text-3xl font-bold text-gray-800 md:text-4xl">
           Ce qu'ils disent de nous
         </h2>
-        <div class="h-1 w-20 bg-blue-600 mx-auto mb-6"></div>
+        <div class="h-1 w-20 bg-[#2E849D] mx-auto mb-6"></div>
         <p class="text-lg text-gray-500">
           La satisfaction de nos élèves et de leurs parents est notre plus grande récompense
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="grid grid-cols-1 gap-8 mb-16 md:grid-cols-3">
         <div
           *ngFor="let testimonial of testimonials"
-          class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 relative"
+          class="relative p-6 bg-white border border-gray-100 rounded-lg shadow-sm"
         >
           <div class="absolute -top-4 left-6">
-            <span class="text-5xl text-blue-600 opacity-20">"</span>
+            <span class="text-5xl text-[#2E849D] opacity-20">"</span>
           </div>
           <div class="pt-2">
-            <p class="text-gray-700 italic mb-6">{{ testimonial.quote }}</p>
+            <p class="mb-6 italic text-gray-700">{{ testimonial.quote }}</p>
             <div class="flex items-center">
-              <div class="flex h-10 w-10 items-center justify-center bg-blue-100 rounded-full">
+              <div class="flex h-10 w-10 items-center justify-center bg-[#2E849D] rounded-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600"
+                  class="h-5 w-5 text-[#2E849D]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -46,10 +46,10 @@
         </div>
       </div>
 
-      <div class="bg-blue-600 rounded-lg shadow-lg p-8 text-white">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      <div class="bg-[#2E849D] rounded-lg shadow-lg p-8 text-white">
+        <div class="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8">
           <div *ngFor="let stat of stats" class="text-center">
-            <div class="text-3xl md:text-4xl font-bold mb-2">{{ stat.value }}</div>
+            <div class="mb-2 text-3xl font-bold md:text-4xl">{{ stat.value }}</div>
             <div class="text-sm md:text-base opacity-80">{{ stat.label }}</div>
           </div>
         </div>
