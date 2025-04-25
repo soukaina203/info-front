@@ -4,6 +4,7 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { LandingHomeComponent } from './modules/landing/home/home.component';
+import { ChooseComponent } from './modules/auth/choose/choose.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -30,6 +31,7 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
+            {path:'choose', component:ChooseComponent},
             {path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.routes')},
             {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.routes')},
             {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.routes')},

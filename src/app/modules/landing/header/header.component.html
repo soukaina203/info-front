@@ -2,7 +2,7 @@
     <div class="container flex items-center justify-between px-4 mx-auto md:px-6">
       <div class="flex items-center">
         <a href="#" class="flex items-center space-x-2">
-          <img src="images/logo/logo.png" alt="Info Académie" class="w-8 h-8" />
+          <img src="images/logo/logo.png" alt="Info Académie" class="h-8 w-7" />
           <span class="text-xl font-bold text-brand-blue">Info Académie</span>
         </a>
       </div>
@@ -14,6 +14,46 @@
         <a href="#about" class="font-medium text-gray-700 transition duration-300 hover:text-brand-blue">À Propos</a>
         <a href="#contact" class="font-medium text-gray-700 transition duration-300 hover:text-brand-blue">Contact</a>
         <a href="#contact" class="px-5 py-2 font-medium text-white transition duration-300 rounded-md bg-brand-blue hover:bg-opacity-90">Inscription</a>
+
+
+        <div>
+
+            <div *ngIf="!isConnected"
+                class="flex flex-col-reverse items-center justify-center gap-3 space-y-4 text-left lg:flex-row lg:space-y-0">
+                <div class="flex flex-wrap gap-4">
+                    <button class="px-6 py-1 text-[1rem] text-white rounded-md bg-[#2E849D] hover:bg-[#2E849D]/90" routerLink="/choose">
+                        S'inscrire
+                    </button>
+                    <button class="px-6 py-1 text-[1rem] border rounded-md border-[#2E849D] text-[#2E849D] hover:bg-[#2E849D]/10" routerLink="/sign-in">
+                     s'authentifier
+                    </button>
+                  </div>
+
+            </div>
+
+            <div *ngIf="isConnected"
+                class="flex flex-col-reverse items-center justify-center gap-3 space-y-4 text-left lg:flex-row lg:space-y-0">
+                <div class="flex items-center pl-8 ml-auto  space-x-0.5 sm:space-x-2">
+                    <button mat-icon-button class="mr-[1rem]" (click)="profileOptions()">
+
+                        <mat-icon>person</mat-icon>
+                    </button>
+
+                    <div *ngIf="isShowen"
+                        class="absolute right-0 z-40 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <a href="/user" class="block px-4 py-2 text-gray-800 hover:text-[#2E849D] ">Profile</a>
+
+                        <a (click)="logout()"
+                            class="block hover:cursor-pointer px-4 py-2 text-gray-800 hover:text-[#2E849D] ">Logout</a>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+        </div>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -42,4 +82,7 @@
         <a href="#contact" class="px-5 py-2 mt-2 text-center text-white transition duration-300 rounded-md bg-brand-blue hover:bg-opacity-90">Inscription</a>
       </div>
     </div>
+
+
+
   </nav>
