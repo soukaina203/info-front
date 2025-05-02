@@ -9,17 +9,9 @@ export class User {
     password: string="";
 
     isAdmin:boolean;
-    idRole: number;
+    roleId: number;
     role?: Role | null;
 
-    city?: string | null;
-    cv?: string | null;
 
-    photo?:string | null;
-    services?: number[] | null;
-    specialities?: number[] | null;
-    niveaux?: number[] | null;
-    methodes?: number[] | null;
 }
-
 

@@ -1,1 +1,176 @@
-<p>sign-up-student works!</p>
+<div class="flex flex-col items-center flex-auto min-w-0 sm:flex-row md:items-start sm:justify-center md:justify-start">
+
+
+    <div
+        class="w-full px-4 py-8 md:flex md:items-center md:justify-end sm:w-auto md:h-full md:w-1/2 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+        <div class="w-full mx-auto  max-w-96 sm:w-[24rem] sm:mx-0">
+            <!-- Logo -->
+            <div class="w-12 ">
+                <img src="images/logo/logo.png" alt="Logo Info Academie" />
+            </div>
+            <!-- Title -->
+            <div class="mt-4 text-4xl font-extrabold leading-tight tracking-tight ">Inscription Étudiant</div>
+            <div class="flex items-baseline mt-0.5 font-medium">
+                <div>vous avez déjà un compte?</div>
+                <a class="ml-1 text-primary-500 hover:underline" [routerLink]="['/login']">
+                    S'authentifier
+                </a>
+            </div>
+            <fuse-alert class="mt-8" *ngIf="showAlert" [appearance]="'outline'" [showIcon]="false" [type]="alert.type">
+                {{alert.message}}
+            </fuse-alert>
+            <!-- Sign in form -->
+            <form class="mt-8" [formGroup]="myForm">
+                <ng-container>
+                    <div class="flex mt-4">
+                        <mat-form-field class="w-full ">
+                            <mat-label>Nom</mat-label>
+                            <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input matInput formControlName="firstName">
+                            <mat-error *ngIf="myForm.controls['firstName'].errors?.['required'] "
+                                class="text-red-500">Ce champ est obligatoire</mat-error>
+                            <mat-error *ngIf="myForm.controls['firstName'].errors?.['minlength']"
+                                class="text-red-500">Le nom doit contenir plus de 3 lettres</mat-error>
+                        </mat-form-field>
+                    </div>
+                </ng-container>
+
+                <div class="mt-2">
+                    <mat-form-field class="w-full">
+                        <mat-label>Prénom</mat-label>
+                        <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        <input matInput formControlName="lastName"  spellcheck="false">
+                        <mat-error *ngIf="myForm.controls['lastName'].errors?.['required'] " class="text-red-500">Ce
+                            champ est obligatoire</mat-error>
+                        <mat-error *ngIf="myForm.controls['lastName'].errors?.['minlength']" class="text-red-500">Prénom
+                            doit contenir plus que 3 lettre</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Email field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Email address</mat-label>
+                    <input id="email" matInput [formControlName]="'email'">
+                    <mat-error *ngIf="myForm.controls['email'].errors?.['required']" class="text-red-500">Ce champ est
+                        obligatoire</mat-error>
+                    <mat-error *ngIf="myForm.controls['email'].errors?.['email']" class="text-red-500">Veuillez saisir
+                        une adresse électronique valide</mat-error>
+
+
+
+
+                </mat-form-field>
+
+                <!-- Password field -->
+                <mat-form-field class="w-full">
+                    <mat-label>Mot de passe</mat-label>
+                    <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
+                    <button mat-icon-button type="button"
+                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                    </button>
+                    <mat-error *ngIf="myForm.controls['password'].errors?.['required']" class="text-red-500">Ce champ
+                        est obligatoire </mat-error>
+
+                    </mat-form-field>
+
+                    <span class="text-[13px] font-semibold  text-red-500" *ngIf="isPwdInequal">Les mots de passe ne sont pas
+                        similaires</span>
+                <!-- Password field -->
+                <mat-form-field class="w-full ">
+                    <mat-label>Répéter le mot de passe</mat-label>
+                    <input id="repeatPassword" matInput formControlname="confirmPassword" type="password"
+                        (input)="verify()" #passwordField2>
+                    <button mat-icon-button type="button"
+                        (click)="passwordField2.type === 'password' ? passwordField2.type = 'text' : passwordField2.type = 'password'"
+                        matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField2.type === 'password'"
+                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField2.type === 'text'"
+                            [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                    </button>
+                    <mat-error *ngIf="myForm.controls['confirmPassword'].errors?.['required']" class="text-red-500">Ce
+                        champ est obligatoire </mat-error>
+
+                </mat-form-field>
+
+                    <div class="flex ">
+                        <mat-form-field class="w-full ">
+                            <mat-label>Téléphone</mat-label>
+                            <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input matInput formControlName="telephone">
+                            <mat-error *ngIf="myForm.controls['telephone'].errors?.['required']" class="text-red-500">
+                                Ce champ est obligatoire </mat-error>
+                            <mat-error *ngIf="myForm.controls['telephone'].errors?.['pattern']" class="text-red-500">
+                                Write a valid number 10 digits start with 06|07 </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                <!-- Actions -->
+
+
+
+
+
+                <!-- Submit button -->
+                <button type="submit"  class="w-full bg-[#2E849D] text-white font-semibold text-lg mt-6 fuse-mat-button-large"
+                    mat-flat-button [color]="'primary'"  [disabled]="myForm.invalid || myForm.disabled" (click)="signIn()">
+                    <span *ngIf="!myForm.disabled">S'inscrire</span>
+                    <mat-progress-spinner *ngIf="myForm.disabled" [diameter]="24"
+                        [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+
+                <!-- Separator -->
+
+                <!-- Single sign-on buttons -->
+
+            </form>
+        </div>
+    </div>
+
+
+    <div
+        class=" items-center justify-center right-0 flex-auto hidden w-1/2 h-full p-16 fixed overflow-hidden bg-[#2E849D] md:flex lg:px-28 dark:border-l">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
+            preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- Dots -->
+        <svg class="absolute text-gray-700 -top-16 -right-16" viewBox="0 0 220 192" width="220" height="192"
+            fill="none">
+            <defs>
+                <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20"
+                    patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" fill="currentColor"></rect>
+                </pattern>
+            </defs>
+            <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+        </svg>
+        <!-- @formatter:on -->
+        <!-- Content -->
+        <div class="relative z-10 flex flex-col justify-center w-full h-screen max-w-2xl">
+            <div class="font-bold leading-none text-white text-7xl">
+                <div>Bienvenue Sur</div>
+                <div>Info Academie</div>
+            </div>
+            <div class="mt-6 text-lg leading-6 tracking-tight text-gray-100">
+                Centre spécialisé en soutien scolaire et apprentissage des langues, offrant des services personnalisés
+                pour réussir vos études et maîtriser de nouvelles langues. Boostez vos compétences avec nos
+                experts et atteignez vos objectifs académiques et linguistiques!
+            </div>
+
+        </div>
+    </div>
+</div>
