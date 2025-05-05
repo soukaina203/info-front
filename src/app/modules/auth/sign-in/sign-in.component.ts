@@ -19,7 +19,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { UowService } from 'app/modules/services/uow.service';
+import { UowService } from 'app/services/uow.service';
 
 @Component({
     selector: 'auth-sign-in',

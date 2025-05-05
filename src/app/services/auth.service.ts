@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
   constructor() { }
-  protected urlApi: string = environment.apiUrl;// InjectService.injector.get('API_URL');
+protected urlApi: string = environment.apiUrl;
 protected http = inject(HttpClient);
 
 register(user:User): Observable<any> {

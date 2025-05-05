@@ -11,7 +11,6 @@ import { Router, RouterLink } from '@angular/router';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/models/User';
 import { AuthService } from 'app/services/auth.service';
-import { UowService } from 'app/services/uow.service';
 
 
 @Component({
@@ -88,29 +87,7 @@ import { UowService } from 'app/services/uow.service';
                  this.router.navigateByUrl('sign-in');
 
                 }
-                //     // enable the form
-                //     this.myForm.enable();
-                //     //     this.router.navigateByUrl('verification');
 
-
-                //     // if (res.code === 1) { // everything is working fine
-                //     //     let fullName = `${user.lastName} ${user.firstName}`;
-
-                //     //     // const mailData = { toEmail: user.email, name: fullName,body:'', subject: "Vérifier votre adresse email pour compléter l'inscription "}
-
-                //     //     // // this.uow.auth.SendVerificationMail(mailData).subscribe((r) => {
-                //     //     // // })
-                //     //     this.router.navigateByUrl('verification');
-                //     // }
-                //     // if (res.code === -1) { // email error
-                //     //     // Set the alert
-                //     //     this.alert = {
-                //     //         type: 'error',
-                //     //         message: 'Email existe déjà',
-                //     //     };
-                //     //     // Show the alert
-                //     //     this.showAlert = true;
-                //     // }
             })
         }
     }
