@@ -7,6 +7,6 @@ export class ProfProfile {
     specialities?: number[] | null;
     niveaux?: number[] | null;
     methodes?: number[] | null;
-	  UserId : number | null;
+	userId : number | null;
 
 }

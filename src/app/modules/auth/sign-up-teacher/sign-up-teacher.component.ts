@@ -76,7 +76,10 @@ export class SignUpTeacherComponent {
         specialities: [[], [Validators.required]],
         niveaux: [[], [Validators.required]],
         methodes: [[], [Validators.required]],
+        userId: 0 // assigne dans le backend
     });
+
+
 
     ngOnInit(): void {
         this.uow.service.getServicesData().subscribe((res) => {
@@ -117,6 +120,12 @@ export class SignUpTeacherComponent {
         }
     }
 
+    signIn(): void {
+        const { confirmPassword, ...userForm } = this.myForm.getRawValue()
+        console.log(userForm)
+
+    }
+
     openInput(o) {
         o.click();
     }
@@ -143,9 +152,5 @@ export class SignUpTeacherComponent {
         this.CvTitle = ""
     }
 
-    signIn(): void {
-        const user = this.myForm.getRawValue() as unknown as User;
 
-
-    }
 }
