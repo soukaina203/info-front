@@ -22,6 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { inscriptionProfInterface } from 'app/interfaces/inscriptionProf';
+import { ProfProfile } from 'app/models/ProfProfile';
 
 
 @Component({
@@ -121,10 +123,106 @@ export class SignUpTeacherComponent {
     }
 
     signIn(): void {
-        const { confirmPassword, ...userForm } = this.myForm.getRawValue()
-        console.log(userForm)
+        if (!this.CvFile) {
+          this.openCvRequiredPoppup();
+          return;
+        }
 
-    }
+        if (this.myForm.invalid) {
+          return;
+        }
+
+        this.uploadCvAndRegister();
+      }
+
+      private uploadCvAndRegister(): void {
+        this.uow.upload.uploadFile(this.CvFile!).subscribe({
+          next: (res) => {
+            if (res.msg !== 'success') {
+              this.CvUploadErrorPoppup();
+              return;
+            }
+
+            const user = this.prepareUser(res.fileName);
+            this.registerUser(user);
+          },
+          error: () => this.CvUploadErrorPoppup()
+        });
+      }
+
+      private prepareUser(cvFileName: string):any {
+        const formValue = this.myForm.getRawValue();
+        const { confirmPassword, city, cv, photo, services, specialities, niveaux, methodes, userId, ...userFields } = formValue;
+
+        const user: User = {
+          ...userFields,
+          idRole: formValue.idRole,
+        };
+
+        const ProfProfile: ProfProfile = {
+          city,
+          cv,
+          photo,
+          services,
+          specialities,
+          niveaux,
+          methodes,
+          userId
+        };
+
+        const payload: inscriptionProfInterface = {
+          user,
+          ProfProfile
+        };
+        formValue.cv=cvFileName;
+        return payload;
+      }
+
+      private registerUser(user: inscriptionProfInterface): void {
+        this.myForm.disable();
+        this.showAlert = false;
+
+        this.authService.registerProf(user).subscribe({
+          next: (res) => {
+            this.myForm.enable();
+
+            // if (res.code === 1) {
+            //   this.sendVerificationEmail(user);
+            //   this.router.navigateByUrl('verification');
+            //   return;
+            // }
+
+            if (res.code === -1) {
+              this.showAlert = true;
+              this.alert = {
+                type: 'error',
+                message: 'Email existe déjà',
+              };
+            }
+          },
+          error: () => {
+            this.myForm.enable();
+            this.showAlert = true;
+            this.alert = {
+              type: 'error',
+              message: 'Erreur lors de l’inscription. Veuillez réessayer.',
+            };
+          }
+        });
+      }
+
+      private sendVerificationEmail(user: User): void {
+        const fullName = `${user.lastName} ${user.firstName}`;
+        const mailData = {
+          toEmail: user.email,
+          name: fullName,
+          body: '',
+          subject: "Vérifier votre adresse email pour compléter l'inscription"
+        };
+
+        this.uow.auth.SendVerificationMail(mailData).subscribe();
+      }
+
 
     openInput(o) {
         o.click();

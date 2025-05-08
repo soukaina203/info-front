@@ -9,8 +9,7 @@ export class User {
     password: string="";
 
     isAdmin:boolean;
-    roleId: number;
-    role?: Role | null;
+    idRole: number;
 
 
 }
