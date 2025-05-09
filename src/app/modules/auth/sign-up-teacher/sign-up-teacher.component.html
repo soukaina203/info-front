@@ -1,8 +1,8 @@
-<div class="flex flex-col items-center flex-auto min-w-0 sm:flex-row md:items-start sm:justify-center md:justify-start">
+<div class="flex flex-col items-center flex-auto min-w-0 sm:flex-row md:items-start sm:justify-start md:justify-start">
 
 
     <div
-        class="w-full px-4 py-8 md:flex md:items-center md:justify-end sm:w-auto md:h-full md:w-1/2 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+        class="w-full px-4 py-8 md:flex md:items-start md:justify-end sm:w-auto md:h-full md:w-1/2 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full mx-auto  max-w-96 sm:w-[32rem] sm:mx-0">
             <!-- Logo -->
             <div class="w-12">
@@ -305,13 +305,13 @@
 <!-- Poppups -->
 <ng-template #PdfRequiredPoppup let-dialogRef>
 
-    <button mat-icon-button style="float:right; margin: 5px;color:#DC2626; background-color: #E0DADA; " matDialogClose>
-        <mat-icon class="text-white">close</mat-icon>
+    <button (click)="closePoppup()" mat-icon-button style="float:right; margin: 5px;color:#DC2626; background-color: #E0DADA; " matDialogClose>
+        <mat-icon class="text-white" >close</mat-icon>
     </button>
 
     <mat-dialog-content class="bg-[#FEF2F flex flex-col items-center justify-center w-full ">
         <div class="flex flex-col items-center justify-center w-full gap-5 ">
-            <span class="text-[#B91C1C] text-2xl"> Cv est obligatoire </span>
+            <span class="text-[#B91C1C] text-2xl font-semibold"> Cv est obligatoire </span>
 
             <h2 class="font-normal  text-[19px] text-black">Vous devez Telecharger le Cv
             </h2>
@@ -323,9 +323,9 @@
 
 <ng-template #PdfErrorPoppup let-dialogRef>
 
-    <button mat-icon-button style="float:right; margin:
+    <button (click)="closePoppup()" mat-icon-button style="float:right; margin:
     5px;color:#DC2626; background-color: #E0DADA; " matDialogClose>
-        <mat-icon class="text-white">close</mat-icon>
+        <mat-icon class="text-white" >close</mat-icon>
     </button>
 
     <mat-dialog-content class="bg-[#FEF2F flex flex-col items-center justify-center w-full ">

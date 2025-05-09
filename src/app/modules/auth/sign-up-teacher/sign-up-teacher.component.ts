@@ -60,25 +60,27 @@ export class SignUpTeacherComponent {
         message: '',
     };
 
+
     myForm = this.fb.group({
         id: 0,
-        firstName: ['', [Validators.required, Validators.minLength(3)]],
-        lastName: ['', [Validators.required, Validators.minLength(3)]],
-        email: ['', [Validators.email, Validators.required]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-        telephone: ['', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
-        idRole: 1,
+        firstName: ['hgfhg', [Validators.required, Validators.minLength(3)]],
+        lastName: ['gfgf', [Validators.required, Validators.minLength(3)]],
+        email: ['gfh@hgf', [Validators.email, Validators.required]],
+        password: ['gfh@hgf', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['gfh@hgf', [Validators.required, Validators.minLength(6)]],
+        telephone: ['0625147896', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
+        roleId: 1,
         isAdmin: false,
-        city: ['', [Validators.required, Validators.minLength(2)]],
+        city: ['hgfhgf', [Validators.required, Validators.minLength(2)]],
         cv: [''],
         photo: [null],
 
-        services: [[], [Validators.required]],
-        specialities: [[], [Validators.required]],
-        niveaux: [[], [Validators.required]],
-        methodes: [[], [Validators.required]],
-        userId: 0 // assigne dans le backend
+        services: [[1], [Validators.required]],
+        specialities: [[1], [Validators.required]],
+        niveaux: [[1], [Validators.required]],
+        methodes: [[1], [Validators.required]],
+        userId: 0, // assigne dans le backend
+        user: null
     });
 
 
@@ -121,108 +123,121 @@ export class SignUpTeacherComponent {
             }
         }
     }
-
+    // the order of functions executions
     signIn(): void {
         if (!this.CvFile) {
-          this.openCvRequiredPoppup();
-          return;
+            this.openCvRequiredPoppup();
+            return;
         }
 
         if (this.myForm.invalid) {
-          return;
+            return;
         }
 
         this.uploadCvAndRegister();
-      }
+    }
 
-      private uploadCvAndRegister(): void {
+    // upload of cvs
+    private uploadCvAndRegister(): void {
         this.uow.upload.uploadFile(this.CvFile!).subscribe({
-          next: (res) => {
-            if (res.msg !== 'success') {
-              this.CvUploadErrorPoppup();
-              return;
-            }
+            next: (res) => {
+                if (res.code !== 1) {
 
-            const user = this.prepareUser(res.fileName);
-            this.registerUser(user);
-          },
-          error: () => this.CvUploadErrorPoppup()
+                    this.CvUploadErrorPoppup();
+                    return;
+                }
+
+                const user = this.prepareUser(res.fileName);
+                console.log(user)
+                this.registerUser(user);
+            },
+            error: () => this.CvUploadErrorPoppup()
         });
-      }
+    }
 
-      private prepareUser(cvFileName: string):any {
+    // preparing objects
+    private prepareUser(cvFileName: string): any {
         const formValue = this.myForm.getRawValue();
         const { confirmPassword, city, cv, photo, services, specialities, niveaux, methodes, userId, ...userFields } = formValue;
 
         const user: User = {
-          ...userFields,
-          idRole: formValue.idRole,
+            ...userFields,
+            roleId: formValue.roleId,
         };
 
         const ProfProfile: ProfProfile = {
-          city,
-          cv,
-          photo,
-          services,
-          specialities,
-          niveaux,
-          methodes,
-          userId
+            city,
+            cv: cvFileName,
+            photo,
+            services,
+            specialities,
+            niveaux,
+            methodes,
+            userId,
+            user: null
         };
 
         const payload: inscriptionProfInterface = {
-          user,
-          ProfProfile
+            user,
+            ProfProfile
         };
-        formValue.cv=cvFileName;
         return payload;
-      }
+    }
 
-      private registerUser(user: inscriptionProfInterface): void {
+    // send the profProfile and user objects
+    private registerUser(user: inscriptionProfInterface): void {
         this.myForm.disable();
         this.showAlert = false;
 
         this.authService.registerProf(user).subscribe({
-          next: (res) => {
-            this.myForm.enable();
+            next: (res) => {
+                this.myForm.enable();
 
-            // if (res.code === 1) {
-            //   this.sendVerificationEmail(user);
-            //   this.router.navigateByUrl('verification');
-            //   return;
-            // }
+                // if (res.code === 1) {
+                //   this.sendVerificationEmail(user);
+                //   this.router.navigateByUrl('verification');
+                //   return;
+                // }
 
-            if (res.code === -1) {
-              this.showAlert = true;
-              this.alert = {
-                type: 'error',
-                message: 'Email existe déjà',
-              };
+                if (res.code === -1) {
+                    this.showAlert = true;
+                    this.alert = {
+                        type: 'error',
+                        message: 'Email existe déjà',
+                    };
+                }
+            },
+            error: () => {
+                this.myForm.enable();
+                this.showAlert = true;
+                this.alert = {
+                    type: 'error',
+                    message: 'Erreur lors de l’inscription. Veuillez réessayer.',
+                };
             }
-          },
-          error: () => {
-            this.myForm.enable();
-            this.showAlert = true;
-            this.alert = {
-              type: 'error',
-              message: 'Erreur lors de l’inscription. Veuillez réessayer.',
-            };
-          }
         });
-      }
+    }
 
-      private sendVerificationEmail(user: User): void {
+    private sendVerificationEmail(user: User): void {
         const fullName = `${user.lastName} ${user.firstName}`;
         const mailData = {
-          toEmail: user.email,
-          name: fullName,
-          body: '',
-          subject: "Vérifier votre adresse email pour compléter l'inscription"
+            toEmail: user.email,
+            name: fullName,
+            body: '',
+            subject: "Vérifier votre adresse email pour compléter l'inscription"
         };
 
         this.uow.auth.SendVerificationMail(mailData).subscribe();
-      }
+    }
 
+
+
+
+
+
+
+
+    //poppups
 
     openInput(o) {
         o.click();
@@ -230,7 +245,7 @@ export class SignUpTeacherComponent {
 
     openCvRequiredPoppup(): void {
         const dialogRef = this.dialog.open(this.PdfRequiredPoppup, {
-            height: '340px',
+            height: '240px',
             width: '500px'
         });
         dialogRef.afterClosed().subscribe((result) => {
@@ -244,6 +259,9 @@ export class SignUpTeacherComponent {
         });
         dialogRef.afterClosed().subscribe((result) => {
         });
+    }
+    closePoppup(){
+        this.dialog.closeAll()
     }
 
     removeCV() {

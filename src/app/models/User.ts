@@ -9,7 +9,7 @@ export class User {
     password: string="";
 
     isAdmin:boolean;
-    idRole: number;
+    roleId: number;
 
 
 }
