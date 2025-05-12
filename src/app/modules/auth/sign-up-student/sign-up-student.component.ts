@@ -20,74 +20,92 @@ import { AuthService } from 'app/services/auth.service';
         FormsModule, ReactiveFormsModule, MatFormFieldModule,
         MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule,
         MatProgressSpinnerModule],
-        templateUrl: './sign-up-student.component.html',
-        styleUrl: './sign-up-student.component.scss'
-    })
-    export class SignUpStudentComponent {
-        @ViewChild('signInNgForm') signInNgForm: NgForm;
+    templateUrl: './sign-up-student.component.html',
+    styleUrl: './sign-up-student.component.scss'
+})
+export class SignUpStudentComponent {
+    @ViewChild('signInNgForm') signInNgForm: NgForm;
 
-        private authService = inject(AuthService)
-        private fb = inject(FormBuilder)
-        private router = inject(Router)
-        myForm
-        isPwdInequal: boolean = false
-        user: User = new User
-        showAlert: boolean = false;
+    private authService = inject(AuthService)
+    private fb = inject(FormBuilder)
+    private router = inject(Router)
+    myForm
+    isPwdInequal: boolean = false
+    user: User = new User
+    showAlert: boolean = false;
 
-        alert: { type: FuseAlertType; message: string } = {
-            type: 'success',
-            message: '',
-        };
-
-
-        ngOnInit(){
-
-            this.myForm = this.fb.group({
-                id: 0,
-                firstName: ['Soukaina', [Validators.required, Validators.minLength(3)]],
-                lastName: ['Mourabit', [Validators.required, Validators.minLength(3)]],
-                email: ['Moura@gmail.com', [Validators.email, Validators.required]],
-                password: ['Moura@gmail.com', Validators.required],
-                confirmPassword: ['Moura@gmail.com', [Validators.required]],
-                telephone: ['0625148599', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
-                roleId: 2,
-                isAdmin:false,
+    alert: { type: FuseAlertType; message: string } = {
+        type: 'success',
+        message: '',
+    };
 
 
-            });
+    ngOnInit() {
+
+        this.myForm = this.fb.group({
+            id: 0,
+            firstName: ['Soukaina', [Validators.required, Validators.minLength(3)]],
+            lastName: ['Mourabit', [Validators.required, Validators.minLength(3)]],
+            email: ['Moura@gmail.com', [Validators.email, Validators.required]],
+            password: ['Moura@gmail.com', Validators.required],
+            confirmPassword: ['Moura@gmail.com', [Validators.required]],
+            telephone: ['0625148599', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
+            roleId: 2,
+            isAdmin: false,
+
+
+        });
+    }
+    verify() {
+        const user = this.myForm.getRawValue();
+        console.log(user)
+        user.password !== user.confirmPassword ? this.isPwdInequal = true : this.isPwdInequal = false
+
+    }
+
+    signIn(): void {
+        const { confirmPassword, ...user } = this.myForm.getRawValue();
+
+        // const user = this.myForm.getRawValue() as User;
+        console.log(user)
+        // Return if the form is invalid
+        if (this.myForm.invalid) {
+            return;
         }
-        verify() {
-            const user = this.myForm.getRawValue();
-            console.log("============")
-            console.log(user)
-            user.password !== user.confirmPassword ? this.isPwdInequal = true : this.isPwdInequal = false
 
-        }
+        // Disable the form
+        this.myForm.disable();
 
-        signIn(): void {
-            const { confirmPassword, ...user } = this.myForm.getRawValue();
+        // Hide the alert
+        this.showAlert = false;
 
-            // const user = this.myForm.getRawValue() as User;
-            console.log(user)
-            // Return if the form is invalid
-            if (this.myForm.invalid) {
-                return;
+        // Sign in
+        this.authService.register(user).subscribe((res) => {
+        this.myForm.enable();
+
+            if (res.code === -2) {
+                this.alert = {
+                    type: 'error',
+                    message: res.Message,
+                };
+                // Show the alert
+                this.showAlert = true;
             }
 
-            // Disable the form
-            this.myForm.disable();
+            if (res.code === -1) {
+                this.alert = {
+                    type: 'error',
+                    message: 'Email existe deja',
+                };
+                // Show the alert
+                this.showAlert = true;
+            }
 
-            // Hide the alert
-            this.showAlert = false;
+            if (res.code == 1) {
+                this.router.navigateByUrl('sign-in');
 
-            // Sign in
-            this.authService.register(user).subscribe((res) => {
-                console.log(res)
-                if (res.code!=-1) {
-                 this.router.navigateByUrl('sign-in');
+            }
 
-                }
-
-            })
-        }
+        })
     }
+}

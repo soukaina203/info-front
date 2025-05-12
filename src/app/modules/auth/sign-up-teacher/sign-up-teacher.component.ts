@@ -190,6 +190,7 @@ export class SignUpTeacherComponent {
         this.showAlert = false;
 
         this.authService.registerProf(user).subscribe({
+
             next: (res) => {
                 this.myForm.enable();
 
