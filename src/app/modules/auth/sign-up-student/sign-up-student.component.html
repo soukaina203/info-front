@@ -85,7 +85,7 @@
                 <!-- Password field -->
                 <mat-form-field class="w-full ">
                     <mat-label>Répéter le mot de passe</mat-label>
-                    <input id="repeatPassword" matInput formControlname="confirmPassword" type="password"
+                    <input id="repeatPassword" matInput formControlName="confirmPassword" type="password"
                         (input)="verify()" #passwordField2>
                     <button mat-icon-button type="button"
                         (click)="passwordField2.type === 'password' ? passwordField2.type = 'text' : passwordField2.type = 'password'"
