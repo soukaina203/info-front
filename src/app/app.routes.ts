@@ -5,6 +5,8 @@ import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { LandingHomeComponent } from './modules/landing/home/home.component';
 import { ChooseComponent } from './modules/auth/choose/choose.component';
+import { MailVerificationComponent } from './modules/auth/mail-verification/mail-verification.component';
+import { VerifiedComponent } from './modules/auth/verified/verified.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -31,7 +33,11 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
+
             {path:'choose', component:ChooseComponent},
+            {path:'verify/mail', component:MailVerificationComponent},
+            {path:'verified/{token}', component:VerifiedComponent},
+
             {path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.routes')},
             {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.routes')},
             {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.routes')},

@@ -102,7 +102,7 @@ export class SignUpStudentComponent {
             }
 
             if (res.code == 1) {
-                this.router.navigateByUrl('sign-in');
+                this.router.navigateByUrl('verify/mail');
 
             }
 

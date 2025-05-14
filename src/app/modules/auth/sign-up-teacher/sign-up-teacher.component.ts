@@ -194,11 +194,7 @@ export class SignUpTeacherComponent {
             next: (res) => {
                 this.myForm.enable();
 
-                // if (res.code === 1) {
-                //   this.sendVerificationEmail(user);
-                //   this.router.navigateByUrl('verification');
-                //   return;
-                // }
+
 
                 if (res.code === -1) {
                     this.showAlert = true;
@@ -207,6 +203,8 @@ export class SignUpTeacherComponent {
                         message: 'Email existe déjà',
                     };
                 }
+                this.router.navigateByUrl('verify/mail');
+
             },
             error: () => {
                 this.myForm.enable();
