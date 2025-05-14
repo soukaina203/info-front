@@ -36,7 +36,7 @@ export const appRoutes: Route[] = [
 
             {path:'choose', component:ChooseComponent},
             {path:'verify/mail', component:MailVerificationComponent},
-            {path:'verified/{token}', component:VerifiedComponent},
+            {path:'mail/verified/:token', component:VerifiedComponent},
 
             {path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.routes')},
             {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.routes')},

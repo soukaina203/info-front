@@ -46,7 +46,7 @@ export class SignUpStudentComponent {
             id: 0,
             firstName: ['Soukaina', [Validators.required, Validators.minLength(3)]],
             lastName: ['Mourabit', [Validators.required, Validators.minLength(3)]],
-            email: ['Moura@gmail.com', [Validators.email, Validators.required]],
+            email: ['motoso5004@daupload.com', [Validators.email, Validators.required]],
             password: ['Moura@gmail.com', Validators.required],
             confirmPassword: ['Moura@gmail.com', [Validators.required]],
             telephone: ['0625148599', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
@@ -81,8 +81,9 @@ export class SignUpStudentComponent {
 
         // Sign in
         this.authService.register(user).subscribe((res) => {
-        this.myForm.enable();
-
+            this.myForm.enable();
+            console.log("===============")
+            console.log(res)
             if (res.code === -2) {
                 this.alert = {
                     type: 'error',
@@ -101,10 +102,22 @@ export class SignUpStudentComponent {
                 this.showAlert = true;
             }
 
-            if (res.code == 1) {
-                this.router.navigateByUrl('verify/mail');
+            if (res.code === 1) {
 
-            }
+                if (res.isEmailSended != true) {
+
+                    this.alert = {
+                        type: 'error',
+                        message: "Erreur lors de l'envoi de l'e-mail de vérification. Veuillez réessayer plus tard.",
+                    };
+                }else{
+
+                    localStorage.setItem('token',res.token)
+                    this.router.navigateByUrl('verify/mail');
+
+                }
+
+        }
 
         })
     }

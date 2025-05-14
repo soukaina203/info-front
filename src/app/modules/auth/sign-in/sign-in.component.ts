@@ -89,6 +89,14 @@ export class AuthSignInComponent  {
                 // Show the alert
                 this.showAlert = true;
             }
+               if (res.code === -4) { // sending email error
+                this.alert = {
+                    type: 'error',
+                    message: res.message,
+                };
+                // Show the alert
+                this.showAlert = true;
+            }
             if (res.code === -1) {
                 this.alert = {
                     type: 'error',
