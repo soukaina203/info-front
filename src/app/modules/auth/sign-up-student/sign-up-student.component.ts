@@ -113,6 +113,7 @@ export class SignUpStudentComponent {
                 }else{
 
                     localStorage.setItem('token',res.token)
+                    localStorage.setItem('userId',res.userId)
                     this.router.navigateByUrl('verify/mail');
 
                 }

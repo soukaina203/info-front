@@ -1,25 +1,36 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-verified',
   standalone: true,
-  imports: [CommonModule,NgIf],
+  imports: [CommonModule, NgIf],
   templateUrl: './verified.component.html',
-  styleUrl: './verified.component.scss'
+  styleUrl: './verified.component.scss',
 })
 export class VerifiedComponent {
-private route = inject (ActivatedRoute)
-isVerified : boolean =false
-token = this.route.snapshot.paramMap.get('token');
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
-ngOnInit(){
-let localToken=localStorage.getItem("token")
-if (localToken==this.token) {
-    this.isVerified=true
-}
+  isVerified: boolean = false;
+  token = this.route.snapshot.paramMap.get('token');
 
-// add the logic for staying for 2 seconds then be redirected to the dashboard + also add to send to the back to make the status true
-}
+  ngOnInit(): void {
+    const localToken = localStorage.getItem('token');
+
+    if (localToken === this.token) {
+      this.isVerified = true;
+        let userId=localStorage.getItem('userId');
+        this.authService.activeAccount(userId).subscribe((res)=>{
+            // Wait 2 seconds and redirect to login
+            setTimeout(() => {
+              this.router.navigate(['/sign-in']);
+            }, 2000);
+
+        })
+    }
+  }
 }
