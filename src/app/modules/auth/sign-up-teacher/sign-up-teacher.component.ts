@@ -65,9 +65,9 @@ export class SignUpTeacherComponent {
         id: 0,
         firstName: ['hgfhg', [Validators.required, Validators.minLength(3)]],
         lastName: ['gfgf', [Validators.required, Validators.minLength(3)]],
-        email: ['gfh@hgf', [Validators.email, Validators.required]],
-        password: ['gfh@hgf', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['gfh@hgf', [Validators.required, Validators.minLength(6)]],
+        email: ['motoso5004@daupload.com', [Validators.email, Validators.required]],
+        password: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
         telephone: ['0625147896', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
         roleId: 1,
         isAdmin: false,
@@ -188,14 +188,12 @@ export class SignUpTeacherComponent {
     private registerUser(user: inscriptionProfInterface): void {
         this.myForm.disable();
         this.showAlert = false;
-
         this.authService.registerProf(user).subscribe({
 
             next: (res) => {
                 this.myForm.enable();
-
-
-
+                console.log("==============")
+                console.log(res)
                 if (res.code === -1) {
                     this.showAlert = true;
                     this.alert = {
@@ -203,6 +201,8 @@ export class SignUpTeacherComponent {
                         message: 'Email existe déjà',
                     };
                 }
+                localStorage.setItem('token', res.token)
+                localStorage.setItem('userId', res.userId)
                 this.router.navigateByUrl('verify/mail');
 
             },
@@ -259,7 +259,7 @@ export class SignUpTeacherComponent {
         dialogRef.afterClosed().subscribe((result) => {
         });
     }
-    closePoppup(){
+    closePoppup() {
         this.dialog.closeAll()
     }
 
