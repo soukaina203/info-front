@@ -51,7 +51,6 @@ export class SignUpStudentComponent {
             confirmPassword: ['Moura@gmail.com', [Validators.required]],
             telephone: ['0625148599', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
             roleId: 2,
-            isAdmin: false,
 
 
         });

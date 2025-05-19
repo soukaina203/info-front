@@ -106,7 +106,7 @@ export class AuthSignInComponent  {
                 this.showAlert = true;
 
             }
-                // this.router.navigateByUrl('sign-in');
+        this.router.navigateByUrl('user');
 
 
         })

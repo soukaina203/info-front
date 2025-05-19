@@ -1,41 +1,30 @@
-// angular
-import { } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-// fuse
-import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
-// models
-import { Method } from 'app/models/Method';
-import { User } from 'app/models/User';
-import { Service } from 'app/models/Service';
-import { Niveau } from 'app/models/Niveau';
-import { Speciality } from 'app/models/Speciality';
-// services
-import { AuthService } from 'app/services/auth.service';
+import { CommonModule } from '@angular/common';
 import { UowService } from 'app/services/uow.service';
-// Materiel
-import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+import { User } from 'app/models/User';
+import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { Speciality } from 'app/models/Speciality';
+import { Niveau } from 'app/models/Niveau';
+import { Method } from 'app/models/Method';
+import { Service } from 'app/models/Service';
+import { MatDialog } from '@angular/material/dialog';
 import { inscriptionProfInterface } from 'app/interfaces/inscriptionProf';
 import { ProfProfile } from 'app/models/ProfProfile';
-
+import { AuthService } from 'app/services/auth.service';
+import { FuseAlertType } from '@fuse/components/alert';
 
 @Component({
-    selector: 'app-sign-up-teacher',
+    selector: 'app-profil',
     standalone: true,
-    imports: [RouterLink, CommonModule, FuseAlertComponent,
-        MatButtonModule, MatIconModule,
-        FormsModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatInputModule],
-    templateUrl: './sign-up-teacher.component.html',
-    styleUrl: './sign-up-teacher.component.scss'
+    imports: [CommonModule, FormsModule, MatButtonModule
+        , ReactiveFormsModule, RouterLink],
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss']
 })
-export class SignUpTeacherComponent {
+export class ProfileComponent {
+
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     @ViewChild('PdfRequiredPoppup') PdfRequiredPoppup!: TemplateRef<any>;
     @ViewChild('PdfErrorPoppup') PdfErrorPoppup!: TemplateRef<any>;
@@ -48,6 +37,8 @@ export class SignUpTeacherComponent {
 
     CvTitle: string = ''
     CvFile: File
+    myForm: FormGroup;
+
     services: Service[] = []
     methods: Method[] = []
     niveaux: Niveau[] = []
@@ -55,36 +46,54 @@ export class SignUpTeacherComponent {
     isShow: boolean = false
     user: User = new User
     showAlert: boolean = false;
+
+    CvExists: boolean
+    oldPassword: string
+    oldCv: string
+
+    PoppupContent: string = ''
+
+
+
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
+    create() {
+        this.myForm = this.fb.group({
+            id: 0,
+            firstName: ['', [Validators.required, Validators.minLength(3)]],
+            lastName: ['', [Validators.required, Validators.minLength(3)]],
+            email: ['', [Validators.email, Validators.required]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+            telephone: ['', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
+            roleId: 1,
+            isAdmin: false,
+            city: ['f', [Validators.required, Validators.minLength(2)]],
+            cv: [''],
+            photo: [null],
+
+            services: [[], [Validators.required]],
+            specialities: [[], [Validators.required]],
+            niveaux: [[], [Validators.required]],
+            methodes: [[], [Validators.required]],
+            userId: 0, // assigne dans le backend
+            user: null
+        });
+    }
 
 
-    myForm = this.fb.group({
-        id: 0,
-        firstName: ['hgfhg', [Validators.required, Validators.minLength(3)]],
-        lastName: ['gfgf', [Validators.required, Validators.minLength(3)]],
-        email: ['motoso5004@daupload.com', [Validators.email, Validators.required]],
-        password: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
-        telephone: ['0625147896', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
-        roleId: 1,
-        city: ['hgfhgf', [Validators.required, Validators.minLength(2)]],
-        cv: [''],
-        photo: [null],
-
-        services: [[1], [Validators.required]],
-        specialities: [[1], [Validators.required]],
-        niveaux: [[1], [Validators.required]],
-        methodes: [[1], [Validators.required]],
-        userId: 0, // assigne dans le backend
-        user: null
-    });
 
 
 
     ngOnInit(): void {
+
+        let user = JSON.parse(localStorage.getItem("user"))
+        this.uow.users.getOne(user.id).subscribe((res) => {
+
+
+        })
         this.uow.service.getServicesData().subscribe((res) => {
             this.services = res.services;
             this.specialities = res.specialities;

@@ -1,14 +1,24 @@
 /* eslint-disable */
 import { FuseNavigationItem } from '@fuse/components/navigation';
 
+
 export const defaultNavigation: FuseNavigationItem[] = [
+       {
+        id   : 'Dashboard',
+        title: 'Dashboard',
+        type : 'basic',
+        icon : 'heroicons_outline:rocket-launch',
+        link : '/user'
+    },
+
     {
-        id   : 'example',
-        title: 'Example',
+        id   : 'Profile',
+        title: 'Profile',
         type : 'basic',
         icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+        link : '/user/profile'
+    },
+
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
