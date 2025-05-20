@@ -59,6 +59,7 @@ export class ProfileComponent {
         type: 'success',
         message: '',
     };
+
     create() {
         this.myForm = this.fb.group({
             id: 0,
@@ -86,10 +87,10 @@ export class ProfileComponent {
 
 
 
-
     ngOnInit(): void {
 
         let user = JSON.parse(localStorage.getItem("user"))
+        console.log(user)
         this.uow.users.getOne(user.id).subscribe((res) => {
 
 

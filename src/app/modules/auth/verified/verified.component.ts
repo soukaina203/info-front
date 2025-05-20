@@ -26,9 +26,15 @@ export class VerifiedComponent {
         let userId=localStorage.getItem('userId');
         this.authService.activeAccount(userId).subscribe((res)=>{
             // Wait 2 seconds and redirect to login
-            setTimeout(() => {
-              this.router.navigate(['/sign-in']);
-            }, 2000);
+            if (res.code===1 && localStorage.getItem('token')!=null) {
+                setTimeout(() => {
+                  this.router.navigate(['/user']);
+                }, 2000);
+            }else{
+                // fuse poppups
+                console.log("Error of activating user account");
+
+            }
 
         })
     }
