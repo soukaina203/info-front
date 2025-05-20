@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 export class UserService extends SuperService<User>{
  currentUser$= new BehaviorSubject<User | null>(null);
     constructor() {
-        super('user');
+        super('users');
 
     }
 }

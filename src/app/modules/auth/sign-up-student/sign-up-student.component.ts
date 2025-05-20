@@ -46,7 +46,7 @@ export class SignUpStudentComponent {
             id: 0,
             firstName: ['Soukaina', [Validators.required, Validators.minLength(3)]],
             lastName: ['Mourabit', [Validators.required, Validators.minLength(3)]],
-            email: ['motoso5004@daupload.com', [Validators.email, Validators.required]],
+            email: ['cirat67116@betzenn.com', [Validators.email, Validators.required]],
             password: ['Moura@gmail.com', Validators.required],
             confirmPassword: ['Moura@gmail.com', [Validators.required]],
             telephone: ['0625148599', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
@@ -109,6 +109,8 @@ export class SignUpStudentComponent {
                         type: 'error',
                         message: "Erreur lors de l'envoi de l'e-mail de vérification. Veuillez réessayer plus tard.",
                     };
+                this.showAlert = true;
+
                 }else{
 
                     localStorage.setItem('token',res.token)

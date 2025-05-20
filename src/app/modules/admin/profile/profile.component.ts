@@ -44,7 +44,6 @@ export class ProfileComponent {
     niveaux: Niveau[] = []
     specialities: Speciality[] = []
     isShow: boolean = false
-    user: User = new User
     showAlert: boolean = false;
 
     CvExists: boolean
@@ -53,7 +52,8 @@ export class ProfileComponent {
 
     PoppupContent: string = ''
 
-
+    user: User = new User
+    prof: ProfProfile = new ProfProfile
 
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
@@ -63,22 +63,21 @@ export class ProfileComponent {
     create() {
         this.myForm = this.fb.group({
             id: 0,
-            firstName: ['', [Validators.required, Validators.minLength(3)]],
-            lastName: ['', [Validators.required, Validators.minLength(3)]],
-            email: ['', [Validators.email, Validators.required]],
-            password: ['', [Validators.required, Validators.minLength(6)]],
-            confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
-            telephone: ['', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
-            roleId: 1,
-            isAdmin: false,
-            city: ['f', [Validators.required, Validators.minLength(2)]],
-            cv: [''],
-            photo: [null],
+            firstName: [this.user.firstName, [Validators.required, Validators.minLength(3)]],
+            lastName: [this.user.lastName, [Validators.required, Validators.minLength(3)]],
+            email: [this.user.email, [Validators.email, Validators.required]],
+            password: [this.user.password, [Validators.required, Validators.minLength(6)]], // to be removed pwds should not be returned
+            telephone: [this.user.telephone, [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
+            roleId: this.user.roleId,
 
-            services: [[], [Validators.required]],
-            specialities: [[], [Validators.required]],
-            niveaux: [[], [Validators.required]],
-            methodes: [[], [Validators.required]],
+            city: [this.prof.city, [Validators.required, Validators.minLength(2)]],
+            cv: [this.prof.cv],
+            photo: [this.prof.photo],
+
+            services: [this.prof.services, [Validators.required]],
+            specialities: [this.prof.specialities, [Validators.required]],
+            niveaux: [this.prof.niveaux, [Validators.required]],
+            methodes: [this.prof.methodes, [Validators.required]],
             userId: 0, // assigne dans le backend
             user: null
         });
@@ -89,11 +88,15 @@ export class ProfileComponent {
 
     ngOnInit(): void {
 
-        let user = JSON.parse(localStorage.getItem("user"))
+        let user = JSON.parse(localStorage.getItem("userId"))
         console.log(user)
-        this.uow.users.getOne(user.id).subscribe((res) => {
+        console.log("============")
+        this.uow.users.getOne(user).subscribe((res:any) => {
+            this.user=res.user
 
-
+            if ( this.user.roleId===1) {
+                this.prof=res.profProfile
+            }
         })
         this.uow.service.getServicesData().subscribe((res) => {
             this.services = res.services;
