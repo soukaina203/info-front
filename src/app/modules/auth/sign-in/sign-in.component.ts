@@ -106,11 +106,12 @@ export class AuthSignInComponent  {
                 this.showAlert = true;
 
             }
-            if (res.code===1 &&localStorage.getItem('token')!=null) {
+
+            if (res.code===1 ) {
                 localStorage.setItem('token', res.token)
                 localStorage.setItem('userId', res.userId)
-            }
             this.router.navigateByUrl('user');
+            }
 
 
         })

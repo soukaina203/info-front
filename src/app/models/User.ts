@@ -7,6 +7,7 @@ export class User {
     telephone: string="";
     email: string="";
     password: string="";
+    photo?:string | null;
 
     roleId: number;
 

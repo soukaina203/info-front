@@ -1,5 +1,5 @@
 import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { UowService } from 'app/services/uow.service';
 import { User } from 'app/models/User';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -14,12 +14,19 @@ import { inscriptionProfInterface } from 'app/interfaces/inscriptionProf';
 import { ProfProfile } from 'app/models/ProfProfile';
 import { AuthService } from 'app/services/auth.service';
 import { FuseAlertType } from '@fuse/components/alert';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { UploadComponent } from '../upload/upload.component';
+import { MatModule } from 'app/mat.module';
 
 @Component({
     selector: 'app-profil',
     standalone: true,
-    imports: [CommonModule, FormsModule, MatButtonModule
-        , ReactiveFormsModule, RouterLink],
+    imports: [CommonModule, FormsModule, MatButtonModule,UploadComponent
+        , ReactiveFormsModule, RouterLink,MatIconModule ,MatFormFieldModule,MatModule, MatInputModule,NgIf,],
+
+
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
 })
@@ -72,7 +79,7 @@ export class ProfileComponent {
 
             city: [this.prof.city, [Validators.required, Validators.minLength(2)]],
             cv: [this.prof.cv],
-            photo: [this.prof.photo],
+            photo: [this.user.photo],
 
             services: [this.prof.services, [Validators.required]],
             specialities: [this.prof.specialities, [Validators.required]],
@@ -97,6 +104,7 @@ export class ProfileComponent {
             if ( this.user.roleId===1) {
                 this.prof=res.profProfile
             }
+            this.create()
         })
         this.uow.service.getServicesData().subscribe((res) => {
             this.services = res.services;
@@ -180,7 +188,6 @@ export class ProfileComponent {
         const ProfProfile: ProfProfile = {
             city,
             cv: cvFileName,
-            photo,
             services,
             specialities,
             niveaux,

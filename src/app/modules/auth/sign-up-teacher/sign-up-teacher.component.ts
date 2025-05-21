@@ -167,7 +167,6 @@ export class SignUpTeacherComponent {
         const ProfProfile: ProfProfile = {
             city,
             cv: cvFileName,
-            photo,
             services,
             specialities,
             niveaux,
