@@ -67,7 +67,7 @@ export class SignUpTeacherComponent {
         lastName: ['gfgf', [Validators.required, Validators.minLength(3)]],
         email: ['motoso5004@daupload.com', [Validators.email, Validators.required]],
         password: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['motoso5004@daupload.com', [Validators.required]],
         telephone: ['0625147896', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
         roleId: 1,
         city: ['hgfhgf', [Validators.required, Validators.minLength(2)]],

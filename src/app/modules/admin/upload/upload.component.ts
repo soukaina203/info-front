@@ -29,65 +29,68 @@ export class UploadComponent {
     private _unsubscribeAll = new Subject<any>();
 
 
- ngOnInit(): void {
-    // Initialise l'état d'upload selon la présence d'une image existante
-    this.uploaded = !(this.image === null || this.image === undefined);
-}
+    ngOnInit(): void {
+        // Initialise l'état d'upload selon la présence d'une image existante
 
-modifyIMage(): void {
-    // Permet de réinitialiser l'image pour en uploader une nouvelle
-    this.uploaded = false;
-    this.image = "";
-}
-
-openInput(inputElement: HTMLInputElement): void {
-    // Ouvre la boîte de dialogue pour sélectionner un fichier
-    inputElement.click();
-}
-
-onFileSelected(event: Event): void {
-    // Gère la sélection de fichier et déclenche l'aperçu
-    const target = event.target as HTMLInputElement;
-    const file = target.files?.[0];
-    if (file) {
-        this.isLoading = true;
-        this.selectedFile = file;
-        this.preview();
-    }
-}
-
-remove(): void {
-    // Supprime l'image actuellement sélectionnée ou existante
-    this.uploaded = false;
-    this.previewUrl = null;
-    this.image = "";
-    this.dataEvent.emit(null);
-    this.cdr.markForCheck();
-}
-
-preview(): void {
-    // Affiche un aperçu de l'image sélectionnée si c'est bien un fichier image
-    const mimeType = this.selectedFile?.type;
-    if (!mimeType?.startsWith('image/')) {
-        return;
+        console.log("Coming image ")
+        console.log(this.image)
+        this.uploaded = !(this.image === null || this.image === undefined);
     }
 
-    const reader = new FileReader();
-    reader.readAsDataURL(this.selectedFile!);
-    this.uploaded = true;
+    modifyIMage(): void {
+        // Permet de réinitialiser l'image pour en uploader une nouvelle
+        this.uploaded = false;
+        this.image = "";
+    }
 
-    reader.onload = () => {
-        this.previewUrl = reader.result as string;
-        this.isLoading = false;
+    openInput(inputElement: HTMLInputElement): void {
+        // Ouvre la boîte de dialogue pour sélectionner un fichier
+        inputElement.click();
+    }
+
+    onFileSelected(event: Event): void {
+        // Gère la sélection de fichier et déclenche l'aperçu
+        const target = event.target as HTMLInputElement;
+        const file = target.files?.[0];
+        if (file) {
+            this.isLoading = true;
+            this.selectedFile = file;
+            this.preview();
+        }
+    }
+
+    remove(): void {
+        // Supprime l'image actuellement sélectionnée ou existante
+        this.uploaded = false;
+        this.previewUrl = null;
+        this.image = null;
+        this.dataEvent.emit(null);
         this.cdr.markForCheck();
-        this.dataEvent.emit(this.selectedFile);
-    };
-}
+    }
 
-ngOnDestroy(): void {
-    // Nettoie les abonnements lors de la destruction du composant
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
-}
+    preview(): void {
+        // Affiche un aperçu de l'image sélectionnée si c'est bien un fichier image
+        const mimeType = this.selectedFile?.type;
+        if (!mimeType?.startsWith('image/')) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.readAsDataURL(this.selectedFile!);
+        this.uploaded = true;
+
+        reader.onload = () => {
+            this.previewUrl = reader.result as string;
+            this.isLoading = false;
+            this.cdr.markForCheck();
+            this.dataEvent.emit(this.selectedFile);
+        };
+    }
+
+    ngOnDestroy(): void {
+        // Nettoie les abonnements lors de la destruction du composant
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
 
 }

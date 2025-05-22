@@ -9,11 +9,14 @@
                         Profil {{user.lastName}} {{user.firstName}}
                     </h1>
 
+
                     <div class="flex items-center justify-center ">
                         <app-upload [folder]="'photos'" [image]="user.photo"
                             (dataEvent)="receiveData($event)"></app-upload>
-
                     </div>
+
+
+
                     <div class="flex flex-col gap-2 mt-4 md:flex-row">
                         <mat-form-field class="w-full ">
                             <mat-label>Nom</mat-label>

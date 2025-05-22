@@ -18,5 +18,18 @@ export class UploadService {
     }
 
 
+     downloadFile(folderName: string, file: string): Observable<Blob> {
+        return this.http.get(`${this.urlApi}/UploadFiles/DownloadFile/${folderName}/${file}`, {
+            responseType: 'blob'
+        });
+    }
+
+    putFile(folderName: string, oldfileName: string, newFile: File) {
+        const formData: FormData = new FormData();
+        formData.append('file', newFile, newFile.name);
+        formData.append('folderName', folderName);
+        return this.http.put(`${this.urlApi}/UploadFiles/modifyFile/${folderName}/${oldfileName}`, formData);
+    }
+
 
 }

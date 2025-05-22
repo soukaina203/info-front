@@ -23,8 +23,8 @@ import { MatModule } from 'app/mat.module';
 @Component({
     selector: 'app-profil',
     standalone: true,
-    imports: [CommonModule, FormsModule, MatButtonModule,UploadComponent
-        , ReactiveFormsModule, RouterLink,MatIconModule ,MatFormFieldModule,MatModule, MatInputModule,NgIf,],
+    imports: [CommonModule, FormsModule, MatButtonModule, UploadComponent
+        , ReactiveFormsModule, RouterLink, MatIconModule, MatFormFieldModule, MatModule, MatInputModule, NgIf,],
 
 
     templateUrl: './profile.component.html',
@@ -35,6 +35,8 @@ export class ProfileComponent {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
     @ViewChild('PdfRequiredPoppup') PdfRequiredPoppup!: TemplateRef<any>;
     @ViewChild('PdfErrorPoppup') PdfErrorPoppup!: TemplateRef<any>;
+    @ViewChild('popupTemplate') popupTemplate!: TemplateRef<any>;
+    @ViewChild('PhotoError') PhotoError!: TemplateRef<any>;
 
     private authService = inject(AuthService)
     private uow = inject(UowService)
@@ -52,13 +54,13 @@ export class ProfileComponent {
     specialities: Speciality[] = []
     isShow: boolean = false
     showAlert: boolean = false;
+    selectedFile: File | null = null;
 
     CvExists: boolean
     oldPassword: string
     oldCv: string
 
     PoppupContent: string = ''
-
     user: User = new User
     prof: ProfProfile = new ProfProfile
 
@@ -66,14 +68,14 @@ export class ProfileComponent {
         type: 'success',
         message: '',
     };
-
+    // Form
     create() {
         this.myForm = this.fb.group({
-            id: 0,
+            id: this.user.id,
             firstName: [this.user.firstName, [Validators.required, Validators.minLength(3)]],
             lastName: [this.user.lastName, [Validators.required, Validators.minLength(3)]],
             email: [this.user.email, [Validators.email, Validators.required]],
-            password: [this.user.password, [Validators.required, Validators.minLength(6)]], // to be removed pwds should not be returned
+            password: [this.user.password], // to be removed pwds should not be returned
             telephone: [this.user.telephone, [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
             roleId: this.user.roleId,
 
@@ -85,8 +87,6 @@ export class ProfileComponent {
             specialities: [this.prof.specialities, [Validators.required]],
             niveaux: [this.prof.niveaux, [Validators.required]],
             methodes: [this.prof.methodes, [Validators.required]],
-            userId: 0, // assigne dans le backend
-            user: null
         });
     }
 
@@ -94,31 +94,135 @@ export class ProfileComponent {
 
 
     ngOnInit(): void {
+        const userIdRaw = localStorage.getItem("userId");
+        if (!userIdRaw) {
+            console.error("Aucun ID utilisateur trouvé dans le localStorage.");
+            return;
+        }
 
-        let user = JSON.parse(localStorage.getItem("userId"))
-        console.log(user)
-        console.log("============")
-        this.uow.users.getOne(user).subscribe((res:any) => {
-            this.user=res.user
+        const userId = JSON.parse(userIdRaw);
 
-            if ( this.user.roleId===1) {
-                this.prof=res.profProfile
+        // Récupération des infos utilisateur
+        this.uow.users.getOne(userId).subscribe((res: any) => {
+            this.user = res.user;
+
+            if (this.user.roleId === 1) {
+                this.prof = res.profProfile;
             }
-            this.create()
-        })
+
+            this.create();
+        }, (err) => {
+            console.error("Erreur lors de la récupération de l'utilisateur :", err);
+        });
+
+        // Récupération des données de services
         this.uow.service.getServicesData().subscribe((res) => {
             this.services = res.services;
             this.specialities = res.specialities;
             this.methods = res.methods;
             this.niveaux = res.niveaux;
-        })
+        }, (err) => {
+            console.error("Erreur lors de la récupération des services :", err);
+        });
     }
 
-    verify() {
-        const user = this.myForm.getRawValue();
-        user.password !== user.confirmPassword ? this.isShow = true : this.isShow = false
+
+
+    receiveData(data: any) {
+
+        this.selectedFile = data
     }
 
+
+
+
+
+update() {
+  const formValue = this.myForm.getRawValue();
+  const user = this.extractUserFromForm(formValue);
+  const profProfile = this.extractProfProfileFromForm(formValue);
+
+  if (this.selectedFile) {
+    this.uow.upload.uploadFile(this.selectedFile).subscribe((res: any) => {
+      user.photo = res.fileName;
+      this.continueUpdate(user, profProfile);
+    });
+  } else if (this.user.roleId === 1 && this.oldCv !== this.CvTitle && this.CvTitle !== "") {
+    this.uow.upload.putFile("cvs", this.oldCv, this.CvFile).subscribe((res: any) => {
+      if (res.message === "success") {
+        this.continueUpdate(user, profProfile);
+      } else {
+        this.CvUploadErrorPoppup();
+      }
+    });
+  } else {
+    this.continueUpdate(user, profProfile);
+  }
+}
+
+
+
+
+
+
+continueUpdate(user: User, profProfile: ProfProfile) {
+  const dataToSend: inscriptionProfInterface = {
+    user: user,
+    ProfProfile: this.user.roleId === 1 ? profProfile : null
+  };
+
+  this.uow.users.put(user.id, dataToSend).subscribe((res: any) => {
+    if (res.code === 200) {
+      this.user = res.user;
+      this.PoppupContent = 'Profil mis à jour';
+      this.ProfileEditedPoppup();
+      this.uow.users.currentUser$.next(res.user);
+      localStorage.setItem('user', JSON.stringify(res.user));
+    } else {
+      this.PoppupContent = "Échec de l'enregistrement des modifications, réessayez plus tard";
+      this.ProfileEditedPoppup();
+    }
+  });
+}
+
+
+
+extractUserFromForm(formValue: any): User {
+  return {
+    id: formValue.id,
+    firstName: formValue.firstName,
+    lastName: formValue.lastName,
+    email: formValue.email,
+    telephone: formValue.telephone,
+    password: formValue.password,
+    photo: formValue.photo,
+    roleId: formValue.roleId
+  };
+}
+
+extractProfProfileFromForm(formValue: any): ProfProfile {
+  return {
+    city: formValue.city,
+    cv: formValue.cv,
+    services: formValue.services,
+    specialities: formValue.specialities,
+    niveaux: formValue.niveaux,
+    methodes: formValue.methodes,
+    userId: formValue.id,
+    user: null // facultatif ou à adapter
+  };
+}
+
+
+
+    ProfileEditedPoppup(): void {
+        const dialogRef = this.dialog.open(this.popupTemplate, {
+            height: '200px',
+            width: '500px'
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+        });
+    }
     onFileSelected(event: Event) {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
@@ -143,132 +247,16 @@ export class ProfileComponent {
             }
         }
     }
-    // the order of functions executions
-    signIn(): void {
-        if (!this.CvFile) {
-            this.openCvRequiredPoppup();
-            return;
-        }
 
-        if (this.myForm.invalid) {
-            return;
-        }
-
-        this.uploadCvAndRegister();
-    }
-
-    // upload of cvs
-    private uploadCvAndRegister(): void {
-        this.uow.upload.uploadFile(this.CvFile!).subscribe({
-            next: (res) => {
-                if (res.code !== 1) {
-
-                    this.CvUploadErrorPoppup();
-                    return;
-                }
-
-                const user = this.prepareUser(res.fileName);
-                console.log(user)
-                this.registerUser(user);
-            },
-            error: () => this.CvUploadErrorPoppup()
-        });
-    }
-
-    // preparing objects
-    private prepareUser(cvFileName: string): any {
-        const formValue = this.myForm.getRawValue();
-        const { confirmPassword, city, cv, photo, services, specialities, niveaux, methodes, userId, ...userFields } = formValue;
-
-        const user: User = {
-            ...userFields,
-            roleId: formValue.roleId,
-        };
-
-        const ProfProfile: ProfProfile = {
-            city,
-            cv: cvFileName,
-            services,
-            specialities,
-            niveaux,
-            methodes,
-            userId,
-            user: null
-        };
-
-        const payload: inscriptionProfInterface = {
-            user,
-            ProfProfile
-        };
-        return payload;
-    }
-
-    // send the profProfile and user objects
-    private registerUser(user: inscriptionProfInterface): void {
-        this.myForm.disable();
-        this.showAlert = false;
-        this.authService.registerProf(user).subscribe({
-
-            next: (res) => {
-                this.myForm.enable();
-                console.log("==============")
-                console.log(res)
-                if (res.code === -1) {
-                    this.showAlert = true;
-                    this.alert = {
-                        type: 'error',
-                        message: 'Email existe déjà',
-                    };
-                }
-                localStorage.setItem('token', res.token)
-                localStorage.setItem('userId', res.userId)
-                this.router.navigateByUrl('verify/mail');
-
-            },
-            error: () => {
-                this.myForm.enable();
-                this.showAlert = true;
-                this.alert = {
-                    type: 'error',
-                    message: 'Erreur lors de l’inscription. Veuillez réessayer.',
-                };
-            }
-        });
-    }
-
-    private sendVerificationEmail(user: User): void {
-        const fullName = `${user.lastName} ${user.firstName}`;
-        const mailData = {
-            toEmail: user.email,
-            name: fullName,
-            body: '',
-            subject: "Vérifier votre adresse email pour compléter l'inscription"
-        };
-
-        this.uow.auth.SendVerificationMail(mailData).subscribe();
-    }
-
-
-
-
-
-
-
-
-    //poppups
-
-    openInput(o) {
-        o.click();
-    }
-
-    openCvRequiredPoppup(): void {
-        const dialogRef = this.dialog.open(this.PdfRequiredPoppup, {
-            height: '240px',
+    UploadPhotoErrorPoppup(): void {
+        const dialogRef = this.dialog.open(this.PhotoError, {
+            height: '200px',
             width: '500px'
         });
         dialogRef.afterClosed().subscribe((result) => {
         });
     }
+
 
     CvUploadErrorPoppup(): void {
         const dialogRef = this.dialog.open(this.PdfErrorPoppup, {
@@ -277,13 +265,6 @@ export class ProfileComponent {
         });
         dialogRef.afterClosed().subscribe((result) => {
         });
-    }
-    closePoppup() {
-        this.dialog.closeAll()
-    }
-
-    removeCV() {
-        this.CvTitle = ""
     }
 
 
