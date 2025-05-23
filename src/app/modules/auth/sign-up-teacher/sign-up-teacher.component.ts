@@ -138,7 +138,7 @@ export class SignUpTeacherComponent {
 
     // upload of cvs
     private uploadCvAndRegister(): void {
-        this.uow.upload.uploadFile(this.CvFile!).subscribe({
+        this.uow.upload.uploadFile(this.CvFile! , "cvs").subscribe({
             next: (res) => {
                 if (res.code !== 1) {
 
@@ -201,6 +201,8 @@ export class SignUpTeacherComponent {
                 }
                 localStorage.setItem('token', res.token)
                 localStorage.setItem('userId', res.userId)
+              localStorage.setItem('userData', res.userData)
+                this.uow.users.currentUser$.next(res.userData)
                 this.router.navigateByUrl('verify/mail');
 
             },

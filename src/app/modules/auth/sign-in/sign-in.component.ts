@@ -110,7 +110,10 @@ export class AuthSignInComponent  {
             if (res.code===1 ) {
                 localStorage.setItem('token', res.token)
                 localStorage.setItem('userId', res.userId)
-            this.router.navigateByUrl('user');
+                localStorage.setItem('userData', res.userData)
+                this.uow.users.currentUser$.next(res.userData)
+
+                this.router.navigateByUrl('user');
             }
 
 

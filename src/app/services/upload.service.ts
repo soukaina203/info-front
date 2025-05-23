@@ -11,15 +11,15 @@ export class UploadService {
     protected http = inject(HttpClient);
 
 
-    uploadFile(file: File): Observable<any> {
+    uploadFile(file: File,folderName: string): Observable<any> {
         const formData: FormData = new FormData();
         formData.append('file', file, file.name);
-        return this.http.post(`${this.urlApi}/Upload/UploadFile`, formData);
+        return this.http.post(`${this.urlApi}/Upload/UploadFile/${folderName}`, formData);
     }
 
 
      downloadFile(folderName: string, file: string): Observable<Blob> {
-        return this.http.get(`${this.urlApi}/UploadFiles/DownloadFile/${folderName}/${file}`, {
+        return this.http.get(`${this.urlApi}/Upload/DownloadFile/${folderName}/${file}`, {
             responseType: 'blob'
         });
     }

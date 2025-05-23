@@ -1,28 +1,67 @@
-<input hidden [multiple]="false" accept="image/*" #file type="file" (change)="onFileSelected($event)">
+<input
+    hidden
+    [multiple]="false"
+    accept="image/*"
+    #file
+    type="file"
+    (change)="onFileSelected($event)"
+>
+
+
+
 
 
 <!-- Creation mode -->
 <span class="font-semibold text-red-400">
 
+
+
+
     <!-- les photos doivent etre 270px en largeur sur 200px en hauteur pour un bon affichage -->
 </span>
-<div class="h-[203px] w-[270px] ml-auto mr-auto border-2 border-gray-300 bg-slate-200 rounded-lg" *ngIf="image===null || image===undefined">
+<div
+    class="h-[203px] w-[270px] ml-auto mr-auto border-2 border-gray-300 bg-slate-200 rounded-lg"
+    *ngIf="image===null || image===undefined"
+>
     <mat-radio-group aria-label="Select an option">
         <div class="flex flex-wrap w-full">
             <div class="relative">
-                <div *ngIf="uploaded" class="relative">
+                <div
+                    *ngIf="uploaded"
+                    class="relative"
+                >
 
-                    <img [src]="previewUrl" *ngIf="previewUrl!==''" alt="Image Preview"
-                        class="bg-cover w-[270px] h-[200px] rounded-lg" />
+
+
+
+                    <img
+                        [src]="previewUrl"
+                        *ngIf="previewUrl!==''"
+                        alt="Image Preview"
+                        class="bg-cover w-[270px] h-[200px] rounded-lg"
+                    >
                     <div class="absolute top-0 right-0 flex items-center justify-center">
-                        <button mat-icon-button color="warn" (click)="remove()" type="button">
-                            <mat-icon >close</mat-icon>
+                        <button
+                            mat-icon-button
+                            color="warn"
+                            (click)="remove()"
+                            type="button"
+                        >
+                            <mat-icon>close</mat-icon>
                         </button>
                     </div>
                 </div>
             </div>
-            <div *ngIf="!uploaded" class="flex items-center justify-center w-full h-[170px]">
-                <button mat-mini-fab color="none" [disabled]="disabled" (click)="openInput(file)">
+            <div
+                *ngIf="!uploaded"
+                class="flex items-center justify-center w-full h-[170px]"
+            >
+                <button
+                    mat-mini-fab
+                    color="none"
+                    [disabled]="disabled"
+                    (click)="openInput(file)"
+                >
                     <mat-icon svgIcon="heroicons_outline:cloud-arrow-up"></mat-icon>
                 </button>
             </div>
@@ -30,23 +69,49 @@
     </mat-radio-group>
 </div>
 
+
+
+
 <!-- Modifying Mode -->
-<div class="h-[203px] w-[270px] ml-auto mr-auto border-2 border-gray-300 bg-slate-200 rounded-lg" *ngIf="image!==undefined && image!==null">
+<div
+    class="h-[203px] w-[270px] ml-auto mr-auto border-2 border-gray-300 bg-slate-200 rounded-lg"
+    *ngIf="image!==undefined && image!==null"
+>
     <mat-radio-group aria-label="Select an option">
         <div class="flex flex-wrap w-full">
             <div class="relative">
-                <div *ngIf="uploaded" class="relative">
-                    <img [src]="previewUrl===null ? environmentUrl+'/'+folder+'/'+image : previewUrl" alt="Image Preview"
-                        class="bg-cover w-[270px] h-[200px] rounded-lg" />
+                <div
+                    *ngIf="uploaded"
+                    class="relative"
+                >
+
+
+                    <img [src]="previewUrl===null ? Url: previewUrl" alt="Image Preview H" class="bg-cover w-[270px] h-[200px] rounded-lg" />
+
+
+
                     <div class="absolute top-0 right-0 flex items-center justify-center">
-                        <button mat-icon-button color="warn" (click)="remove()" type="button">
-                            <mat-icon >close</mat-icon>
+                        <button
+                            mat-icon-button
+                            color="warn"
+                            (click)="remove()"
+                            type="button"
+                        >
+                            <mat-icon>close</mat-icon>
                         </button>
                     </div>
                 </div>
             </div>
-            <div *ngIf="!uploaded && image === ''" class="flex items-center justify-center w-full h-[170px]">
-                <button mat-mini-fab color="none" [disabled]="disabled" (click)="openInput(file)">
+            <div
+                *ngIf="!uploaded && image === ''"
+                class="flex items-center justify-center w-full h-[170px]"
+            >
+                <button
+                    mat-mini-fab
+                    color="none"
+                    [disabled]="disabled"
+                    (click)="openInput(file)"
+                >
                     <mat-icon svgIcon="heroicons_outline:cloud-arrow-up"></mat-icon>
                 </button>
             </div>

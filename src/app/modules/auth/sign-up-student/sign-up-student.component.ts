@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { User } from 'app/models/User';
 import { AuthService } from 'app/services/auth.service';
+import { UowService } from 'app/services/uow.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class SignUpStudentComponent {
     private authService = inject(AuthService)
     private fb = inject(FormBuilder)
     private router = inject(Router)
+    private uow = inject(UowService)
     myForm
     isPwdInequal: boolean = false
     user: User = new User
@@ -115,6 +117,8 @@ export class SignUpStudentComponent {
 
                     localStorage.setItem('token',res.token)
                     localStorage.setItem('userId',res.userId)
+                           localStorage.setItem('userData', res.userData);
+                this.uow.users.currentUser$.next(res.userData)
                     this.router.navigateByUrl('verify/mail');
 
                 }

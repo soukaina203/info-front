@@ -6,9 +6,8 @@
                 <form [formGroup]="myForm" *ngIf="myForm">
 
                     <h1 class="mt-6 mb-10 ml-1 text-[#8B7F87] text-3xl font-semibold">
-                        Profil {{user.lastName}} {{user.firstName}}
+                        Profil {{user?.lastName}} {{user?.firstName}}
                     </h1>
-
 
                     <div class="flex items-center justify-center ">
                         <app-upload [folder]="'photos'" [image]="user.photo"
@@ -123,7 +122,10 @@
 
                                         <button *ngIf="CvTitle!==''" mat-icon-button color="warn" (click)="removeCV()"
                                             type="button">
-                                            <mat-icon svgIcon="heroicons_outline:trash"></mat-icon>
+
+
+
+                                            <mat-icon  matPrefix class="hidden sm:flex icon-size-5" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                                         </button>
 
                                     </mat-form-field>

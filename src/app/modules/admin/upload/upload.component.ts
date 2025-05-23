@@ -20,7 +20,7 @@ export class UploadComponent {
     isLoading: boolean = false
     uploaded: boolean
     pictureUrl: string
-
+    Url : string
     @Output() dataEvent = new EventEmitter<any>();
     @Input() image: string;
     @Input() folder: string;
@@ -35,6 +35,8 @@ export class UploadComponent {
         console.log("Coming image ")
         console.log(this.image)
         this.uploaded = !(this.image === null || this.image === undefined);
+    this.Url= `${this.environmentUrl}+'/'+${this.folder}+'/'+${this.image}`
+
     }
 
     modifyIMage(): void {

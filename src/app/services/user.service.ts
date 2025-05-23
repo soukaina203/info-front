@@ -8,7 +8,8 @@ import { inscriptionProfInterface } from 'app/interfaces/inscriptionProf';
   providedIn: 'root'
 })
 export class UserService extends SuperService<inscriptionProfInterface>{
- currentUser$= new BehaviorSubject<User | null>(null);
+    currentUser$= new BehaviorSubject<User | null>(null);
+
     constructor() {
         super('users');
 
