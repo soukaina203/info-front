@@ -3,5 +3,5 @@ import { User } from "app/models/User";
 
 export interface inscriptionProfInterface{
     user:User,
-    ProfProfile:ProfProfile
+    profProfile:ProfProfile
 }

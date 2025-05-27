@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environment/environment';
 import { Subject } from 'rxjs';
 import { MatModule } from 'app/mat.module';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-upload',
@@ -20,14 +21,14 @@ export class UploadComponent {
     isLoading: boolean = false
     uploaded: boolean
     pictureUrl: string
-    Url : string
+    Url : any
     @Output() dataEvent = new EventEmitter<any>();
     @Input() image: string;
     @Input() folder: string;
 
     private cdr = inject(ChangeDetectorRef);
     private _unsubscribeAll = new Subject<any>();
-
+    private sanitizer: DomSanitizer
 
     ngOnInit(): void {
         // Initialise l'état d'upload selon la présence d'une image existante
@@ -35,7 +36,8 @@ export class UploadComponent {
         console.log("Coming image ")
         console.log(this.image)
         this.uploaded = !(this.image === null || this.image === undefined);
-    this.Url= `${this.environmentUrl}+'/'+${this.folder}+'/'+${this.image}`
+         ;
+    this.Url=this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/photos/${this.image}`)
 
     }
 

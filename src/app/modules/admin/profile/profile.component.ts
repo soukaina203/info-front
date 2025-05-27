@@ -25,7 +25,7 @@ import { saveAs } from "file-saver";
     selector: 'app-profil',
     standalone: true,
     imports: [CommonModule, FormsModule, MatButtonModule, UploadComponent
-        , ReactiveFormsModule, RouterLink, MatIconModule, MatFormFieldModule, MatModule, MatInputModule, NgIf,],
+        , ReactiveFormsModule, RouterLink, MatIconModule, MatFormFieldModule, MatModule, MatInputModule, NgIf],
 
 
         templateUrl: './profile.component.html',
@@ -112,6 +112,9 @@ import { saveAs } from "file-saver";
 
                 if (this.user.roleId === 1) {
                     this.prof = res.profProfile;
+                    this.CvTitle=res.profProfile.cv;
+                    this.oldCv = res.profProfile.cv
+                    console.log(res.cv)
                 }
 
                 this.create();
@@ -123,6 +126,7 @@ import { saveAs } from "file-saver";
                 this.specialities = res.specialities;
                 this.methods = res.methods;
                 this.niveaux = res.niveaux;
+
             }, (err) => {
                 console.error("Erreur lors de la récupération des services :", err);
             });
@@ -135,9 +139,13 @@ import { saveAs } from "file-saver";
             this.selectedFile = data
         }
 
+   openInput(o) {
+        o.click();
+    }
 
-
-
+   removeCV() {
+        this.CvTitle = ""
+    }
 
         update() {
             const formValue = this.myForm.getRawValue();
@@ -150,13 +158,16 @@ import { saveAs } from "file-saver";
                     this.continueUpdate(user, profProfile);
                 });
             } else if (this.user.roleId === 1 && this.oldCv !== this.CvTitle && this.CvTitle !== "") {
+                console.log(this.oldCv)
                 this.uow.upload.putFile("cvs", this.oldCv, this.CvFile).subscribe((res: any) => {
-                    if (res.message === "success") {
-                        this.continueUpdate(user, profProfile);
-                    } else {
-                        this.CvUploadErrorPoppup();
-                    }
-                });
+                    console.log("From upload files")
+                    console.log(res)
+                  if (res.message === "success") {
+                      this.continueUpdate(user, profProfile);
+                  } else {
+                      this.CvUploadErrorPoppup();
+                  }
+              });
             } else {
                 this.continueUpdate(user, profProfile);
             }
@@ -170,7 +181,7 @@ import { saveAs } from "file-saver";
         continueUpdate(user: User, profProfile: ProfProfile) {
             const dataToSend: inscriptionProfInterface = {
                 user: user,
-                ProfProfile: this.user.roleId === 1 ? profProfile : null
+                profProfile: this.user.roleId === 1 ? profProfile : null
             };
 
             this.uow.users.put(user.id, dataToSend).subscribe((res: any) => {
@@ -228,6 +239,7 @@ import { saveAs } from "file-saver";
             });
         }
         onFileSelected(event: Event) {
+            console.log("hello")
             const input = event.target as HTMLInputElement;
             if (input.files && input.files.length > 0) {
                 const file = input.files[0];

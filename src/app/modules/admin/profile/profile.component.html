@@ -108,23 +108,19 @@
 
                             <input type="file" #cv (change)="onFileSelected($event)" style="display: none;" />
 
-
                             <ng-container>
                                 <div class="flex w-full">
                                     <mat-form-field class="w-full ">
                                         <mat-label>Votre Cv</mat-label>
-                                        <mat-icon matPrefix class="hidden sm:flex icon-size-5"
-                                            [svgIcon]="'heroicons_solid:arrow-up-tray'"></mat-icon>
+                                        <mat-icon (click)="openInput(cv)" matPrefix class="hidden hover:cursor-pointer sm:flex icon-size-5"
+                                        [svgIcon]="'heroicons_solid:arrow-up-tray'"></mat-icon>
 
 
                                         <input matInput formControlName="cv" (click)="openInput(cv)" [value]="CvTitle"
                                             class="text-gray-500">
 
-                                        <button *ngIf="CvTitle!==''" mat-icon-button color="warn" (click)="removeCV()"
+                                        <button *ngIf="CvTitle!=''" mat-icon-button color="warn" (click)="removeCV()"
                                             type="button">
-
-
-
                                             <mat-icon  matPrefix class="hidden sm:flex icon-size-5" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
                                         </button>
 

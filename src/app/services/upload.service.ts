@@ -26,9 +26,9 @@ export class UploadService {
 
     putFile(folderName: string, oldfileName: string, newFile: File) {
         const formData: FormData = new FormData();
-        formData.append('file', newFile, newFile.name);
+        formData.append('filename', newFile, newFile.name);
         formData.append('folderName', folderName);
-        return this.http.put(`${this.urlApi}/UploadFiles/modifyFile/${folderName}/${oldfileName}`, formData);
+        return this.http.put(`${this.urlApi}/Upload/PutFile/${folderName}/${oldfileName}`, formData);
     }
 
 

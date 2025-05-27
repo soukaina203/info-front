@@ -164,7 +164,7 @@ export class SignUpTeacherComponent {
             roleId: formValue.roleId,
         };
 
-        const ProfProfile: ProfProfile = {
+        const profProfile: ProfProfile = {
             city,
             cv: cvFileName,
             services,
@@ -177,7 +177,7 @@ export class SignUpTeacherComponent {
 
         const payload: inscriptionProfInterface = {
             user,
-            ProfProfile
+            profProfile
         };
         return payload;
     }
