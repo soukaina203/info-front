@@ -4,16 +4,16 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environment/environment';
 import { Subject } from 'rxjs';
 import { MatModule } from 'app/mat.module';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-upload',
     standalone: true,
     imports: [CommonModule, MatModule],
-    templateUrl: './upload.component.html',
-    styleUrls: ['./upload.component.scss']
+    templateUrl: './upload-photo.component.html',
+    styleUrls: ['./upload-photo.component.scss']
 })
-export class UploadComponent {
+export class UploadPhotoComponent {
     environmentUrl = environment.url
     selectedFile: File | null = null;
     previewUrl: any = null;
@@ -21,14 +21,14 @@ export class UploadComponent {
     isLoading: boolean = false
     uploaded: boolean
     pictureUrl: string
-    Url : any
+    Url: SafeUrl
     @Output() dataEvent = new EventEmitter<any>();
     @Input() image: string;
     @Input() folder: string;
 
     private cdr = inject(ChangeDetectorRef);
     private _unsubscribeAll = new Subject<any>();
-    private sanitizer: DomSanitizer
+    private sanitizer= inject( DomSanitizer)
 
     ngOnInit(): void {
         // Initialise l'état d'upload selon la présence d'une image existante
@@ -36,8 +36,8 @@ export class UploadComponent {
         console.log("Coming image ")
         console.log(this.image)
         this.uploaded = !(this.image === null || this.image === undefined);
-         ;
-    this.Url=this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/photos/${this.image}`)
+        ;
+        this.Url = this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/photos/${this.image}`)
 
     }
 

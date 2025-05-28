@@ -1,0 +1,17 @@
+<button mat-icon-button
+        (click)="dialogRef.close()"
+        style="float:right; margin: 5px;"
+        [style.color]="data.color || '#2E849D'"
+        style="background-color: #E0DADA;">
+  <mat-icon class="text-white">close</mat-icon>
+</button>
+
+<mat-dialog-content class="flex flex-col items-center justify-center w-full p-6 bg-[#FEF2F]">
+  <div class="flex flex-col items-center gap-5 w-full">
+    <span
+      [ngClass]="data.textColor || 'text-[#2E849D]'"
+      class="font-semibold text-2xl text-center">
+      {{ data.message }}
+    </span>
+  </div>
+</mat-dialog-content>
