@@ -7,6 +7,7 @@ import { UserService } from 'app/services/user.service';
 import { ServiceService } from './service.service';
 import { SuperService } from './super.service';
 import { UploadService } from './upload.service';
+import { ClassService } from './class.service';
 
 
 @Injectable({
@@ -26,6 +27,7 @@ export class UowService {
 
 
     readonly upload = inject(UploadService);
+    readonly classes = inject(ClassService);
 
 
 }

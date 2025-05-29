@@ -1,6 +1,6 @@
 import { User } from "./User";
 
-export class Reunion {
+export class Class {
     id:number=0;
     title :string
     date:Date;
