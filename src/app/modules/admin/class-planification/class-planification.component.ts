@@ -2,7 +2,7 @@ import { UowService } from './../../../services/uow.service';
 import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -18,15 +18,17 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { environment } from 'environment/environment';
+import { IResponse } from 'app/interfaces/IResponse';
 
 @Component({
-  selector: 'app-class-planification',
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: 'app-class-planification',
+    standalone: true,
+    imports: [
+        CommonModule,
         MatButtonModule,
         MatIconModule,
         MatPaginatorModule,
+        MatIcon,
         MatModule,
         MatMenuModule,
         MatDividerModule,
@@ -38,22 +40,25 @@ import { environment } from 'environment/environment';
         MatProgressBarModule,
         DatePipe,
         NgxMatDatetimePickerModule,
-        MatIconModule
-  ],
-  templateUrl: './class-planification.component.html',
-  styleUrl: './class-planification.component.scss'
+        MatIconModule,
+        MatModule
+    ],
+    templateUrl: './class-planification.component.html',
+    styleUrl: './class-planification.component.scss'
 })
 export class ClassPlanificationComponent {
-  @ViewChild('recentTransactionsTable', { read: MatSort }) recentTransactionsTableMatSort: MatSort;
+    @ViewChild('recentTransactionsTable', { read: MatSort }) recentTransactionsTableMatSort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     private uow = inject(UowService)
     private _unsubscribeAll = new Subject<any>();
     user: User = JSON.parse(localStorage.getItem("user"));
+
     paginatorEvent = new Subject<PageEvent>();
     list: User[] = [];
     isSearchBarOpened = false;
     data: any;
+    currentRole: string;
     accountBalanceOptions: ApexOptions;
     recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
     recentTransactionsTableColumns: string[] = [];
@@ -82,18 +87,25 @@ export class ClassPlanificationComponent {
 
     ngOnInit(): void {
         let user = JSON.parse(localStorage.getItem("user"))
+        console.log("===========")
+        console.log(user)
+        this.uow.role.getOne(user.roleId).subscribe((res) => {
+            this.currentRole = res.name
+            if ( this.currentRole === "Prof") {
+                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'actions']
+            }
+            if (this.currentRole==="Admin") {
+                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions']
 
-        if (user.role.name === "Prof") {
-            this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'actions']
-        }
-        if (user.isAdmin) {
-            this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions']
+            }
+        })
 
-        }
-        if (user.role.name = "Prof") {
-            this.uow.classes.getClassesByProfId(user.id).subscribe((data: any) => {
-                if (data.list !== null) {
-                    this.data = data.list;
+
+        if (this.currentRole = "Prof") {
+            this.uow.classes.getClassesByProfId(user.id).subscribe((res: IResponse) => {
+                console.log(res)
+                if (res.data !== null) {
+                    this.data = res.data;
                     this.recentTransactionsDataSource.data = [...this.data].reverse();
                     this.recentTransactionsDataSource.paginator = this.paginator;
                 }

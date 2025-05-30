@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Role } from 'app/models/Role';
+import { SuperService } from './super.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService {
+export class RoleService extends SuperService<Role> {
 
-  constructor() { }
+    constructor() {
+        super('role');
+
+    }
 }

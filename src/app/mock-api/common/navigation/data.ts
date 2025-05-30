@@ -24,7 +24,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Planification',
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
-        link: '/user/Planification'
+        link: '/user/planification'
     },
 
 

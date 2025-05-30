@@ -16,7 +16,6 @@ export class AuthService {
     protected http = inject(HttpClient);
     private _authenticated: boolean = false;
     private _httpClient = inject(HttpClient);
-    private _userService = inject(UserService);
 
     set accessToken(token: string) {
         localStorage.setItem('accessToken', token);

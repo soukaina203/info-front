@@ -14,6 +14,8 @@ export default [
     },
     {
         path: 'planification',
-        component: ClassPlanificationComponent,
+        children: [
+            { path: '', loadChildren: () => import('app/modules/admin/class-planification/class-planification.routes') },
+        ]
     },
 ] as Routes;
