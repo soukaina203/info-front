@@ -17,10 +17,9 @@ export class AuthService {
     private _authenticated: boolean = false;
     private _httpClient = inject(HttpClient);
 
-    set accessToken(token: string) {
+    setAccessToken(token: string): void {
         localStorage.setItem('accessToken', token);
     }
-
     get accessToken(): string {
         return localStorage.getItem('accessToken') ?? '';
     }
@@ -46,7 +45,9 @@ export class AuthService {
     }
 
     refreshToken(): Observable<any> {
-        return this.http.get(`${this.urlApi}/Account/refresh`);
+        return this.http.get(`${this.urlApi}/Account/refresh`, {
+            withCredentials: true
+        });
     }
 
     forgotPassword(email: string): Observable<any> {
@@ -55,7 +56,7 @@ export class AuthService {
 
 
 
-    activeAccount(userId: string|number): Observable<any> {
+    activeAccount(userId: string | number): Observable<any> {
         return this.http.get(`${this.urlApi}/Account/activeAccount/${userId}`);
     }
 

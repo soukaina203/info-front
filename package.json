@@ -36,6 +36,7 @@
     "lucide-angular": "^0.503.0",
     "luxon": "3.4.4",
     "ng-apexcharts": "1.10.0",
+    "ngx-mat-timepicker": "^19.0.0",
     "ngx-quill": "26.0.1",
     "perfect-scrollbar": "1.5.5",
     "quill": "2.0.2",

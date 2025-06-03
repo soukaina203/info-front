@@ -1,17 +1,14 @@
 import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandlerFn,
-  HttpRequest
+    HttpErrorResponse,
+    HttpEvent,
+    HttpHandlerFn,
+    HttpRequest
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { AuthService } from 'app/services/auth.service';
-import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 
-/**
- * Auth Interceptor
- */
 export const authInterceptor = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
@@ -20,29 +17,46 @@ export const authInterceptor = (
 
   let newReq = req;
 
-  // Add Authorization header if token exists and not expired
-  if (authService.accessToken && !AuthUtils.isTokenExpired(authService.accessToken)) {
-    newReq = req.clone({
-      headers: req.headers.set('Authorization', 'Bearer ' + authService.accessToken),
-    });
+  // Check token validity
+  if (!authService.accessToken || AuthUtils.isTokenExpired(authService.accessToken)) {
+    console.log('Interceptor: No valid token available, not attaching Authorization header');
+    // Continue the request without Authorization header
+    return next(req);
   }
+
+  // Attach Authorization header
+  newReq = req.clone({
+    headers: req.headers.set('Authorization', 'Bearer ' + authService.accessToken),
+  });
 
   return next(newReq).pipe(
     catchError((error) => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        // Try to refresh token
+      if (
+        error instanceof HttpErrorResponse &&
+        error.status === 401
+      ) {
+        if (req.url.includes('/Account/refresh')) {
+          authService.signOut();
+        //   location.href = '/sign-in';
+          return throwError(() => error);
+        }
+
         return authService.refreshToken().pipe(
-          switchMap((newToken: string) => {
-            // Retry the original request with new token
-            const retryReq = req.clone({
-              headers: req.headers.set('Authorization', 'Bearer ' + newToken),
-            });
-            return next(retryReq);
+          switchMap((response: any) => {
+            const newToken = response?.token;
+
+            if (newToken) {
+              const retryReq = req.clone({
+                headers: req.headers.set('Authorization', 'Bearer ' + newToken),
+              });
+              return next(retryReq);
+            } else {
+              authService.signOut();
+              return throwError(() => new Error('No new token in refresh response'));
+            }
           }),
-          catchError(refreshError => {
-            // Refresh failed: logout and reload
+          catchError((refreshError) => {
             authService.signOut();
-            location.reload();
             return throwError(() => refreshError);
           })
         );

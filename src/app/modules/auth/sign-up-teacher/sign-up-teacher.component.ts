@@ -199,7 +199,7 @@ export class SignUpTeacherComponent {
                         message: 'Email existe déjà',
                     };
                 }
-                localStorage.setItem('token', res.token)
+                localStorage.setItem('accessToken', res.token)
                 localStorage.setItem('userId', res.userId)
               localStorage.setItem('userData', res.userData)
                 this.uow.users.currentUser$.next(res.userData)

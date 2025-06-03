@@ -8,6 +8,7 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 export class AuthService
 {
     private _authenticated: boolean = false;
+    static refreshToken: any;
 
     /**
      * Constructor

@@ -13,7 +13,6 @@ import { saveAs } from "file-saver";
 
 // Services
 import { UowService } from 'app/services/uow.service';
-import { AuthService } from 'app/services/auth.service';
 
 // Models
 import { User } from 'app/models/User';
@@ -50,6 +49,7 @@ import { extractProfProfileFromForm, extractUserFromForm } from 'app/utils/form-
         MatFormFieldModule,
         MatIconModule,
         MatModule,
+        PoppupComponent
     ],
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss']
@@ -127,8 +127,9 @@ export class ProfileComponent {
 
         const userId = JSON.parse(userIdRaw);
 
-        this.uow.users.getOne(userId).subscribe((res: any) => {
+        this.uow.users.GetUserById(userId).subscribe((res: any) => {
             this.user = res.user;
+            console.log("===========")
 
             if (this.user.roleId === 1) {
                 this.prof = res.profProfile;
@@ -247,7 +248,9 @@ export class ProfileComponent {
 
 
 
-    openPopup(message: string, textColor: string = 'text-[#2E849D]', height: string = '200px'): void {
+    openPopup(message: string, textColor: string = 'text-[#2E849D]',
+         height: string = '200px'): void {
+        // this.poppup.
         const dialogRef = this.dialog.open(PoppupComponent, {
             width: '500px',
             height: height,

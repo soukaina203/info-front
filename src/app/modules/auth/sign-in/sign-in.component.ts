@@ -58,8 +58,8 @@ export class AuthSignInComponent  {
     showAlert: boolean = false;
 
     myForm = this.fb.group({
-        email: ["", [Validators.email, Validators.required]],
-        password: ["", [Validators.required/*, Validators.minLength(6)*/]],
+        email: ["viresag291@daxiake.com", [Validators.email, Validators.required]],
+        password: ["viresag291@daxiake.com", [Validators.required/*, Validators.minLength(6)*/]],
 
     });
 
@@ -80,6 +80,8 @@ export class AuthSignInComponent  {
 
         // Sign in
         this.uow.auth.login(user).subscribe((res) => {
+            console.log("jfdssss==========")
+            console.log(res)
             this.myForm.enable();
             if (res.code === -3) {
                 this.alert = {
@@ -108,7 +110,8 @@ export class AuthSignInComponent  {
             }
 
             if (res.code===1 ) {
-                localStorage.setItem('token', res.token)
+                this.uow.auth.setAccessToken(res.token);
+
                 localStorage.setItem('userId', res.userId)
                 localStorage.setItem('userData', res.userData)
                 this.uow.users.currentUser$.next(res.userData)

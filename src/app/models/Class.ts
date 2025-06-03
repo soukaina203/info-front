@@ -9,5 +9,4 @@ export class Class {
     description:string;
     picture:string | null;
     userId:number;
-    user:User|null;
 }
