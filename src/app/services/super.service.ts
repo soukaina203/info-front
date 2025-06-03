@@ -15,7 +15,7 @@ export class SuperService<T> {
 
     getAll = () => this.http.get<T[]>(`${this.urlApi}/${this.controller}/getAll`);
 
-    put = (id: number | string, o: T) => this.http.put<T>(`${this.urlApi}/${this.controller}/put/${id}`, o);
+    put = (id: number | string, o: T) => this.http.put(`${this.urlApi}/${this.controller}/put/${id}`, o);
 
     getOne = (id: number) => this.http.get<T>(`${this.urlApi}/${this.controller}/getById/${id}`);
 

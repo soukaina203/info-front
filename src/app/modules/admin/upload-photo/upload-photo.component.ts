@@ -22,6 +22,7 @@ export class UploadPhotoComponent {
     uploaded: boolean
     pictureUrl: string
     Url: SafeUrl
+
     @Output() dataEvent = new EventEmitter<any>();
     @Input() image: string;
     @Input() folder: string;
@@ -37,8 +38,7 @@ export class UploadPhotoComponent {
         console.log(this.image)
         this.uploaded = !(this.image === null || this.image === undefined);
         ;
-        this.Url = this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/photos/${this.image}`)
-
+        this.Url = this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/${this.folder}/${this.image}`)
     }
 
     modifyIMage(): void {

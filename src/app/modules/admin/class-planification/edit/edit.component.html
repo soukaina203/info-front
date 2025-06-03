@@ -1,1 +1,123 @@
-<p>edit works!</p>
+<div class="flex flex-col w-full">
+    <ng-container>
+        <!-- Contact form -->
+        <div class="relative flex flex-col items-center flex-auto px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+                <form [formGroup]="myForm" *ngIf="myForm">
+                    <h1 class="mt-6 mb-10 ml-1 text-[#8B7F87] text-3xl font-semibold">
+                        Reunion {{class.title}}
+                    </h1>
+
+
+                    <div class="flex items-center justify-center ">
+                        <app-upload [folder]="'classes'" [image]="class.picture"
+                            (dataEvent)="receiveData($event)"></app-upload>
+                    </div>
+
+
+
+
+                    <mat-form-field class="w-full ">
+                        <mat-label>Titre</mat-label>
+
+                        <input matInput formControlName="title">
+                        <mat-error *ngIf="myForm.controls['title'].errors?.['required']" class="text-red-500">Ce
+                            champ est obligatoire</mat-error>
+                        <mat-error *ngIf="myForm.controls['title'].errors?.['minlength']" class="text-red-500">Nom
+                            doit contenir plus que 2 lettre</mat-error>
+                    </mat-form-field>
+
+
+
+
+                    <mat-form-field class="flex-auto w-full" [subscriptSizing]="'dynamic'">
+                        <mat-label>Date (Mois/Jours/Annee)</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </mat-form-field>
+
+
+
+                    <mat-form-field class="w-full ">
+                        <mat-label>Horaire (De HH:MM A HH:MM) </mat-label>
+
+                        <input matInput formControlName="duree">
+                        <mat-error *ngIf="myForm.controls['duree'].errors?.['required']" class="text-red-500">Ce
+                            champ est obligatoire</mat-error>
+
+                    </mat-form-field>
+
+
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Lien</mat-label>
+                        <input id="lien" matInput [formControlName]="'link'">
+                        <mat-error *ngIf="myForm.controls['link'].errors?.['required']" class="text-red-500">Ce
+                            champ
+                            est
+                            obligatoire</mat-error>
+                        <mat-error *ngIf="myForm.controls['link'].errors?.['pattern']" class="text-red-500">Veuillez
+                            entrer
+                            un lien valide</mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="w-full ">
+                        <mat-label>Description</mat-label>
+
+
+                        <textarea matInput formControlName="description"> </textarea>
+
+                        <mat-error *ngIf="myForm.controls['description'].errors?.['required']" class="text-red-500">
+                            Ce champ est obligatoire </mat-error>
+                        <mat-error *ngIf="myForm.controls['description'].errors?.['pattern']" class="text-red-500">
+                            any</mat-error>
+                    </mat-form-field>
+
+
+
+
+                    <div
+                        class="flex items-end justify-end py-4 pl-1 pr-4 mt-10 -mx-6 border-t sm:-mx-6 sm:pr-12 sm:pl-7 bg-gray-50 dark:bg-transparent">
+
+
+
+                        <!-- [disabled]="myForm.disabled" -->
+                        <button  (click)="updatereunion(myForm.value)"   class=" font-medium hover:before:bg-black
+                        relative h-[45px] w-[7rem] overflow-hidden border-black px-3 border-2
+                         text-black shadow-2xl transition-all before:absolute before:bottom-0
+                          before:left-0 before:top-0 before:z-0 before:h-full before:w-0
+                           before:bg-black before:transition-all before:duration-500
+                            hover:text-[#8E7F7F]  hover:shadow-black hover:before:left-0 hover:before:w-full">
+                            <span class="relative z-10">Enregistrer</span>
+                        </button>
+
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+
+
+<ng-container>
+    <ng-template #popupTemplate let-dialogRef>
+
+        <button mat-icon-button style="float:right; margin: 5px;color:#f04848; background-color: #E0DADA; "
+            matDialogClose>
+            <mat-icon class="text-white">close</mat-icon>
+        </button>
+
+        <mat-dialog-content class="bg-[#FEF2F flex flex-col items-center justify-center w-full ">
+            <div class="flex flex-col items-center justify-center w-full gap-5 ">
+                <span class="text-[#f04848] font-semibold text-2xl">{{PoppupContent}}</span>
+
+            </div>
+        </mat-dialog-content>
+
+    </ng-template>
+</ng-container>

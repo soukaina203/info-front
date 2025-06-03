@@ -9,11 +9,12 @@ export default [
         component: ClassPlanificationComponent,
     },
     {
-        path: 'edit/:id',
-        component: EditComponent,
-    },
-    {
         path: 'create',
         component: CreateComponent,
     },
+    {
+        path: ':id',
+        component: EditComponent,
+    },
+
 ] as Routes;
