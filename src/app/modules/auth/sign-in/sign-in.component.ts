@@ -80,8 +80,7 @@ export class AuthSignInComponent  {
 
         // Sign in
         this.uow.auth.login(user).subscribe((res) => {
-            console.log("jfdssss==========")
-            console.log(res)
+
             this.myForm.enable();
             if (res.code === -3) {
                 this.alert = {
@@ -111,12 +110,12 @@ export class AuthSignInComponent  {
 
             if (res.code===1 ) {
                 this.uow.auth.setAccessToken(res.token);
-
+                console.log(res.userData)
                 localStorage.setItem('userId', res.userId)
-                localStorage.setItem('userData', res.userData)
+                localStorage.setItem('userData', JSON.stringify(res.userData))
                 this.uow.users.currentUser$.next(res.userData)
 
-                this.router.navigateByUrl('user');
+           this.router.navigateByUrl('user');
             }
 
 

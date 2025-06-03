@@ -86,9 +86,7 @@ export class ClassPlanificationComponent {
 
 
     ngOnInit(): void {
-        let user = JSON.parse(localStorage.getItem("user"))
-        console.log("===========")
-        console.log(user)
+        let user = JSON.parse(localStorage.getItem("userData"))
         this.uow.role.getOne(user.roleId).subscribe((res) => {
             this.currentRole = res.name
             if ( this.currentRole === "Prof") {
@@ -101,7 +99,7 @@ export class ClassPlanificationComponent {
         })
 
 
-        if (this.currentRole = "Prof") {
+        if (this.currentRole === "Prof") {
             this.uow.classes.getClassesByProfId(user.id).subscribe((res: IResponse) => {
                 console.log(res)
                 if (res.data !== null) {
@@ -117,10 +115,10 @@ export class ClassPlanificationComponent {
             }
             );
         } else {
-            this.uow.classes.getAll().subscribe((data: any) => {
+            this.uow.classes.getAll().subscribe((res: any) => {
                 this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions'];
-                if (data.list !== null) {
-                    this.data = data.list;
+                if (res.data !== null) {
+                    this.data = res.data;
                     this.recentTransactionsDataSource.data = [...this.data].reverse();
                     this.recentTransactionsDataSource.paginator = this.paginator;
                 }
