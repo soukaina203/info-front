@@ -2,7 +2,7 @@ import { UowService } from './../../../services/uow.service';
 import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -18,17 +18,18 @@ import { Component, inject, ViewChild } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker';
 import { environment } from 'environment/environment';
-import { IResponse } from 'app/interfaces/IResponse';
+import { format } from 'date-fns';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 
 @Component({
-    selector: 'app-class-planification',
+    selector: 'app-reunion',
     standalone: true,
     imports: [
         CommonModule,
         MatButtonModule,
         MatIconModule,
         MatPaginatorModule,
-        MatIcon,
         MatModule,
         MatMenuModule,
         MatDividerModule,
@@ -41,36 +42,42 @@ import { IResponse } from 'app/interfaces/IResponse';
         DatePipe,
         NgxMatDatetimePickerModule,
         MatIconModule,
-        MatModule
-    ],
-    templateUrl: './class-planification.component.html',
-    styleUrl: './class-planification.component.scss'
+        NgClass
+
+
+    ], templateUrl: './cours-en-lignes.component.html',
+    styleUrls: ['./cours-en-lignes.component.scss']
 })
-export class ClassPlanificationComponent {
+export class CoursEnLignesComponent {
     @ViewChild('recentTransactionsTable', { read: MatSort }) recentTransactionsTableMatSort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     private uow = inject(UowService)
     private _unsubscribeAll = new Subject<any>();
     user: User = JSON.parse(localStorage.getItem("user"));
-
     paginatorEvent = new Subject<PageEvent>();
     list: User[] = [];
     isSearchBarOpened = false;
     data: any;
-    currentRole: string;
+    environmentUrl = environment.url
+
     accountBalanceOptions: ApexOptions;
     recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    recentTransactionsTableColumns: string[] = [];
+    recentTransactionsTableColumns: string[] = ['id', 'titre', 'date', 'duree', 'prof'];
     myForm: FormGroup;
     roles: Role;
-    nom = '';
-    prenom = '';
-    email = '';
+    // search
+
+    title = '';
+    prof = '';
+    date: Date
     idRole = 0;
     isStudent: boolean
     environment = environment.url
+        private sanitizer= inject( DomSanitizer)
 
+
+    Url: SafeUrl
 
     openSearchBar() {
         this.isSearchBarOpened = !this.isSearchBarOpened;
@@ -83,56 +90,40 @@ export class ClassPlanificationComponent {
         });
     }
 
-
+    getFormattedDate(dateString: string): string {
+        const datePipe = new DatePipe('en-US');
+        return datePipe.transform(dateString, 'yyyy-MM-dd', 'UTC') || '';
+    }
 
     ngOnInit(): void {
-        let user = JSON.parse(localStorage.getItem("userData"))
-        this.uow.role.getOne(user.roleId).subscribe((res: Role) => {
-            this.currentRole = res.name
-            if ( this.currentRole === "Prof") {
-                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'actions']
+        let user = JSON.parse(localStorage.getItem("userId"))
+
+        this.uow.users.getOne(user).subscribe((res: any) => {
+            this.user = res;
+
+            if (this.user.roleId == 3 && !(this.recentTransactionsTableColumns.includes('actions'))) {
+                this.recentTransactionsTableColumns.push('actions')
             }
-            if (this.currentRole==="Admin") {
-                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions']
+            // this.user.role.name==="Etudiant"?this.isStudent=true : this.isStudent=false
+        });
+
+        this.uow.classes.getAll().subscribe((res: any) => {
+            if (res.data !== null) {
+                this.data = res.data;
+                this.recentTransactionsDataSource.data = [...this.data].reverse();
+                this.recentTransactionsDataSource.paginator = this.paginator;
+                this.data.forEach(e => {
+                    e.picture= this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/classes/${e.picture}`)
+                });
+        // this.Url = this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/classes/${this.image}`)
 
             }
-        })
-
-
-        if (this.currentRole === "Prof") {
-            this.uow.classes.getClassesByProfId(user.id).subscribe((res: IResponse) => {
-                console.log(res)
-                if (res.data !== null) {
-                    this.data = res.data;
-                    this.recentTransactionsDataSource.data = [...this.data].reverse();
-                    this.recentTransactionsDataSource.paginator = this.paginator;
-                }
-                else {
-                    console.log(
-                        "No data fetched"
-                    )
-                }
+            else {
+                console.log(
+                    "No data fetched"
+                )
             }
-            );
-        } else {
-            this.uow.classes.getAll().subscribe((res: any) => {
-                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions'];
-                if (res.data !== null) {
-                    this.data = res.data;
-                    this.recentTransactionsDataSource.data = [...this.data].reverse();
-                    this.recentTransactionsDataSource.paginator = this.paginator;
-                }
-                else {
-                    console.log(
-                        "No data fetched"
-                    )
-                }
-            });
-        }
-
-
-
-
+        });
 
 
     }
@@ -147,9 +138,19 @@ export class ClassPlanificationComponent {
     }
 
     submit() {
-        const searchEmail = this.email || '*';
-        const searchPrenom = this.prenom || '*';
-        const searchNom = this.nom || '*';
+        console.log(this.date)
+        const searchParams = {
+            date: this.date ? format(this.date, 'yyyy-MM-dd') : null,
+            title: this.title ? this.title : null,
+            prof: this.prof ? this.prof : null
+        };
+        console.log(searchParams)
 
+        this.uow.classes.search(searchParams).subscribe((res: any) => {
+            this.data = res.list;
+            this.recentTransactionsDataSource.data = [...this.data].reverse();
+            this.recentTransactionsDataSource.paginator = this.paginator;
+        });
     }
+
 }

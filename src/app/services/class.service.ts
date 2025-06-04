@@ -13,8 +13,15 @@ export class ClassService extends SuperService<Class> {
         super('class');
 
     }
+
     getClassesByProfId(userId: number): Observable<IResponse> {
         return this.http.get<IResponse>(`${this.urlApi}/Class/GetClassesByProfId/${userId}`);
+    }
 
+       search(searchParams) {
+        return this.http.get<Class[]>(`${this.urlApi}/Class/searchCours`, {
+            params: searchParams
+
+         });
     }
 }

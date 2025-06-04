@@ -18,4 +18,10 @@ export default [
             { path: '', loadChildren: () => import('app/modules/admin/class-planification/class-planification.routes') },
         ]
     },
+    {
+        path: 'cours',
+        children: [
+            { path: '', loadChildren: () => import('app/modules/admin/cours-en-lignes/cours.routes') },
+        ]
+    },
 ] as Routes;

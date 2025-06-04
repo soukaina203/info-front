@@ -129,7 +129,6 @@ export class ProfileComponent {
 
         this.uow.users.GetUserById(userId).subscribe((res: any) => {
             this.user = res.user;
-            console.log("===========")
 
             if (this.user.roleId === 1) {
                 this.prof = res.profProfile;

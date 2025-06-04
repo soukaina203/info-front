@@ -69,7 +69,6 @@ export class CreateComponent {
             ],
             description: [this.reunion.description, [Validators.required]],
             picture: [this.reunion.picture, ],
-            userId: user.id,
         });
     }
 
