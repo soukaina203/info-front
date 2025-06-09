@@ -5,7 +5,7 @@ import { ClassPlanificationComponent } from './class-planification/class-planifi
 
 export default [
     {
-        path: '',
+        path: 'dashboard',
         component: DashboardComponent,
     },
     {
@@ -22,6 +22,12 @@ export default [
         path: 'cours',
         children: [
             { path: '', loadChildren: () => import('app/modules/admin/cours-en-lignes/cours.routes') },
+        ]
+    },
+        {
+        path: 'users',
+        children: [
+            { path: '', loadChildren: () => import('app/modules/admin/users/users.routes') },
         ]
     },
 ] as Routes;

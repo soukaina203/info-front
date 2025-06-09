@@ -1,0 +1,400 @@
+<div class="flex flex-col w-full">
+    <ng-container>
+        <!-- Contact form -->
+        <div class="relative flex flex-col items-center flex-auto px-6 sm:px-12">
+            <div class="w-full max-w-3xl">
+                <form
+                    [formGroup]="myForm"
+                    *ngIf="myForm"
+                >
+
+
+
+                    <h1 class="mt-6 mb-10 ml-1 text-[#8B7F87] text-3xl font-semibold">
+                        Profil {{user?.lastName}} {{user?.firstName}}
+                    </h1>
+
+
+
+                    <div class="flex items-center justify-center ">
+                        <app-upload
+                            [folder]="'photos'"
+                            [image]="user.photo"
+                            (dataEvent)="receiveData($event)"
+                        ></app-upload>
+                    </div>
+
+
+
+
+
+                    <div class="flex flex-col gap-2 mt-4 md:flex-row">
+                        <mat-form-field class="w-full ">
+                            <mat-label>Nom</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="lastName"
+                            >
+                            <mat-error
+                                *ngIf="myForm.controls['lastName'].errors?.['required']"
+                                class="text-red-500"
+                            >
+                                Ce
+                                champ est obligatoire
+                            </mat-error>
+                            <mat-error
+                                *ngIf="myForm.controls['lastName'].errors?.['minlength']"
+                                class="text-red-500"
+                            >
+                                Nom
+                                doit contenir plus que 2 lettre
+                            </mat-error>
+                        </mat-form-field>
+
+
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Prénom</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="firstName"
+                                spellcheck="false"
+                            >
+                            <mat-error
+                                *ngIf="myForm.controls['firstName'].errors?.['required'] "
+                                class="text-red-500"
+                            >
+                                Ce
+                                champ est obligatoire
+                            </mat-error>
+                            <mat-error
+                                *ngIf="myForm.controls['firstName'].errors?.['minlength']"
+                                class="text-red-500"
+                            >
+                                Prénom
+                                doit contenir plus que 2 lettre
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+
+
+
+                    <div class="flex flex-col gap-2 mt-2 md:flex-row">
+                        <mat-form-field class="w-full">
+                            <mat-label>Email address</mat-label>
+                            <input
+                                id="email"
+                                matInput
+                                [formControlName]="'email'"
+                            >
+                            <mat-error
+                                *ngIf="myForm.controls['email'].errors?.['required']"
+                                class="text-red-500"
+                            >
+                                Ce champ
+                                est
+                                obligatoire
+                            </mat-error>
+                            <mat-error
+                                *ngIf="myForm.controls['email'].errors?.['email']"
+                                class="text-red-500"
+                            >
+                                Veuillez
+                                saisir
+                                une adresse électronique valide
+                            </mat-error>
+                        </mat-form-field>
+
+
+
+
+                        <mat-form-field class="w-full ">
+                            <mat-label>Téléphone</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                matInput
+                                formControlName="telephone"
+                            >
+                            <mat-error
+                                *ngIf="myForm.controls['telephone'].errors?.['required']"
+                                class="text-red-500"
+                            >
+                                Ce champ est obligatoire
+                            </mat-error>
+                            <mat-error
+                                *ngIf="myForm.controls['telephone'].errors?.['pattern']"
+                                class="text-red-500"
+                            >
+                                Entrez un numéro valide de 10 chiffres commençant par 06 ou 07.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+
+                    <mat-form-field class="w-full">
+                        <mat-label>Mot de passe</mat-label>
+                        <input
+                            id="password"
+                            matInput
+                            type="password"
+                            [formControlName]="'password'"
+                            #passwordField
+                        >
+                        <button
+                            mat-icon-button
+                            type="button"
+                            (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                            matSuffix
+                        >
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordField.type === 'password'"
+                                [svgIcon]="'heroicons_solid:eye'"
+                            ></mat-icon>
+                            <mat-icon
+                                class="icon-size-5"
+                                *ngIf="passwordField.type === 'text'"
+                                [svgIcon]="'heroicons_solid:eye-slash'"
+                            ></mat-icon>
+                        </button>
+                        <mat-error
+                            *ngIf="myForm.controls['password'].errors?.['required']"
+                            class="text-red-500"
+                        >
+                            Ce
+                            champ
+                            est obligatoire
+                        </mat-error>
+
+
+
+
+                        <mat-error
+                            *ngIf="myForm.controls['password'].errors?.['minlength']"
+                            class="text-red-500"
+                        >
+                            Ce
+                            champ doit contenir plus que 6 caracteres
+                        </mat-error>
+                    </mat-form-field>
+
+
+
+
+
+                    <!-- Teacher inputs -->
+                    <ng-container *ngIf="user.roleId==1">
+                        <div class="mt-2">
+                            <mat-form-field class="w-full">
+                                <mat-label>Ville</mat-label>
+                                <input
+                                    id="city"
+                                    matInput
+                                    [formControlName]="'city'"
+                                >
+                                <mat-error
+                                    *ngIf="myForm.controls['city'].errors?.['required']"
+                                    class="text-red-500"
+                                >
+                                    Ce champ
+                                    est
+                                    obligatoire
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="myForm.controls['city'].errors?.['minlength']"
+                                    class="text-red-500"
+                                >
+                                    Prénom
+                                    doit contenir plus que 3 lettre
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="flex flex-col items-center justify-center gap-2 mt-4 md:flex-row">
+
+
+
+                            <div class="w-full">
+                                <app-upload-files
+                                    [CvTitle]="CvTitle"
+
+                                    (CvFile)="onCvFileSelected($event)"
+                                    (newCvTitle)="onCvTitleChanged($event)"
+                                ></app-upload-files>
+                            </div>
+
+
+
+                            <button
+                                [disabled]="CvExists"
+                                class="w-full h-[3rem] text-white font-semibold rounded-lg bg-[#2E849D]"
+                                (click)="download()"
+                            >
+                                Télécharger
+                            </button>
+
+
+
+                        </div>
+
+
+
+
+
+                        <div class="flex flex-col gap-2 mt-4 md:flex-row">
+
+
+
+
+
+                            <mat-form-field class="w-full ">
+                                <mat-label>Services</mat-label>
+                                <mat-select
+                                    multiple
+                                    formControlName='services'
+                                >
+                                    <ng-container *ngFor="let service of services">
+                                        <mat-option [value]="service.id">{{service.nom}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="myForm.controls['services'].errors?.['required']"
+                                    class="text-red-500"
+                                >
+                                    Ce champ est obligatoire
+                                </mat-error>
+                            </mat-form-field>
+
+
+
+
+
+                            <mat-form-field class="w-full">
+                                <mat-label>Spécialités</mat-label>
+
+
+
+                                <mat-select
+                                    multiple
+                                    [formControlName]="'specialities'"
+                                >
+                                    <ng-container *ngFor="let speciality of specialities">
+                                        <mat-option [value]="speciality.id">{{ speciality.nom }}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="myForm.controls['specialities'].errors?.['required']"
+                                    class="text-red-500"
+                                >
+                                    Ce champ est obligatoire
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+
+
+
+                        <div class="flex flex-col gap-2 mt-4 md:flex-row">
+                            <mat-form-field class="w-full ">
+                                <mat-label>méthode</mat-label>
+
+
+
+                                <mat-select
+                                    multiple
+                                    [formControlName]="'methodes'"
+                                >
+                                    <ng-container *ngFor="let method of methods">
+                                        <mat-option [value]="method.id">{{method.nom}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="myForm.controls['methodes'].errors?.['required']"
+                                    class="text-red-500"
+                                >
+                                    Ce champ est obligatoire
+                                </mat-error>
+
+
+
+                            </mat-form-field>
+
+
+
+
+
+                            <mat-form-field class="w-full">
+                                <mat-label>Niveau</mat-label>
+
+
+
+                                <mat-select
+                                    multiple
+                                    [formControlName]="'niveaux'"
+                                >
+                                    <ng-container *ngFor="let niveau of niveaux">
+                                        <mat-option [value]="niveau.id">{{niveau.nom}}</mat-option>
+                                    </ng-container>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="myForm.controls['niveaux'].errors?.['required']"
+                                    class="text-red-500"
+                                >
+                                    Ce champ est obligatoire
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+
+
+                    </ng-container>
+
+
+
+
+
+                    <div class="flex items-end justify-end py-4 pl-1 pr-4 mt-10 -mx-6 border-t sm:-mx-6 sm:pr-12 sm:pl-7 bg-gray-50 dark:bg-transparent">
+
+
+
+
+
+
+                        <button
+                            (click)="update()"
+                            [disabled]="myForm.disabled"
+                            class=" font-medium hover:before:bg-black
+                        relative h-[45px] w-[7rem] overflow-hidden border-black px-3 border-2
+                         text-black shadow-2xl transition-all before:absolute before:bottom-0
+                          before:left-0 before:top-0 before:z-0 before:h-full before:w-0
+                           before:bg-black before:transition-all before:duration-500
+                            hover:text-[#8E7F7F]  hover:shadow-black hover:before:left-0 hover:before:w-full"
+                        >
+                            <span class="relative z-10">Enregistrer</span>
+                        </button>
+
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ng-container>
+</div>

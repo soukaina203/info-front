@@ -26,7 +26,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:chart-pie',
         link: '/user/planification'
     },
-        {
+    {
         id: 'cours',
         title: 'Cours en lignes',
         type: 'basic',
@@ -34,16 +34,57 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/user/cours'
     },
 
+    {
+        id: 'users',
+        title: 'Utilisateurs',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: 'user/users'
+    },
+
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [
+{
+        id: 'dashboard',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:rocket-launch',
+        link: '/user/dashboard'
+    },
+
     {
-        id: 'example',
-        title: 'Example',
+        id: 'profile',
+        title: 'Profile',
         type: 'basic',
         icon: 'heroicons_outline:chart-pie',
-        link: '/example'
-    }
+        link: '/user/profile'
+    },
+
+    {
+        id: 'planification',
+        title: 'Planification',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/user/planification'
+    },
+    {
+        id: 'cours',
+        title: 'Cours en lignes',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: '/user/cours'
+    },
+
+    {
+        id: 'users',
+        title: 'Utilisateurs',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-pie',
+        link: 'user/users'
+    },
+
+
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {

@@ -1,0 +1,132 @@
+<div class="flex flex-col flex-auto w-full">
+    <div class="flex flex-wrap w-full max-w-screen-xl p-6 mx-auto md:p-8">
+        <!-- Title and action buttons -->
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <h2 class="text-3xl font-semibold leading-8 tracking-tight">Info Academie dashboard</h2>
+                <div class="font-medium tracking-tight text-secondary">Gardez la trace de vos ressources</div>
+            </div>
+            <div class="flex items-center ml-6">
+                <span class="ml-2" [routerLink]="['/admin/user/create']">
+
+                </span>
+                <button class="ml-auto bg-gray-200" mat-button (click)="openSearchBar()">
+                    <mat-icon class="icon-size-5">search</mat-icon>
+                    Recherche
+                </button>
+            </div>
+        </div>
+
+        <!-- Search bar -->
+        <div class="flex items-center justify-between w-full mt-[2rem] transition-opacity duration-500 ease-in-out"
+            *ngIf="isSearchBarOpened" [class.opacity-100]="isSearchBarOpened" [class.opacity-0]="!isSearchBarOpened">
+            <div class="flex flex-col flex-auto overflow-hidden shadow xl:col-span-2 bg-card rounded-2xl">
+                <div class="p-6">
+                    <div>
+                        <div class="flex">
+                            <mat-form-field class="flex-auto">
+                                <mat-label>Nom</mat-label>
+                                <mat-icon matPrefix class="hidden sm:flex icon-size-5" svgIcon="heroicons_solid:user-circle"></mat-icon>
+                                <input matInput [(ngModel)]="nom">
+                            </mat-form-field>
+
+                            <mat-form-field class="flex-auto">
+                                <mat-label>Prenom</mat-label>
+                                <mat-icon matPrefix class="hidden sm:flex icon-size-5" svgIcon="heroicons_solid:user-circle"></mat-icon>
+                                <input matInput [(ngModel)]="prenom" placeholder="Name" spellcheck="false">
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Email</mat-label>
+                            <mat-icon matPrefix class="hidden sm:flex icon-size-5" svgIcon="heroicons_solid:envelope"></mat-icon>
+                            <input matInput [(ngModel)]="email" placeholder="email" spellcheck="false">
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full">
+                            <mat-label>Roles</mat-label>
+                            <mat-select [(ngModel)]="idRole" (selectionChange)="choosenRole($event.value)">
+                                <ng-container *ngFor="let role of roles">
+                                    <mat-option [value]="role.id">{{role.nom}}</mat-option>
+                                </ng-container>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button class="ml-2 bg-[#2E849D] text-white" mat-flat-button (click)="submit()">
+                            Enregistrer
+                        </button>
+
+                        <button class="ml-auto bg-gray-200" mat-flat-button (click)="openSearchBar()">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="flex items-center justify-between w-full mt-[2rem]">
+            <div class="flex flex-col flex-auto overflow-hidden shadow xl:col-span-2 bg-card rounded-2xl">
+                <div class="p-6">
+                    <div class="mr-4 text-lg font-medium leading-6 tracking-tight truncate">List des utilisateurs</div>
+                </div>
+                <div class="mx-6 overflow-x-auto">
+                    <table class="w-full bg-transparent" mat-table matSort [dataSource]="recentTransactionsDataSource" #recentTransactionsTable>
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>ID</th>
+                            <td mat-cell *matCellDef="let prof">
+                                <span class="pr-6 text-sm font-medium text-secondary whitespace-nowrap">{{prof.id}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Nom</th>
+                            <td mat-cell *matCellDef="let prof">
+                                <span class="pr-6 whitespace-nowrap">{{prof.lastName}} {{prof.firstName}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Email</th>
+                            <td mat-cell *matCellDef="let transaction">
+                                <span class="pr-6 whitespace-nowrap">{{transaction.email}}</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="role">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Role</th>
+                            <td mat-cell *matCellDef="let transaction">
+                                <span *ngIf="!transaction.isAdmin" class="pr-6 font-medium whitespace-nowrap">{{transaction.role?.name }}</span>
+                                <span *ngIf="transaction.isAdmin" class="pr-6 font-medium whitespace-nowrap">Admin</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Actions</th>
+                            <td mat-cell *matCellDef="let transaction">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    <button mat-icon-button color="accent" [routerLink]="['/user/users/', transaction.id]">
+                                        <mat-icon>create</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="supprimer" color="warn" (click)="delete(transaction.id)">
+                                        <mat-icon>delete_sweep</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <tbody>
+                            <tr mat-header-row *matHeaderRowDef="recentTransactionsTableColumns"></tr>
+                            <tr class="h-16 order-row" mat-row *matRowDef="let row; columns: recentTransactionsTableColumns;"></tr>
+                        </tbody>
+                    </table>
+
+                    <mat-paginator class="z-10 border-b sm:absolute sm:inset-x-0 sm:bottom-0 sm:border-t sm:border-b-0 bg-gray-50"
+                        [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

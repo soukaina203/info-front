@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,12 +40,14 @@ import { Subject, takeUntil } from 'rxjs';
         RouterOutlet,
         QuickChatComponent,
         FuseVerticalNavigationComponent,
+        CommonModule
     ],
 })
 export class CompactLayoutComponent implements OnInit, OnDestroy {
     isScreenSmall: boolean;
     navigation: Navigation;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    isShowen: boolean = false
 
     /**
      * Constructor
@@ -91,7 +94,10 @@ export class CompactLayoutComponent implements OnInit, OnDestroy {
                 this.isScreenSmall = !matchingAliases.includes('md');
             });
     }
-
+    profileOptions() {
+        event.stopPropagation();
+        this.isShowen = !this.isShowen;
+    }
     /**
      * On destroy
      */

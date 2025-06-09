@@ -122,7 +122,6 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         this.router.navigate(['/']);
-
     }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods

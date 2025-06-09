@@ -50,6 +50,8 @@ export class EditComponent {
 
     ngOnInit(): void {
         this.id = this.route.snapshot.paramMap.get('id');
+        console.log("=======")
+        console.log(this.id)
         this.uow.classes.getOne(parseInt(this.id)).subscribe((res:{data:Class}) => {
             this.class = res.data
             this.createForm()
@@ -116,7 +118,7 @@ export class EditComponent {
             ],
             description: [this.class.description, [Validators.required]],
             picture: [this.class.picture, [Validators.required]],
-            userId: user.id
+            userId: this.class.userId
         });
     }
     openInput(o) {
