@@ -41,7 +41,7 @@
                         <mat-label>Prénom</mat-label>
                         <mat-icon matPrefix class="hidden sm:flex icon-size-5"
                             [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                        <input matInput formControlName="lastName"  spellcheck="false">
+                        <input matInput formControlName="lastName" spellcheck="false">
                         <mat-error *ngIf="myForm.controls['lastName'].errors?.['required'] " class="text-red-500">Ce
                             champ est obligatoire</mat-error>
                         <mat-error *ngIf="myForm.controls['lastName'].errors?.['minlength']" class="text-red-500">Prénom
@@ -78,10 +78,10 @@
                     <mat-error *ngIf="myForm.controls['password'].errors?.['required']" class="text-red-500">Ce champ
                         est obligatoire </mat-error>
 
-                    </mat-form-field>
+                </mat-form-field>
 
-    <span class="text-[13px] font-semibold  text-red-500" *ngIf="isPwdInequal">Les mots de passe ne sont pas
-                        similaires</span>
+                <span class="text-[13px] font-semibold  text-red-500" *ngIf="isPwdInequal">Les mots de passe ne sont pas
+                    similaires</span>
 
 
                 <!-- Password field -->
@@ -102,19 +102,19 @@
 
                 </mat-form-field>
 
-                    <div class="flex ">
-                        <mat-form-field class="w-full ">
-                            <mat-label>Téléphone</mat-label>
-                            <mat-icon matPrefix class="hidden sm:flex icon-size-5"
-                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
-                            <input matInput formControlName="telephone">
-                            <mat-error *ngIf="myForm.controls['telephone'].errors?.['required']" class="text-red-500">
-                                Ce champ est obligatoire </mat-error>
-                            <mat-error *ngIf="myForm.controls['telephone'].errors?.['pattern']" class="text-red-500">
-                                Write a valid number 10 digits start with 06|07 </mat-error>
-                        </mat-form-field>
+                <div class="flex ">
+                    <mat-form-field class="w-full ">
+                        <mat-label>Téléphone</mat-label>
+                        <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                            [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        <input matInput formControlName="telephone">
+                        <mat-error *ngIf="myForm.controls['telephone'].errors?.['required']" class="text-red-500">
+                            Ce champ est obligatoire </mat-error>
+                        <mat-error *ngIf="myForm.controls['telephone'].errors?.['pattern']" class="text-red-500">
+                            Write a valid number 10 digits start with 06|07 </mat-error>
+                    </mat-form-field>
 
-                    </div>
+                </div>
                 <!-- Actions -->
 
 
@@ -122,8 +122,10 @@
 
 
                 <!-- Submit button -->
-                <button type="submit"  class="w-full bg-[#2E849D] text-white font-semibold text-lg mt-6 fuse-mat-button-large"
-                    mat-flat-button [color]="'primary'"  [disabled]="myForm.invalid || myForm.disabled" (click)="signIn()">
+                <button type="submit"
+                    class="w-full bg-[#2E849D] text-white font-semibold text-lg mt-6 fuse-mat-button-large"
+                    mat-flat-button [color]="'primary'" [disabled]="myForm.invalid || myForm.disabled"
+                    (click)="signIn()">
                     <span *ngIf="!myForm.disabled">S'inscrire</span>
                     <mat-progress-spinner *ngIf="myForm.disabled" [diameter]="24"
                         [mode]="'indeterminate'"></mat-progress-spinner>

@@ -1,17 +1,14 @@
 <!-- Button -->
-<button mat-icon-button [matMenuTriggerFor]="userActions">
-    <!-- <span class="relative">
-        @if (showAvatar && user.avatar) {
-            <img class="h-7 w-7 rounded-full" [src]="user.avatar" />
-        }
-        @if (!showAvatar || !user.avatar) {
-            <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
-        }
-        <span
-            class="absolute bottom-0 right-0 h-2 w-2 rounded-full"
+<button [matMenuTriggerFor]="userActions">
 
-        ></span>
-    </span> -->
+
+    <!-- <span class="relative"> -->
+        <img *ngIf="user.photo" class="rounded-full h-7 w-7" [src]="Url" />
+
+        <mat-icon *ngIf="!user.photo" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+
+        <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full"></span>
+    <!-- </span> -->
 
 
 </button>
@@ -21,24 +18,20 @@
     <button mat-menu-item>
         <span class="flex flex-col leading-none">
             <span>Signed in as</span>
-            <span class="mt-1.5 text-md font-medium">{{ user.email }}</span>
+            <span class="mt-1.5 text-md font-medium">{{ user.lastName }}  {{ user.firstName }}</span>
         </span>
     </button>
 
     <mat-divider class="my-2"></mat-divider>
-    <button mat-menu-item [routerLink]="['/user']"  >
+    <button mat-menu-item [routerLink]="['/user/profile']">
         <mat-icon [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
         <span>Profile</span>
     </button>
 
 
     <mat-divider class="my-2"></mat-divider>
-    <button mat-menu-item (click)="signOut()" >
-        <mat-icon
-            [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"
-        ></mat-icon>
+    <button mat-menu-item (click)="signOut()">
+        <mat-icon [svgIcon]="'heroicons_outline:arrow-right-on-rectangle'"></mat-icon>
         <span>Sign out</span>
     </button>
 </mat-menu>
-
-

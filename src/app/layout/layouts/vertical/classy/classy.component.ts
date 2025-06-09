@@ -36,6 +36,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy {
     navigation: Navigation;
     user: User;
     url = environment.url
+
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 

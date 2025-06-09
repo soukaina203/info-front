@@ -115,7 +115,7 @@ export class AuthSignInComponent  {
                 localStorage.setItem('userData', JSON.stringify(res.userData))
                 this.uow.users.currentUser$.next(res.userData)
 
-           this.router.navigateByUrl('user');
+           this.router.navigateByUrl('user/dashboard');
             }
 
 
