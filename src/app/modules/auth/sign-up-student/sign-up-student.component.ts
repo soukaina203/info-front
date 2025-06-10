@@ -111,19 +111,19 @@ export class SignUpStudentComponent {
                         type: 'error',
                         message: "Erreur lors de l'envoi de l'e-mail de vérification. Veuillez réessayer plus tard.",
                     };
-                this.showAlert = true;
+                    this.showAlert = true;
 
-                }else{
-
-                    localStorage.setItem('accessToken',res.token)
-                    localStorage.setItem('userId',res.userId)
-                           localStorage.setItem('userData', res.userData);
-                this.uow.users.currentUser$.next(res.userData)
-                    this.router.navigateByUrl('verify/mail');
+                } else {
+                    console.log(res.userData)
+                     localStorage.setItem('accessToken', res.token)
+                     localStorage.setItem('userId', res.userId)
+                     localStorage.setItem('userData', JSON.stringify(res.userData));
+                     this.uow.users.currentUser$.next(res.userData)
+                     this.router.navigateByUrl('verify/mail');
 
                 }
 
-        }
+            }
 
         })
     }

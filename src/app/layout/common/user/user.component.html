@@ -1,11 +1,10 @@
 <!-- Button -->
 <button [matMenuTriggerFor]="userActions">
 
-
     <!-- <span class="relative"> -->
         <img *ngIf="user.photo" class="rounded-full h-7 w-7" [src]="Url" />
 
-        <mat-icon *ngIf="!user.photo" [svgIcon]="'heroicons_outline:user-circle'"></mat-icon>
+        <mat-icon *ngIf="!user.photo" [svgIcon]="'heroicons_outline:user-circle'" class="w-7 h-7"></mat-icon>
 
         <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full"></span>
     <!-- </span> -->

@@ -14,7 +14,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
+import { IResetPassword } from 'app/interfaces/IResetPassword';
 import { AuthService } from 'app/services/auth.service';
+import { parseJSON } from 'date-fns';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -43,14 +45,14 @@ export class AuthForgotPasswordComponent implements OnInit {
     };
     forgotPasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
-
+    user: IResetPassword
     /**
      * Constructor
      */
     constructor(
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder
-    ) {}
+    ) { }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -74,6 +76,14 @@ export class AuthForgotPasswordComponent implements OnInit {
      * Send the reset link
      */
     sendResetLink(): void {
+        let userData = JSON.parse(localStorage.getItem("userData"))
+        let fullName = userData.firstName + " " + userData.lastName;
+
+        this.user = {
+            id: userData.id,
+            email: this.forgotPasswordForm.get('email')?.value,
+            name: fullName
+        }
         // Return if the form is invalid
         if (this.forgotPasswordForm.invalid) {
             return;
@@ -87,7 +97,7 @@ export class AuthForgotPasswordComponent implements OnInit {
 
         // Forgot password
         this._authService
-            .forgotPassword(this.forgotPasswordForm.get('email').value)
+            .forgotPassword(this.user)
             .pipe(
                 finalize(() => {
                     // Re-enable the form
@@ -101,24 +111,32 @@ export class AuthForgotPasswordComponent implements OnInit {
                 })
             )
             .subscribe(
-                (response) => {
+                response=> {
                     // Set the alert
-                   if ( response.code === 1 ) {
-                    this.alert = {
-                        type: 'success',
-                        message:
-                            "Password reset sent! You'll receive an email if you are registered on our system.",
-                    };
-                   }
-                },
-                (response) => {
-                    // Set the alert
-                    this.alert = {
-                        type: 'error',
-                        message:
-                            'Email does not found! Are you sure you are already a member?',
-                    };
-                }
+                    if (response.code === 200) {
+                        this.alert = {
+                            type: 'success',
+                            message:
+                                "Réinitialisation du mot de passe envoyée ! Vous recevrez un e-mail si vous êtes inscrit(e) dans notre système",
+                        };
+                    }
+                         if (response.code === 404) {
+                        this.alert = {
+                            type: 'warn',
+                            message:
+                                "Adresse e-mail introuvable ! Êtes-vous sûr(e) d'être déjà inscrit(e) ?",
+                        };
+                    }
+                         if (response.code === 500) {
+                        this.alert = {
+                            type: 'error',
+                            message:
+                                "Une erreur est survenue, merci de réessayer plus tard"
+                        };
+                    }
+
+                    }
+
             );
     }
 }

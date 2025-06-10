@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
     FormsModule,
     NgForm,
@@ -12,11 +12,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { FuseValidators } from '@fuse/validators';
-import { AuthService } from 'app/core/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -46,14 +46,16 @@ export class AuthResetPasswordComponent implements OnInit {
     };
     resetPasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
-
+    token: string;
     /**
      * Constructor
      */
-    constructor(
-        private _authService: AuthService,
-        private _formBuilder: UntypedFormBuilder
-    ) {}
+    private route = inject(ActivatedRoute);
+    private _authService = inject(AuthService);
+    private _formBuilder = inject(UntypedFormBuilder);
+    private router = inject(Router)
+
+
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -76,6 +78,8 @@ export class AuthResetPasswordComponent implements OnInit {
                 ),
             }
         );
+
+        this.token = this.route.snapshot.paramMap.get('token')
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -98,35 +102,44 @@ export class AuthResetPasswordComponent implements OnInit {
         this.showAlert = false;
 
         // Send the request to the server
-        // this._authService
-        //     .resetPassword(this.resetPasswordForm.get('password').value)
-        //     .pipe(
-        //         finalize(() => {
-        //             // Re-enable the form
-        //             this.resetPasswordForm.enable();
+        this._authService
+            .resetPassword(this.token, this.resetPasswordForm.get('password').value)
+            .pipe(
+                finalize(() => {
+                    //   Re-enable the form
+                    this.resetPasswordForm.enable();
 
-        //             // Reset the form
-        //             this.resetPasswordNgForm.resetForm();
+                    //   Reset the form
+                    this.resetPasswordNgForm.resetForm();
 
-        //             // Show the alert
-        //             this.showAlert = true;
-        //         })
-        //     )
-        //     .subscribe(
-        //         (response) => {
-        //             // Set the alert
-        //             this.alert = {
-        //                 type: 'success',
-        //                 message: 'Your password has been reset.',
-        //             };
-        //         },
-        //         (response) => {
-        //             // Set the alert
-        //             this.alert = {
-        //                 type: 'error',
-        //                 message: 'Something went wrong, please try again.',
-        //             };
-        //         }
-        //     );
+                    //   Show the alert
+                    this.showAlert = true;
+                })
+            )
+            .subscribe(
+                response => {
+                    // Set the alert
+                    if (response.success) {
+                        this.alert = {
+                            type: 'success',
+                            message: 'Votre mot de passe a été réinitialisé. Vous allez être redirigé vers la page de connexion...',
+                        };
+
+                        setTimeout(() => {
+                            this.router.navigateByUrl('sign-in');
+                        }, 1000); // 1000 ms = 1 second
+                    }
+
+
+                    else {
+                        this.alert = {
+                            type: 'error',
+                            message: "Une erreur s'est produite, veuillez réessayer.",
+                        };
+                    }
+
+                }
+
+            );
     }
 }

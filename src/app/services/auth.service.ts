@@ -5,6 +5,7 @@ import { User } from 'app/models/User';
 import { environment } from 'environment/environment';
 import { Observable, of } from 'rxjs';
 import { UserService } from './user.service';
+import { IResetPassword } from 'app/interfaces/IResetPassword';
 
 @Injectable({
     providedIn: 'root'
@@ -27,8 +28,11 @@ export class AuthService {
     register(user: User): Observable<any> { // for students
         return this.http.post(`${this.urlApi}/Account/RegisterStudent`, user);
     }
+    verifyRegistrationToken(id: number, token: string) {
+        return this.http.post(`${this.urlApi}/Account/VerifyRegistrationToken`, { id, token });
+    }
 
-    registerProf(user: inscriptionProfInterface): Observable<any> { // for teachers
+    registerProf(user: inscriptionProfInterface): Observable<any> {
         return this.http.post(`${this.urlApi}/Account/RegisterProf`, user);
     }
 
@@ -50,20 +54,26 @@ export class AuthService {
         });
     }
 
-    forgotPassword(email: string): Observable<any> {
-        return this.http.get(`${this.urlApi}/Account/resetPassword/${email}` );
+    forgotPassword(object: IResetPassword): Observable<any> {
+        return this.http.post(`${this.urlApi}/Account/forgetPassword`, {
+            id: object.id,
+            email: object.email,
+            name: object.name
+
+        });
     }
 
+    resetPassword(token: string, password: string): Observable<any> {
 
+        return this.http.post(`${this.urlApi}/Account/resetPassword`, { token, password });
+    }
 
     activeAccount(userId: string | number): Observable<any> {
         return this.http.get(`${this.urlApi}/Account/activeAccount/${userId}`);
     }
 
 
-    resetPassword(password: string): Observable<any> {
-        return this._httpClient.post('api/auth/reset-password', password);
-    }
+
     signOut(): Observable<any> {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
