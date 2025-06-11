@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gradient-to-r p-[5rem] pt-0 from-white to-gray-50">
+  <div class="container px-4 py-16 mx-auto">
+    <a routerLink="/" class="inline-flex items-center mb-8 text-brand-blue hover:underline">
+      <mat-icon class="w-5 h-5 mr-2">arrow_back</mat-icon>
+      Retour à l'accueil
+    </a>
+
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <mat-icon class="w-10 h-10 text-brand-blue">menu_book</mat-icon>
+          <h1 class="text-4xl font-bold text-gray-800">Soutien scolaire</h1>
+        </div>
+        <p class="mb-8 text-lg text-brand-gray">
+          Notre programme de soutien scolaire offre un accompagnement personnalisé pour aider les élèves à renforcer leur niveau académique et améliorer leurs résultats.
+        </p>
+        <div class="mb-8 space-y-4">
+          <div *ngFor="let feature of features" class="flex items-center gap-3">
+            <mat-icon class="h-5 text-[#2E849D]  w-5 text-brand-blue">check_circle</mat-icon>
+            <span class="text-gray-700">{{ feature }}</span>
+          </div>
+        </div>
+        <button class="px-6 py-2 text-lg text-white rounded bg-brand-blue hover:bg-brand-blue/90">
+          Nous contacter
+        </button>
+      </div>
+
+      <div class="p-8 bg-white border border-gray-100 rounded-lg shadow-lg">
+        <div class="mb-8 overflow-hidden rounded-lg">
+          <img
+            src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
+            alt="Soutien scolaire"
+            class="object-cover w-full h-64 transition-transform duration-300 hover:scale-105"
+          />
+        </div>
+        <h2 class="mb-6 text-2xl font-bold text-gray-800">Notre approche</h2>
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Évaluation initiale</h3>
+            <p class="text-brand-gray">Nous commençons par une évaluation approfondie pour identifier les forces et les points à améliorer.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Plan personnalisé</h3>
+            <p class="text-brand-gray">Création d'un programme sur mesure adapté aux objectifs et au rythme de l'élève.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Suivi régulier</h3>
+            <p class="text-brand-gray">Points réguliers avec l'élève et les parents pour ajuster le programme si nécessaire.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

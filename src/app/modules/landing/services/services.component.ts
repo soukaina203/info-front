@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss'
 })
@@ -24,6 +25,7 @@ export class ServicesComponent {
         'Méthodologie de travail',
         'Suivi régulier des progrès',
       ],
+      link:"home/soutien_scolaire"
     },
     {
       icon: 'calendar',
@@ -37,6 +39,7 @@ export class ServicesComponent {
         'Jeux éducatifs',
         'Sorties pédagogiques',
       ],
+      link:"home/activites_scolaire"
     },
     {
       icon: 'globe',
@@ -50,6 +53,8 @@ export class ServicesComponent {
         "Ateliers d'immersion",
         'Méthodes interactives',
       ],
+      link:"home/cours_langues"
+
     },
   ];
 }

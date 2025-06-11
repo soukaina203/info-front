@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gradient-to-r p-[5rem] pt-0 from-white to-gray-50">
+  <div class="container px-4 py-16 mx-auto">
+    <a routerLink="/" class="inline-flex items-center mb-8 text-brand-blue hover:underline">
+      <mat-icon class="mr-2">arrow_back</mat-icon>
+      Retour à l'accueil
+    </a>
+
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <mat-icon class="w-10 h-10 text-brand-blue">language</mat-icon>
+          <h1 class="text-4xl font-bold text-gray-800">Cours de langues</h1>
+        </div>
+        <p class="mb-8 text-lg text-brand-gray">
+          Des sessions intensives ou régulières en anglais, français et espagnol pour renforcer vos compétences linguistiques.
+        </p>
+        <div class="mb-8 space-y-4">
+          <div *ngFor="let feature of features" class="flex items-center gap-3">
+            <mat-icon class="h-5 w-5 text-[#2E849D] text-brand-blue">check_circle</mat-icon>
+            <span class="text-gray-700">{{ feature }}</span>
+          </div>
+        </div>
+        <button class="px-6 py-2 text-lg text-white rounded bg-brand-blue hover:bg-brand-blue/90">
+          Nous contacter
+        </button>
+      </div>
+
+      <div class="p-8 bg-white border border-gray-100 rounded-lg shadow-lg">
+        <div class="mb-8 overflow-hidden rounded-lg">
+          <img
+            src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+            alt="Cours de langues"
+            class="object-cover w-full h-64 transition-transform duration-300 hover:scale-105"
+          />
+        </div>
+        <h2 class="mb-6 text-2xl font-bold text-gray-800">Notre méthode</h2>
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Approche communicative</h3>
+            <p class="text-brand-gray">Accent mis sur la pratique orale et les situations réelles.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Groupes de niveau</h3>
+            <p class="text-brand-gray">Apprentissage adapté à votre niveau et à vos objectifs.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Certification</h3>
+            <p class="text-brand-gray">Préparation aux examens officiels de langues.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

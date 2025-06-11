@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gradient-to-r p-[5rem] pt-0 from-white to-gray-50">
+  <div class="container px-4 py-16 mx-auto">
+    <a routerLink="/" class="inline-flex items-center mb-8 text-brand-blue hover:underline">
+      <mat-icon class="mr-2">arrow_back</mat-icon>
+      Retour à l'accueil
+    </a>
+
+    <div class="grid items-center gap-12 md:grid-cols-2">
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <mat-icon class="w-20 h-20 text-brand-blue">event</mat-icon>
+          <h1 class="text-4xl font-bold text-[#2E849D]">Organisation d'activités scolaires</h1>
+        </div>
+        <p class="mb-8 text-lg text-brand-gray">
+          Nos activités éducatives et ludiques sont conçues pour développer la créativité, l'esprit d'équipe et les compétences transversales de vos enfants.
+        </p>
+        <div class="mb-8 space-y-4">
+          <div *ngFor="let activity of activities" class="flex items-center gap-3">
+            <mat-icon class="w-5 text-[#2E849D] h-5 text-brand-blue">check_circle</mat-icon>
+            <span class="text-gray-700">{{ activity }}</span>
+          </div>
+        </div>
+        <button class="px-6 py-2 text-lg text-white rounded bg-brand-blue hover:bg-brand-blue/90">
+          Nous contacter
+        </button>
+      </div>
+
+      <div class="p-8 bg-white border border-gray-100 rounded-lg shadow-lg">
+        <div class="mb-8 overflow-hidden rounded-lg">
+          <img
+            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+            alt="Activités scolaires"
+            class="object-cover w-full h-64 transition-transform duration-300 hover:scale-105"
+          />
+        </div>
+        <h2 class="mb-6 text-2xl font-bold text-[#2E849D]">Nos programmes</h2>
+        <div class="space-y-6">
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Ateliers créatifs</h3>
+            <p class="text-brand-gray">Des activités stimulantes pour développer l'imagination et la créativité.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Projets de groupe</h3>
+            <p class="text-brand-gray">Apprentissage de la collaboration et du travail en équipe.</p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="font-semibold text-gray-800">Sorties éducatives</h3>
+            <p class="text-brand-gray">Des expériences enrichissantes hors des murs de l'école.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
