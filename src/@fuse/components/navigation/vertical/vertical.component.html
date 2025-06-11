@@ -39,10 +39,29 @@
 
                 <!-- Basic -->
                 @if (item.type === 'basic') {
-                    <fuse-vertical-navigation-basic-item
-                        [item]="item"
-                        [name]="name"
-                    ></fuse-vertical-navigation-basic-item>
+                <ng-container *ngIf="user.role?.name==='Admin' && item.id === 'users'">
+                        <fuse-vertical-navigation-basic-item
+                            [item]="item"
+                            [name]="name">
+                        </fuse-vertical-navigation-basic-item>
+                    </ng-container>
+
+                        <!-- showing planification to prof and admin CRUD just to admin -->
+
+                    <ng-container *ngIf="user.role?.name==='Prof' &&  item.id === 'planification' || user.isAdmin===true &&  item.id === 'planification'">
+                        <fuse-vertical-navigation-basic-item
+                            [item]="item"
+                            [name]="name">
+                        </fuse-vertical-navigation-basic-item>
+                    </ng-container>
+
+
+                    <ng-container *ngIf=" item.id !== 'users' &&  item.id !== 'planification'  ">
+                        <fuse-vertical-navigation-basic-item
+                            [item]="item"
+                            [name]="name">
+                        </fuse-vertical-navigation-basic-item>
+                    </ng-container>
                 }
 
                 <!-- Collapsable -->

@@ -6,7 +6,7 @@ import {
 } from '@angular/animations';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT, NgIf } from '@angular/common';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -46,6 +46,8 @@ import { FuseVerticalNavigationGroupItemComponent } from '@fuse/components/navig
 import { FuseVerticalNavigationSpacerItemComponent } from '@fuse/components/navigation/vertical/components/spacer/spacer.component';
 import { FuseScrollbarDirective } from '@fuse/directives/scrollbar/scrollbar.directive';
 import { FuseUtilsService } from '@fuse/services/utils/utils.service';
+import { User } from 'app/models/User';
+import { UowService } from 'app/services/uow.service';
 import {
     delay,
     filter,
@@ -66,6 +68,8 @@ import {
     exportAs: 'fuseVerticalNavigation',
     standalone: true,
     imports: [
+        CommonModule,
+        NgIf,
         FuseScrollbarDirective,
         FuseVerticalNavigationAsideItemComponent,
         FuseVerticalNavigationBasicItemComponent,
@@ -76,8 +80,7 @@ import {
     ],
 })
 export class FuseVerticalNavigationComponent
-    implements OnChanges, OnInit, AfterViewInit, OnDestroy
-{
+    implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_inner: BooleanInput;
     static ngAcceptInputType_opened: BooleanInput;
@@ -134,6 +137,7 @@ export class FuseVerticalNavigationComponent
     private _fuseScrollbarDirectives!: QueryList<FuseScrollbarDirective>;
     private _fuseScrollbarDirectivesSubscription: Subscription;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    user:User
 
     /**
      * Constructor
@@ -340,11 +344,27 @@ export class FuseVerticalNavigationComponent
     /**
      * On init
      */
+    uow=inject(UowService)
+
     ngOnInit(): void {
         // Make sure the name input is not an empty string
         if (this.name === '') {
             this.name = this._fuseUtilsService.randomId();
         }
+
+        const localStorage1 = localStorage.getItem('userData');
+
+        if (localStorage1) {
+            this.user = JSON.parse(localStorage1)
+        }
+        this.uow.users.GetUserById(JSON.parse(localStorage1).id).subscribe((res:any) => {
+            this.user = res.user
+            console.log(this.user )
+            // console.log("===============")
+            // console.log(res)
+
+            this._changeDetectorRef.detectChanges()
+        })
 
         // Register the navigation component
         this._fuseNavigationService.registerComponent(this.name, this);
