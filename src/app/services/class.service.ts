@@ -18,10 +18,10 @@ export class ClassService extends SuperService<Class> {
         return this.http.get<IResponse>(`${this.urlApi}/Class/GetClassesByProfId/${userId}`);
     }
 
-       search(searchParams) {
-        return this.http.get<Class[]>(`${this.urlApi}/Class/searchCours`, {
+    search(searchParams) {
+        return this.http.get<Class[]>(`${this.urlApi}/Class/SearchClasses`, {
             params: searchParams
 
-         });
+        });
     }
 }

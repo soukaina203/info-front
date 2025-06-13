@@ -41,7 +41,7 @@ import { UowService } from 'app/services/uow.service';
         MatProgressSpinnerModule,
     ],
 })
-export class AuthSignInComponent  {
+export class AuthSignInComponent {
 
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
@@ -58,8 +58,8 @@ export class AuthSignInComponent  {
     showAlert: boolean = false;
 
     myForm = this.fb.group({
-        email: ["viresag291@daxiake.com", [Validators.email, Validators.required]],
-        password: ["viresag291@daxiake.com", [Validators.required/*, Validators.minLength(6)*/]],
+        email: ["xafoya3057@nab4.com", [Validators.email, Validators.required]],
+        password: ["xafoya3057@nab4.com", [Validators.required/*, Validators.minLength(6)*/]],
 
     });
 
@@ -90,7 +90,7 @@ export class AuthSignInComponent  {
                 // Show the alert
                 this.showAlert = true;
             }
-               if (res.code === -4) { // sending email error
+            if (res.code === -4) { // sending email error
                 this.alert = {
                     type: 'error',
                     message: res.message,
@@ -108,14 +108,16 @@ export class AuthSignInComponent  {
 
             }
 
-            if (res.code===1 ) {
+
+            if (res.code === 1) {
+                this.uow.auth._authenticated=true;
                 this.uow.auth.setAccessToken(res.token);
-                console.log(res.userData)
+                console.log(res)
                 localStorage.setItem('userId', res.userId)
                 localStorage.setItem('userData', JSON.stringify(res.userData))
                 this.uow.users.currentUser$.next(res.userData)
 
-           this.router.navigateByUrl('user/dashboard');
+                this.router.navigateByUrl('user/dashboard');
             }
 
 

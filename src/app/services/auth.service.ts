@@ -3,9 +3,10 @@ import { inject, Injectable } from '@angular/core';
 import { inscriptionProfInterface } from 'app/interfaces/inscriptionProf';
 import { User } from 'app/models/User';
 import { environment } from 'environment/environment';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 import { IResetPassword } from 'app/interfaces/IResetPassword';
+import { AuthUtils } from 'app/core/auth/auth.utils';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +16,9 @@ export class AuthService {
     constructor() { }
     protected urlApi: string = environment.apiUrl;
     protected http = inject(HttpClient);
-    private _authenticated: boolean = false;
+    public _authenticated: boolean = false;
     private _httpClient = inject(HttpClient);
+    private _userService = inject(UserService)
 
     setAccessToken(token: string): void {
         localStorage.setItem('accessToken', token);
@@ -70,6 +72,59 @@ export class AuthService {
 
     activeAccount(userId: string | number): Observable<any> {
         return this.http.get(`${this.urlApi}/Account/activeAccount/${userId}`);
+    }
+
+
+    signInUsingToken(): Observable<any> {
+        // Sign in using the token
+        return this._httpClient.post('api/auth/sign-in-with-token', {
+            accessToken: this.accessToken,
+        }).pipe(
+            catchError(() =>
+
+                // Return false
+                of(false),
+            ),
+            switchMap((response: any) => {
+                // Replace the access token with the new one if it's available on
+                // the response object.
+                //
+                // This is an added optional step for better security. Once you sign
+                // in using the token, you should generate a new one on the server
+                // side and attach it to the response object. Then the following
+                // piece of code can replace the token with the refreshed one.
+                if (response.accessToken) {
+                    this.setAccessToken(response.accessToken);
+                }
+
+                // Set the authenticated flag to true
+                this._authenticated = true;
+
+
+                // Return true
+                return of(true);
+            }),
+        );
+    }
+
+    check(): Observable<boolean> {
+        // Check if the user is logged in
+        if (this._authenticated) {
+            return of(true);
+        }
+
+        // Check the access token availability
+        if (!this.accessToken) {
+            return of(false);
+        }
+
+        // Check the access token expire date
+        if (AuthUtils.isTokenExpired(this.accessToken)) {
+            return of(false);
+        }
+
+        // If the access token exists, and it didn't expire, sign in using it
+        return of(true)
     }
 
 

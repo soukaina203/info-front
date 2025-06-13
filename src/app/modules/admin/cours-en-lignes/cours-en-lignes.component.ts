@@ -148,6 +148,9 @@ export class CoursEnLignesComponent {
 
         this.uow.classes.search(searchParams).subscribe((res: any) => {
             this.data = res.list;
+             this.data.forEach(e => {
+                    e.picture= this.sanitizer.bypassSecurityTrustUrl(`${this.environmentUrl}/classes/${e.picture}`)
+                });
             this.recentTransactionsDataSource.data = [...this.data].reverse();
             this.recentTransactionsDataSource.paginator = this.paginator;
         });
