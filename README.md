@@ -37,14 +37,14 @@ export const environment = {
 
 Installer les dépendances :
 npm install
-🚀 Lancement
+## 🚀 Lancement
 Pour démarrer l’application en local :
 ng serve
 
 L’application sera accessible sur :
 📍 http://localhost:4200
 
-🧩 Fonctionnalités principales
+## 🧩 Fonctionnalités principales
 Inscription et connexion des professeurs et des étudiants
 
 Mot de passe oublié et réinitialisation
@@ -61,7 +61,7 @@ Gestion de profils utilisateurs
 
 Landing page et page de présentation des services
 
-🗂️ Structure du projet
+## 🗂️ Structure du projet
 L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface. Voici les principaux dossiers :
 
 /public : Fichiers statiques (images, polices, icônes, traductions, etc.).
@@ -94,7 +94,7 @@ shared/ : Composants réutilisables (modales, popups, etc.)
 
 /src/styles/ : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
 
-🛠️ Choix technologiques
+## 🛠️ Choix technologiques
 Angular : Framework SPA basé sur TypeScript
 
 Tailwind CSS + Fuse Theme : UI moderne, réactive et personnalisable
