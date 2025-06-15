@@ -45,54 +45,54 @@ L’application sera accessible sur :
 📍 http://localhost:4200
 
 ## 🧩 Fonctionnalités principales
-Inscription et connexion des professeurs et des étudiants
+- ** Inscription et connexion des professeurs et des étudiants **
 
-Mot de passe oublié et réinitialisation
+ **Mot de passe oublié et réinitialisation **
 
-Tableau de bord personnalisé
+ ** Tableau de bord personnalisé **
 
-Gestion des utilisateurs
+ **Gestion des utilisateurs **
 
-Gestion des classes virtuelles
+ ** Gestion des classes virtuelles **
 
-Dépôt et gestion de CV
+ **Dépôt et gestion de CV **
 
-Gestion de profils utilisateurs
+ **Gestion de profils utilisateurs **
 
-Landing page et page de présentation des services
+ **Landing page et page de présentation des services **
 
 ## 🗂️ Structure du projet
 L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface. Voici les principaux dossiers :
 
-/public : Fichiers statiques (images, polices, icônes, traductions, etc.).
+ **/public ** : Fichiers statiques (images, polices, icônes, traductions, etc.).
 
-/src/ : Contient tout le code source de l’application.
+ **/src/ ** : Contient tout le code source de l’application.
 
-@fuse/ : Composants et services du thème Fuse (ne pas modifier).
+ **@fuse/ ** : Composants et services du thème Fuse (ne pas modifier).
 
-app/ :
+ **app/ ** : les composants d'application 
 
-core/ : Services globaux, gardes, configurations, validateurs.
+ **core/ ** : Services globaux, gardes, configurations, validateurs.
 
-layout/ : Mise en page générale, menus, notifications, etc.
+ **layout/  **: Mise en page générale, menus, notifications, etc.
 
-mock-api/ : Données fictives pour les tests.
+ **mock-api/ ** : Données fictives pour les tests.
 
-services/ : Gestion de la logique métier et appels API.
+ **services/ ** : Gestion de la logique métier et appels API.
 
-utils/ : Fonctions utilitaires partagées.
+ **utils/ ** : Fonctions utilitaires partagées.
 
-modules/ : Modules fonctionnels regroupés par domaine :
+ **modules/ ** : Modules fonctionnels regroupés par domaine :
 
-auth/ : Authentification (connexion, inscription…)
+ **auth/ ** : Authentification (connexion, inscription…)
 
-landing/ : Composants de la page d’accueil
+ **landing/ ** : Composants de la page d’accueil
 
-admin/ : Composants du tableau de bord
+ **admin/ ** : Composants du tableau de bord
 
-shared/ : Composants réutilisables (modales, popups, etc.)
+ **shared/  **: Composants réutilisables (modales, popups, etc.)
 
-/src/styles/ : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
+ **/src/styles/ ** : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
 
 ## 🛠️ Choix technologiques
 Angular : Framework SPA basé sur TypeScript
