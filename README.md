@@ -1,7 +1,9 @@
-# 📌 Info‑Académie – Frontend
+# 📌 Titre & Description
 
-**Application web développée avec Angular**, permettant aux étudiants de choisir leurs professeurs, et aux enseignants de proposer leurs services.  
-Le projet se concentre actuellement sur **le soutien scolaire et l’apprentissage des langues**.
+**Nom du projet** : Info‑Académie – Frontend
+
+**Description** :  
+Application web développée avec **Angular**, permettant aux étudiants de choisir leurs professeurs, et aux enseignants de proposer leurs services. Le projet se concentre actuellement sur le **soutien scolaire** et l’**apprentissage des langues**.
 
 ---
 
@@ -10,25 +12,20 @@ Le projet se concentre actuellement sur **le soutien scolaire et l’apprentissa
 - **Node.js** : nécessaire pour exécuter Angular et gérer les dépendances. Télécharger la version LTS sur [nodejs.org](https://nodejs.org/).
 - **npm** : installé automatiquement avec Node.js.
 - **Angular CLI** : interface en ligne de commande pour gérer le projet Angular  
-  👉 `npm install -g @angular/cli`
+  ➤ `npm install -g @angular/cli`
 - **Git** : pour cloner le code source depuis le dépôt distant.
 
 ---
 
 ## ⚙️ Configuration
 
-### Cloner le projet :
+Cloner le projet :
 
 bash
-
 git clone https://github.com/soukaina203/info-front.git
 cd info-front
 Configurer l’URL de l’API backend :
 Modifier le fichier src/environments/environment.ts :
-
-ts
-Copier
-Modifier
 const URL_DEV = `http://localhost:5107`;
 
 export const environment = {
@@ -37,63 +34,81 @@ export const environment = {
   url: `${URL_DEV}`,
   mobile: false
 };
+
 Installer les dépendances :
-bash
-Copier
-Modifier
 npm install
 🚀 Lancement
 Pour démarrer l’application en local :
-
-bash
-Copier
-Modifier
 ng serve
-L’application sera accessible sur 👉 http://localhost:4200
+
+L’application sera accessible sur :
+📍 http://localhost:4200
 
 🧩 Fonctionnalités principales
-✅ Inscription et connexion des professeurs et des étudiants
+Inscription et connexion des professeurs et des étudiants
 
-🔐 Mot de passe oublié et réinitialisation
+Mot de passe oublié et réinitialisation
 
-🧑‍🏫 Tableau de bord personnalisé
+Tableau de bord personnalisé
 
-👥 Gestion des utilisateurs
+Gestion des utilisateurs
 
-💻 Gestion des classes virtuelles
+Gestion des classes virtuelles
 
-📄 Dépôt et gestion de CV
+Dépôt et gestion de CV
 
-🔧 Gestion de profils utilisateurs
+Gestion de profils utilisateurs
 
-🏠 Landing page et page de présentation des services
+Landing page et page de présentation des services
 
 🗂️ Structure du projet
-L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface.
+L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface. Voici les principaux dossiers :
 
-bash
-Copier
-Modifier
-/public       → Fichiers statiques (images, polices, traductions, etc.)
-/src/         → Code source de l’application
-  └── @fuse/        → Composants et services du thème Fuse (à ne pas modifier)
-  └── app/
-        └── core/        → Services globaux, gardes, validateurs, config
-        └── layout/      → Mise en page (menus, notifications, etc.)
-        └── mock-api/    → Données fictives pour les tests
-        └── services/    → Logique métier et appels API
-        └── utils/       → Fonctions utilitaires
-        └── modules/
-              └── auth/     → Connexion, inscription, etc.
-              └── landing/  → Page d’accueil
-              └── admin/    → Tableau de bord (dashboard)
-              └── shared/   → Composants réutilisables
-        └── styles/      → Fichiers SCSS, Tailwind, styles externes
+/public : Fichiers statiques (images, polices, icônes, traductions, etc.).
+
+/src/ : Contient tout le code source de l’application.
+
+@fuse/ : Composants et services du thème Fuse (ne pas modifier).
+
+app/ :
+
+core/ : Services globaux, gardes, configurations, validateurs.
+
+layout/ : Mise en page générale, menus, notifications, etc.
+
+mock-api/ : Données fictives pour les tests.
+
+services/ : Gestion de la logique métier et appels API.
+
+utils/ : Fonctions utilitaires partagées.
+
+modules/ : Modules fonctionnels regroupés par domaine :
+
+auth/ : Authentification (connexion, inscription…)
+
+landing/ : Composants de la page d’accueil
+
+admin/ : Composants du tableau de bord
+
+shared/ : Composants réutilisables (modales, popups, etc.)
+
+/src/styles/ : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
+
 🛠️ Choix technologiques
-Technologie	Rôle
-Angular	Framework SPA structuré basé sur TypeScript
-Tailwind CSS + Fuse	UI moderne, rapide à construire et responsive
-.NET Web API	Backend sécurisé pour la gestion des données
-Formulaires réactifs	Gestion avancée des formulaires
-Intercepteurs HTTP	Gestion automatique des tokens, erreurs, etc.
-Routing modulaire	Organisation claire des pages et modules
+Angular : Framework SPA basé sur TypeScript
+
+Tailwind CSS + Fuse Theme : UI moderne, réactive et personnalisable
+
+.NET Web API : Backend pour la gestion des données
+
+Utilisation de :
+
+Formulaires réactifs
+
+Intercepteurs HTTP
+
+Routing modulaire
+
+Services REST
+
+Gestion centralisée des états
