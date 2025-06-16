@@ -42,7 +42,7 @@ ng serve
 **L’application sera accessible sur :**
 http://localhost:4200
 
-## 📌 Fonctionnalités principales
+## Fonctionnalités principales
 
 - **Inscription et connexion des professeurs et des étudiants**  
 - **Mot de passe oublié et réinitialisation**  
@@ -54,7 +54,7 @@ http://localhost:4200
 - **Landing page et page de présentation des services**
 
 
-## 📌 Structure du projet
+## Structure du projet
 
 L'application suit l'architecture **MVVM** et utilise le **Fuse Theme** pour la structure et l’interface. Voici les principaux dossiers :
 
