@@ -19,12 +19,10 @@ Application web développée avec **Angular**, permettant aux étudiants de choi
 
 ## ⚙️ Configuration
 
-Cloner le projet :
-
-bash
+**Cloner le projet** :
 git clone https://github.com/soukaina203/info-front.git
 cd info-front
-Configurer l’URL de l’API backend :
+**Configurer l’URL de l’API backend :**
 Modifier le fichier src/environments/environment.ts :
 const URL_DEV = `http://localhost:5107`;
 
@@ -35,17 +33,17 @@ export const environment = {
   mobile: false
 };
 
-Installer les dépendances :
+**Installer les dépendances :**
 npm install
 ## 🚀 Lancement
-Pour démarrer l’application en local :
+**Pour démarrer l’application en local :**
 ng serve
 
-L’application sera accessible sur :
+**L’application sera accessible sur :**
 📍 http://localhost:4200
 
 ## 🧩 Fonctionnalités principales
-- ** Inscription et connexion des professeurs et des étudiants **
+**Inscription et connexion des professeurs et des étudiants**
 
  **Mot de passe oublié et réinitialisation**
 
@@ -97,18 +95,10 @@ L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structur
 ## 🛠️ Choix technologiques
 Angular : Framework SPA basé sur TypeScript
 
-Tailwind CSS + Fuse Theme : UI moderne, réactive et personnalisable
+**Tailwind CSS + Fuse Theme :** UI moderne, réactive et personnalisable
 
-.NET Web API : Backend pour la gestion des données
+**.NET Web API** : Backend pour la gestion des données
 
-Utilisation de :
+Utilisation de : Formulaires réactifs , Intercepteurs HTTP , Routing modulaire , Services REST , Gestion centralisée des états
 
-Formulaires réactifs
 
-Intercepteurs HTTP
-
-Routing modulaire
-
-Services REST
-
-Gestion centralisée des états
