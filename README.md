@@ -43,7 +43,7 @@ ng serve
 http://localhost:4200
 
 ## 📌 Fonctionnalités principales
-    **Inscription et connexion des professeurs et des étudiants**
+- **Inscription et connexion des professeurs et des étudiants**
 
     **Mot de passe oublié et réinitialisation**
 
