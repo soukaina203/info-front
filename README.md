@@ -1,4 +1,4 @@
-# 📌 Titre & Description
+# Titre & Description
 
 **Nom du projet** : Info‑Académie – Frontend
 
@@ -7,7 +7,7 @@ Application web développée avec **Angular**, permettant aux étudiants de choi
 
 ---
 
-## ✅ Prérequis
+## Prérequis
 
 - **Node.js** : nécessaire pour exécuter Angular et gérer les dépendances. Télécharger la version LTS sur [nodejs.org](https://nodejs.org/).
 - **npm** : installé automatiquement avec Node.js.
@@ -17,7 +17,7 @@ Application web développée avec **Angular**, permettant aux étudiants de choi
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 **Cloner le projet** :
 git clone https://github.com/soukaina203/info-front.git
@@ -35,14 +35,14 @@ export const environment = {
 
 **Installer les dépendances :**
 npm install
-## 🚀 Lancement
+## Lancement
 **Pour démarrer l’application en local :**
 ng serve
 
 **L’application sera accessible sur :**
-📍 http://localhost:4200
+http://localhost:4200
 
-## 🧩 Fonctionnalités principales
+##  Fonctionnalités principales
 **Inscription et connexion des professeurs et des étudiants**
 
  **Mot de passe oublié et réinitialisation**
@@ -59,7 +59,7 @@ ng serve
 
  **Landing page et page de présentation des services**
 
-## 🗂️ Structure du projet
+## Structure du projet
 L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface. Voici les principaux dossiers :
 
  **/public** : Fichiers statiques (images, polices, icônes, traductions, etc.).
@@ -92,7 +92,7 @@ L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structur
 
  **/src/styles/** : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
 
-## 🛠️ Choix technologiques
+## Choix technologiques
 Angular : Framework SPA basé sur TypeScript
 
 **Tailwind CSS + Fuse Theme :** UI moderne, réactive et personnalisable
