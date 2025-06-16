@@ -43,55 +43,37 @@ ng serve
 http://localhost:4200
 
 ## 📌 Fonctionnalités principales
-- **Inscription et connexion des professeurs et des étudiants**
 
-    **Mot de passe oublié et réinitialisation**
-
-    **Tableau de bord personnalisé**
-
-    **Gestion des utilisateurs**
-
-    **Gestion des classes virtuelles**
-
-    **Dépôt et gestion de CV**
-
-    **Gestion de profils utilisateurs**
-
-    **Landing page et page de présentation des services**
+- **Inscription et connexion des professeurs et des étudiants**  
+- **Mot de passe oublié et réinitialisation**  
+- **Tableau de bord personnalisé**  
+- **Gestion des utilisateurs**  
+- **Gestion des classes virtuelles**  
+- **Dépôt et gestion de CV**  
+- **Gestion de profils utilisateurs**  
+- **Landing page et page de présentation des services**
 
 
-## Structure du projet
-L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface. Voici les principaux dossiers :
+## 📌 Structure du projet
 
- **/public** : Fichiers statiques (images, polices, icônes, traductions, etc.).
+L'application suit l'architecture **MVVM** et utilise le **Fuse Theme** pour la structure et l’interface. Voici les principaux dossiers :
 
- **/src/** : Contient tout le code source de l’application.
+- **/public** : Fichiers statiques (images, polices, icônes, traductions, etc.).
+- **/src/** : Contient tout le code source de l’application.
+  - **@fuse/** : Composants et services du thème Fuse (ne pas modifier).
+  - **app/** : Composants de l'application.
+  - **core/** : Services globaux, gardes, configurations, validateurs.
+  - **layout/** : Mise en page générale, menus, notifications, etc.
+  - **mock-api/** : Données fictives pour les tests.
+  - **services/** : Gestion de la logique métier et appels API.
+  - **utils/** : Fonctions utilitaires partagées.
+  - **modules/** : Modules fonctionnels regroupés par domaine :
+    - **auth/** : Authentification (connexion, inscription…)
+    - **landing/** : Composants de la page d’accueil
+    - **admin/** : Composants du tableau de bord
+    - **shared/** : Composants réutilisables (modales, popups, etc.)
+  - **/src/styles/** : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
 
- **@fuse/** : Composants et services du thème Fuse (ne pas modifier).
-
- **app/** : les composants d'application 
-
- **core/** : Services globaux, gardes, configurations, validateurs.
-
- **layout/**: Mise en page générale, menus, notifications, etc.
-
- **mock-api/** : Données fictives pour les tests.
-
- **services/** : Gestion de la logique métier et appels API.
-
- **utils/** : Fonctions utilitaires partagées.
-
- **modules/** : Modules fonctionnels regroupés par domaine :
-
- **auth/** : Authentification (connexion, inscription…)
-
- **landing/** : Composants de la page d’accueil
-
- **admin/** : Composants du tableau de bord
-
- **shared/**: Composants réutilisables (modales, popups, etc.)
-
- **/src/styles/** : Fichiers SCSS globaux, Tailwind et styles des bibliothèques externes.
 
 ## Choix technologiques
 Angular : Framework SPA basé sur TypeScript
@@ -100,6 +82,6 @@ Angular : Framework SPA basé sur TypeScript
 
 **.NET Web API** : Backend pour la gestion des données
 
-Utilisation de : Formulaires réactifs , Intercepteurs HTTP , Routing modulaire , Services REST , Gestion centralisée des états
+**Utilisation de** : Formulaires réactifs , Intercepteurs HTTP , Routing modulaire , Services REST , Gestion centralisée des états
 
 
