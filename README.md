@@ -42,22 +42,23 @@ ng serve
 **L’application sera accessible sur :**
 http://localhost:4200
 
-##  Fonctionnalités principales
-**Inscription et connexion des professeurs et des étudiants**
+## 📌 Fonctionnalités principales
+    **Inscription et connexion des professeurs et des étudiants**
 
- **Mot de passe oublié et réinitialisation**
+    **Mot de passe oublié et réinitialisation**
 
- **Tableau de bord personnalisé**
+    **Tableau de bord personnalisé**
 
- **Gestion des utilisateurs**
+    **Gestion des utilisateurs**
 
- **Gestion des classes virtuelles**
+    **Gestion des classes virtuelles**
 
- **Dépôt et gestion de CV**
+    **Dépôt et gestion de CV**
 
- **Gestion de profils utilisateurs**
+    **Gestion de profils utilisateurs**
 
- **Landing page et page de présentation des services**
+    **Landing page et page de présentation des services**
+
 
 ## Structure du projet
 L'application suit l'architecture MVVM et utilise le Fuse Theme pour la structure et l’interface. Voici les principaux dossiers :
