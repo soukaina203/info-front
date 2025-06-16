@@ -76,7 +76,7 @@ L'application suit l'architecture **MVVM** et utilise le **Fuse Theme** pour la 
 
 
 ## Choix technologiques
-Angular : Framework SPA basé sur TypeScript
+**Angular** : Framework SPA basé sur TypeScript
 
 **Tailwind CSS + Fuse Theme :** UI moderne, réactive et personnalisable
 
