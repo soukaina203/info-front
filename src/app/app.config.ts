@@ -15,7 +15,7 @@ import { appRoutes } from 'app/app.routes';
 import { provideAuth } from 'app/core/auth/auth.provider';
 import { provideIcons } from 'app/core/icons/icons.provider';
 import { mockApiServices } from 'app/mock-api';
-import { firstValueFrom } from 'rxjs';
+import { defaultIfEmpty, firstValueFrom } from 'rxjs';
 import { TranslocoHttpLoader } from './core/transloco/transloco.http-loader';
 
 export const appConfig: ApplicationConfig = {
@@ -76,7 +76,10 @@ export const appConfig: ApplicationConfig = {
                 const defaultLang = translocoService.getDefaultLang();
                 translocoService.setActiveLang(defaultLang);
 
-                return () => firstValueFrom(translocoService.load(defaultLang));
+                return () =>
+                    firstValueFrom(
+                        translocoService.load(defaultLang).pipe(defaultIfEmpty(null))
+                    );
             },
             multi: true,
         },

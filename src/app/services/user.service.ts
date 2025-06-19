@@ -22,4 +22,10 @@ export class UserService extends SuperService<inscriptionProfInterface>{
     GetUserById(id:number): Observable<User>{
         return this.http.get<User>(`${this.urlApi}/Users/GetUserById/${id}`);
     }
+
+     putUser( id: number | string, dto:any ): Observable<any>{
+        return this.http.put<User>(`${this.urlApi}/Users/PutUser/${id}`,dto);
+    }
+
+
 }

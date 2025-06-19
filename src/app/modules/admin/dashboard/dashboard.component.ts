@@ -36,7 +36,7 @@ export class DashboardComponent {
   ];
 
   stats = [
-    { icon: 'group', value: '500+', label: 'Étudiants actifs' },
+    { icon: 'group', value: '750+', label: 'Étudiants actifs' },
     { icon: 'star', value: '4.9', label: 'Note moyenne' },
     { icon: 'schedule', value: '24/7', label: 'Support disponible' }
   ];

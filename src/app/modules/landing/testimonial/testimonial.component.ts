@@ -28,9 +28,9 @@ export class TestimonialComponent {
       ];
 
       stats = [
-        { value: '950+', label: 'Élèves accompagnés' },
+        { value: '750+', label: 'Élèves accompagnés' },
         { value: '92%', label: 'Taux de réussite' },
         { value: '15+', label: 'Programmes éducatifs' },
-        { value: '8', label: "Années d'expérience" }
+        { value: '6', label: "Années d'expérience" }
       ];
 }

@@ -30,6 +30,7 @@ import { UowService } from 'app/services/uow.service';
     imports: [
         RouterLink,
         FuseAlertComponent,
+
         FormsModule,
         ReactiveFormsModule,
         MatFormFieldModule,

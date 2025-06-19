@@ -18,7 +18,8 @@ export class AuthUtils {
      */
     static isTokenExpired(token: string, offsetSeconds?: number): boolean {
         // Return if there is no token
-        if (!token || token === '') {
+
+        if (!token || token == ""|| token == 'null' ) {
             return true;
         }
 
@@ -144,7 +145,7 @@ export class AuthUtils {
 
         if (parts.length !== 3) {
             throw new Error(
-                "The inspected token doesn't appear to be a JWT. Check to make sure it has three parts and see https://jwt.io for more."
+                "the token should contain 3 parts"
             );
         }
 

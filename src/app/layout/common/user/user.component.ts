@@ -20,6 +20,7 @@ import { User } from 'app/models/User';
 import { environment } from 'environment/environment';
 import { Subject, takeUntil } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
     selector: 'user',
@@ -49,19 +50,12 @@ export class UserComponent implements OnInit, OnDestroy {
     Url: SafeUrl
 
     private router = inject(Router)
+    private sanitizer = inject(DomSanitizer)
+    private authService = inject(AuthService)
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-    /**
-     * Constructor
-     */
-    constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router,
-        private _userService: UserService,
-        private sanitizer: DomSanitizer
 
-    ) { }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -74,7 +68,10 @@ export class UserComponent implements OnInit, OnDestroy {
         // Subscribe to user changes
         this.user = JSON.parse(localStorage.getItem("userData"));
         console.log(this.user)
-        this.Url = this.sanitizer.bypassSecurityTrustUrl(`${this.url}/photos/${this.user.photo}`)
+        if (this.user!=null) {
+
+            this.Url = this.sanitizer.bypassSecurityTrustUrl(`${this.url}/photos/${this.user.photo}`)
+        }
 
         // this._userService.user$
         //     .pipe(takeUntil(this._unsubscribeAll))
@@ -111,6 +108,8 @@ export class UserComponent implements OnInit, OnDestroy {
     signOut(): void {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        this.authService._authenticated=false;
+
         this.router.navigate(['/']);
     }
 }

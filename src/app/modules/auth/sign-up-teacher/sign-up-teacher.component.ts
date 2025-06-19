@@ -138,7 +138,7 @@ export class SignUpTeacherComponent {
 
     // upload of cvs
     private uploadCvAndRegister(): void {
-        this.uow.upload.uploadFile(this.CvFile! , "cvs").subscribe({
+        this.uow.upload.uploadFile(this.CvFile!, "cvs").subscribe({
             next: (res) => {
                 if (res.code !== 1) {
 
@@ -199,11 +199,21 @@ export class SignUpTeacherComponent {
                         message: 'Email existe déjà',
                     };
                 }
-                localStorage.setItem('accessToken', res.token)
-                localStorage.setItem('userId', res.userId)
-              localStorage.setItem('userData', res.userData)
-                this.uow.users.currentUser$.next(res.userData)
-                this.router.navigateByUrl('verify/mail');
+                if (res.code==1 && res.isEmailSended) {
+                    localStorage.setItem('accessToken', res.token)
+                    localStorage.setItem('userId', res.userId)
+                    localStorage.setItem('userData', res.userData)
+                    this.uow.users.currentUser$.next(res.userData)
+                    this.router.navigateByUrl('verify/mail');
+
+                }else{
+                    this.myForm.enable();
+                this.showAlert = true;
+                this.alert = {
+                    type: 'error',
+                    message: 'Erreur lors de l’inscription. Veuillez réessayer.',
+                };
+                }
 
             },
             error: () => {

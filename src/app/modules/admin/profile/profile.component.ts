@@ -205,7 +205,7 @@ export class ProfileComponent {
             user: user,
             profProfile: this.user.roleId === 1 ? profProfile : null
         };
-        this.uow.users.put(user.id, dataToSend).subscribe((res: any) => {
+        this.uow.users.putUser(user.id, dataToSend).subscribe((res: any) => {
             if (res.code === 200) {
                 this.user = res.userData;
                 this.openPopup('Profil mis à jour');
