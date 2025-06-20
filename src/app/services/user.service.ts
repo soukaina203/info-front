@@ -7,10 +7,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'environment/environment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class UserService extends SuperService<inscriptionProfInterface>{
-    currentUser$= new BehaviorSubject<User | null>(null);
+export class UserService extends SuperService<inscriptionProfInterface> {
+    currentUser$ = new BehaviorSubject<User | null>(null);
     protected urlApi: string = environment.apiUrl;
     protected http = inject(HttpClient);
 
@@ -19,12 +19,23 @@ export class UserService extends SuperService<inscriptionProfInterface>{
         super('users');
 
     }
-    GetUserById(id:number): Observable<User>{
+    GetUserById(id: number): Observable<User> {
         return this.http.get<User>(`${this.urlApi}/Users/GetUserById/${id}`);
     }
 
-     putUser( id: number | string, dto:any ): Observable<any>{
-        return this.http.put<User>(`${this.urlApi}/Users/PutUser/${id}`,dto);
+    putUser(id: number | string, dto: any): Observable<any> {
+        return this.http.put<User>(`${this.urlApi}/Users/PutUser/${id}`, dto);
+    }
+
+    searchUsers(nom: string, prenom: string, email: string, roleId: number) {
+        return this.http.get<any>(`${this.urlApi}/Users/SearchUsers`, {
+            params: {
+                nom,
+                prenom,
+                email,
+                roleId: roleId.toString()
+            }
+        });
     }
 
 

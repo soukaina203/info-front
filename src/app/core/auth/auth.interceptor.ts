@@ -18,10 +18,7 @@ export const authInterceptor = (
     let newReq = req;
 
     // Check token validity
-    console.log(req.url)
     if (!authService.accessToken || AuthUtils.isTokenExpired(authService.accessToken)) {
-        console.log('Interceptor: No valid token available, not attaching Authorization header');
-        console.log(authService.accessToken);
         // Continue the request without Authorization header
         return next(req);
     }
@@ -40,7 +37,6 @@ export const authInterceptor = (
                 if (req.url.includes('/Account/refresh')) {
                     authService.signOut();
                      location.href = '/sign-in';
-                     console.log("i am here")
                     return throwError(() => error);
                 }
 

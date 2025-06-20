@@ -39,7 +39,7 @@
 
                 <!-- Basic -->
                 @if (item.type === 'basic') {
-                <ng-container *ngIf="user.role?.name==='Admin' && item.id === 'users'">
+                <ng-container *ngIf="user.role?.name==='Admin' && item.id === 'users' || user.role?.name==='Admin' && item.id === 'planification'" >
                         <fuse-vertical-navigation-basic-item
                             [item]="item"
                             [name]="name">

@@ -24,7 +24,7 @@
                 <div class="p-6">
                     <div>
                         <div class="flex">
-                            <mat-form-field class="flex-auto">
+                            <mat-form-field class="flex-auto mr-2">
                                 <mat-label>Nom</mat-label>
                                 <mat-icon matPrefix class="hidden sm:flex icon-size-5" svgIcon="heroicons_solid:user-circle"></mat-icon>
                                 <input matInput [(ngModel)]="nom">
@@ -47,7 +47,7 @@
                             <mat-label>Roles</mat-label>
                             <mat-select [(ngModel)]="idRole" (selectionChange)="choosenRole($event.value)">
                                 <ng-container *ngFor="let role of roles">
-                                    <mat-option [value]="role.id">{{role.nom}}</mat-option>
+                                    <mat-option [value]="role.id">{{role.name}}</mat-option>
                                 </ng-container>
                             </mat-select>
                         </mat-form-field>
@@ -56,7 +56,7 @@
                             Enregistrer
                         </button>
 
-                        <button class="ml-auto bg-gray-200" mat-flat-button (click)="openSearchBar()">
+                        <button class="ml-2 bg-gray-200" mat-flat-button (click)="openSearchBar()">
                             Cancel
                         </button>
                     </div>

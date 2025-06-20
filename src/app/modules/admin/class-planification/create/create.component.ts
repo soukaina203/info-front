@@ -54,7 +54,7 @@ export class CreateComponent {
     private router= inject(Router)
 
     createForm() {
-        let user = JSON.parse(localStorage.getItem("user"))
+        let user = JSON.parse(localStorage.getItem("userData"))
         this.myForm = this.fb.group({
             id: [this.reunion.id||0],
             title: [this.reunion.title, [Validators.required, Validators.minLength(3)]],
@@ -68,7 +68,8 @@ export class CreateComponent {
                 ]
             ],
             description: [this.reunion.description, [Validators.required]],
-            picture: [this.reunion.picture, ],
+            picture: [this.reunion.picture ],
+            userId:user.id
         });
     }
 
@@ -129,7 +130,7 @@ export class CreateComponent {
 
 
         if (this.selectedFile) {
-            this.uow.upload.uploadFile(this.selectedFile, "reunions").subscribe((res) => {
+            this.uow.upload.uploadFile(this.selectedFile, "classes").subscribe((res) => {
                 classe.picture = res.fileName
                 this.uow.classes.post(classe).subscribe((res: any) => {
                     if (res.message === "success") {

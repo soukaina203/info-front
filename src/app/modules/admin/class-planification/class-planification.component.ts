@@ -52,8 +52,7 @@ export class ClassPlanificationComponent {
 
     private uow = inject(UowService)
     private _unsubscribeAll = new Subject<any>();
-    user: User = JSON.parse(localStorage.getItem("user"));
-
+    user: User = JSON.parse(localStorage.getItem("userData"))
     paginatorEvent = new Subject<PageEvent>();
     list: User[] = [];
     isSearchBarOpened = false;
@@ -86,54 +85,46 @@ export class ClassPlanificationComponent {
 
 
     ngOnInit(): void {
-        let user = JSON.parse(localStorage.getItem("userData"))
-        this.uow.role.getOne(user.roleId).subscribe((res: Role) => {
+        this.uow.role.getOne(this.user.roleId).subscribe((res: Role) => {
             this.currentRole = res.name
-            if ( this.currentRole === "Prof") {
+            console.log(this.currentRole)
+            if (this.currentRole == "Prof") {
+                console.log("i am prof")
                 this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'actions']
+                this.uow.classes.getClassesByProfId(this.user.id).subscribe((res: IResponse) => {
+                    console.log(res)
+                    if (res.data !== null) {
+                        this.data = res.data;
+                        this.recentTransactionsDataSource.data = [...this.data].reverse();
+                        this.recentTransactionsDataSource.paginator = this.paginator;
+                    }
+                    else {
+                        console.log(
+                            "No data fetched"
+                        )
+                    }
+                }
+                );
             }
-            if (this.currentRole==="Admin") {
+            if (this.currentRole == "Admin") {
                 this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions']
+                this.uow.classes.getAll().subscribe((res: any) => {
+                    console.log("i am admin")
 
+                    this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions'];
+                    if (res.data !== null) {
+                        this.data = res.data;
+                        this.recentTransactionsDataSource.data = [...this.data].reverse();
+                        this.recentTransactionsDataSource.paginator = this.paginator;
+                    }
+                    else {
+                        console.log(
+                            "No data fetched"
+                        )
+                    }
+                });
             }
         })
-
-
-        if (this.currentRole === "Prof") {
-            this.uow.classes.getClassesByProfId(user.id).subscribe((res: IResponse) => {
-                console.log(res)
-                if (res.data !== null) {
-                    this.data = res.data;
-                    this.recentTransactionsDataSource.data = [...this.data].reverse();
-                    this.recentTransactionsDataSource.paginator = this.paginator;
-                }
-                else {
-                    console.log(
-                        "No data fetched"
-                    )
-                }
-            }
-            );
-        } else {
-            this.uow.classes.getAll().subscribe((res: any) => {
-                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions'];
-                if (res.data !== null) {
-                    this.data = res.data;
-                    this.recentTransactionsDataSource.data = [...this.data].reverse();
-                    this.recentTransactionsDataSource.paginator = this.paginator;
-                }
-                else {
-                    console.log(
-                        "No data fetched"
-                    )
-                }
-            });
-        }
-
-
-
-
-
 
     }
 

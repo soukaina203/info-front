@@ -28,7 +28,7 @@ export class VerifiedComponent {
                         // Wait 2 seconds and redirect to login
                         if (res.code === 1 ) {
                             setTimeout(() => {
-                                this.router.navigate(['/user']);
+                                this.router.navigate(['/sign-in']);
                             }, 2000);
                         } else {
                             // fuse poppups

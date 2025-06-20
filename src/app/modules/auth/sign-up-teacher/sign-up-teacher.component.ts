@@ -183,61 +183,48 @@ export class SignUpTeacherComponent {
     }
 
     // send the profProfile and user objects
-    private registerUser(user: inscriptionProfInterface): void {
-        this.myForm.disable();
-        this.showAlert = false;
-        this.authService.registerProf(user).subscribe({
+private registerUser(user: inscriptionProfInterface): void {
+    this.myForm.disable();
+    this.showAlert = false;
 
-            next: (res) => {
-                this.myForm.enable();
-                console.log("==============")
-                console.log(res)
-                if (res.code === -1) {
-                    this.showAlert = true;
-                    this.alert = {
-                        type: 'error',
-                        message: 'Email existe déjà',
-                    };
-                }
-                if (res.code==1 && res.isEmailSended) {
-                    localStorage.setItem('accessToken', res.token)
-                    localStorage.setItem('userId', res.userId)
-                    localStorage.setItem('userData', res.userData)
-                    this.uow.users.currentUser$.next(res.userData)
-                    this.router.navigateByUrl('verify/mail');
+    this.authService.registerProf(user).subscribe({
+        next: (res) => {
+            this.myForm.enable();
+            console.log("==============");
+            console.log(res);
 
-                }else{
-                    this.myForm.enable();
+            if (res.code === -1) {
                 this.showAlert = true;
                 this.alert = {
                     type: 'error',
-                    message: 'Erreur lors de l’inscription. Veuillez réessayer.',
+                    message: 'Email existe déjà',
                 };
-                }
-
-            },
-            error: () => {
-                this.myForm.enable();
+            } else if (res.code === 1 && res.isEmailSended) {
+                localStorage.setItem('accessToken', res.token);
+                localStorage.setItem('userId', res.userId);
+                localStorage.setItem('userData', res.userData);
+                this.uow.users.currentUser$.next(res.userData);
+                this.router.navigateByUrl('verify/mail');
+            } else {
                 this.showAlert = true;
                 this.alert = {
                     type: 'error',
                     message: 'Erreur lors de l’inscription. Veuillez réessayer.',
                 };
             }
-        });
-    }
+        },
+        error: (err) => {
+            this.myForm.enable();
+            this.showAlert = true;
+            this.alert = {
+                type: 'error',
+                message: 'Une erreur s’est produite. Veuillez réessayer.',
+            };
+            console.error('Erreur inscription :', err);
+        }
+    });
+}
 
-    private sendVerificationEmail(user: User): void {
-        const fullName = `${user.lastName} ${user.firstName}`;
-        const mailData = {
-            toEmail: user.email,
-            name: fullName,
-            body: '',
-            subject: "Vérifier votre adresse email pour compléter l'inscription"
-        };
-
-        this.uow.auth.SendVerificationMail(mailData).subscribe();
-    }
 
 
 
