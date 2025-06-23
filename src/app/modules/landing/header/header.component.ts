@@ -28,6 +28,11 @@ export class HeaderComponent {
     private authService = inject(AuthService)
 
 
+    scrollTo(section: any) {
+        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' ,  block: 'start'
+ });
+    }
+
     ngOnInit() {
         // let user = localStorage.getItem("user");
         // user !== null ? this.isConnected = true : this.isConnected = false
@@ -44,7 +49,7 @@ export class HeaderComponent {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        this.authService._authenticated=false;
+        this.authService._authenticated = false;
         this.router.navigate(['/']);
     }
     profileOptions() {

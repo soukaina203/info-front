@@ -1,4 +1,4 @@
-<section class="bg-[#2E849D] py-16">
+<section class="bg-[#2E849D] py-16" id="cta">
     <div class="container px-4 mx-auto md:px-6">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="mb-4 text-3xl font-bold text-white md:text-4xl">
@@ -8,10 +8,10 @@
           Rejoignez Info Académie et bénéficiez d'un accompagnement personnalisé pour atteindre vos objectifs académiques.
         </p>
         <div class="flex flex-col justify-center gap-4 sm:flex-row">
-          <button class="bg-white text-[#2E849D] hover:bg-gray-100 px-8 py-3 text-lg rounded-lg font-medium">
+          <button routerLink="/choose" class="bg-white text-[#2E849D] hover:bg-gray-100 px-8 py-3 text-lg rounded-lg font-medium">
             S'inscrire maintenant
           </button>
-          <button class="px-8 py-3 text-lg font-medium text-white border border-white rounded-lg hover:bg-white/10">
+          <button (click)="scrollTo('contact')"  class="px-8 py-3 text-lg font-medium text-white border border-white rounded-lg hover:bg-white/10">
             Nous contacter
           </button>
         </div>

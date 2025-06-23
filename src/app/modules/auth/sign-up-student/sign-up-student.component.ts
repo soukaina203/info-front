@@ -25,25 +25,35 @@ import { UowService } from 'app/services/uow.service';
     styleUrl: './sign-up-student.component.scss'
 })
 export class SignUpStudentComponent {
+    // Référence au formulaire Angular
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
+    // Injection des services nécessaires
     private authService = inject(AuthService)
     private fb = inject(FormBuilder)
     private router = inject(Router)
     private uow = inject(UowService)
+
+    // Déclaration du formulaire réactif
     myForm
+
+    // Indicateur si les mots de passe ne correspondent pas
     isPwdInequal: boolean = false
+
+    // Modèle utilisateur
     user: User = new User
+
+    // Affichage ou non de l'alerte d'erreur ou de succès
     showAlert: boolean = false;
 
+    // Objet contenant le type et le message de l'alerte
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
 
-
+    // Initialisation du formulaire avec les contrôles et leurs validations
     ngOnInit() {
-
         this.myForm = this.fb.group({
             id: 0,
             firstName: ['Soukaina', [Validators.required, Validators.minLength(3)]],
@@ -53,78 +63,72 @@ export class SignUpStudentComponent {
             confirmPassword: ['Moura@gmail.com', [Validators.required]],
             telephone: ['0625148599', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
             roleId: 2,
-
-
         });
     }
+
+    // Vérification que les mots de passe correspondent
     verify() {
         const user = this.myForm.getRawValue();
         console.log(user)
         user.password !== user.confirmPassword ? this.isPwdInequal = true : this.isPwdInequal = false
-
     }
 
+    // Méthode d'inscription appelée lors de la soumission du formulaire
     signIn(): void {
         const { confirmPassword, ...user } = this.myForm.getRawValue();
 
-        // const user = this.myForm.getRawValue() as User;
-        console.log(user)
-        // Return if the form is invalid
+        // Retour si le formulaire est invalide
         if (this.myForm.invalid) {
             return;
         }
 
-        // Disable the form
+        // Désactivation du formulaire pendant la requête
         this.myForm.disable();
 
-        // Hide the alert
+        // Masquage de l'alerte avant traitement
         this.showAlert = false;
 
-        // Sign in
+        // Appel du service d'inscription
         this.authService.register(user).subscribe((res) => {
+            // Réactivation du formulaire après réponse
             this.myForm.enable();
-            console.log("===============")
-            console.log(res)
+
             if (res.code === -2) {
+                // Affichage d'une erreur générique renvoyée par le backend
                 this.alert = {
                     type: 'error',
                     message: res.Message,
                 };
-                // Show the alert
                 this.showAlert = true;
             }
 
             if (res.code === -1) {
+                // Erreur spécifique : email déjà utilisé
                 this.alert = {
                     type: 'error',
                     message: 'Email existe deja',
                 };
-                // Show the alert
                 this.showAlert = true;
             }
 
             if (res.code === 1) {
-
+                // Inscription réussie, vérification de l'envoi de mail
                 if (res.isEmailSended != true) {
-
+                    // Erreur lors de l'envoi du mail de vérification
                     this.alert = {
                         type: 'error',
                         message: "Erreur lors de l'envoi de l'e-mail de vérification. Veuillez réessayer plus tard.",
                     };
                     this.showAlert = true;
-
                 } else {
-                    console.log(res.userData)
-                     localStorage.setItem('accessToken', res.token)
-                     localStorage.setItem('userId', res.userId)
-                     localStorage.setItem('userData', JSON.stringify(res.userData));
-                     this.uow.users.currentUser$.next(res.userData)
-                     this.router.navigateByUrl('verify/mail');
-
+                    // Enregistrement des données utilisateur et navigation vers la page de vérification email
+                    localStorage.setItem('accessToken', res.token)
+                    localStorage.setItem('userId', res.userId)
+                    localStorage.setItem('userData', JSON.stringify(res.userData));
+                    this.uow.users.currentUser$.next(res.userData)
+                    this.router.navigateByUrl('verify/mail');
                 }
-
             }
-
         })
     }
 }

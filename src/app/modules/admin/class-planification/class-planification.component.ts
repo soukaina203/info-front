@@ -1,3 +1,4 @@
+// Importation des services, modules Angular, composants Material, et modèles nécessaires
 import { UowService } from './../../../services/uow.service';
 import { CommonModule, CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,9 +22,9 @@ import { environment } from 'environment/environment';
 import { IResponse } from 'app/interfaces/IResponse';
 
 @Component({
-    selector: 'app-class-planification',
-    standalone: true,
-    imports: [
+    selector: 'app-class-planification', // Sélecteur HTML du composant
+    standalone: true, // Composant autonome Angular
+    imports: [ // Modules Angular et tiers utilisés dans ce composant
         CommonModule,
         MatButtonModule,
         MatIconModule,
@@ -43,104 +44,102 @@ import { IResponse } from 'app/interfaces/IResponse';
         MatIconModule,
         MatModule
     ],
-    templateUrl: './class-planification.component.html',
-    styleUrl: './class-planification.component.scss'
+    templateUrl: './class-planification.component.html', // Template HTML du composant
+    styleUrl: './class-planification.component.scss' // Fichier de styles associé
 })
 export class ClassPlanificationComponent {
+    // Références aux éléments de tri et de pagination dans le DOM
     @ViewChild('recentTransactionsTable', { read: MatSort }) recentTransactionsTableMatSort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
+    // Injection du service de gestion des données
     private uow = inject(UowService)
-    private _unsubscribeAll = new Subject<any>();
-    user: User = JSON.parse(localStorage.getItem("userData"))
-    paginatorEvent = new Subject<PageEvent>();
+    private _unsubscribeAll = new Subject<any>(); // Permet de gérer les désabonnements RxJS
+
+    // Déclarations des propriétés du composant
+    user: User = JSON.parse(localStorage.getItem("userData")) // Récupération de l'utilisateur connecté
+    paginatorEvent = new Subject<PageEvent>(); // Pour écouter les événements de pagination
     list: User[] = [];
     isSearchBarOpened = false;
     data: any;
     currentRole: string;
     accountBalanceOptions: ApexOptions;
-    recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
-    recentTransactionsTableColumns: string[] = [];
+    recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource(); // Source de données pour le tableau
+    recentTransactionsTableColumns: string[] = []; // Colonnes du tableau
     myForm: FormGroup;
     roles: Role;
     nom = '';
     prenom = '';
     email = '';
     idRole = 0;
-    isStudent: boolean
-    environment = environment.url
+    isStudent: boolean;
+    environment = environment.url; // URL de l’environnement (ex: API)
 
-
+    // Ouvre/ferme la barre de recherche, recharge les données si fermée
     openSearchBar() {
         this.isSearchBarOpened = !this.isSearchBarOpened;
         if (!this.isSearchBarOpened) this.ngOnInit();
     }
 
+    // Supprime une classe en fonction de son ID
     delete(id: number) {
         this.uow.classes.delete(id).subscribe((response) => {
             response ? this.ngOnInit() : console.error("Error while deleting");
         });
     }
 
-
-
+    // Initialisation du composant : récupération des rôles et chargement des données selon le rôle
     ngOnInit(): void {
         this.uow.role.getOne(this.user.roleId).subscribe((res: Role) => {
             this.currentRole = res.name
-            console.log(this.currentRole)
-            if (this.currentRole == "Prof") {
-                console.log("i am prof")
-                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'actions']
-                this.uow.classes.getClassesByProfId(this.user.id).subscribe((res: IResponse) => {
-                    console.log(res)
-                    if (res.data !== null) {
-                        this.data = res.data;
-                        this.recentTransactionsDataSource.data = [...this.data].reverse();
-                        this.recentTransactionsDataSource.paginator = this.paginator;
-                    }
-                    else {
-                        console.log(
-                            "No data fetched"
-                        )
-                    }
-                }
-                );
-            }
-            if (this.currentRole == "Admin") {
-                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions']
-                this.uow.classes.getAll().subscribe((res: any) => {
-                    console.log("i am admin")
 
-                    this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions'];
+            // Cas pour les professeurs
+            if (this.currentRole == "Prof") {
+                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'actions'];
+                this.uow.classes.getClassesByProfId(this.user.id).subscribe((res: IResponse) => {
                     if (res.data !== null) {
                         this.data = res.data;
                         this.recentTransactionsDataSource.data = [...this.data].reverse();
                         this.recentTransactionsDataSource.paginator = this.paginator;
-                    }
-                    else {
-                        console.log(
-                            "No data fetched"
-                        )
+                    } else {
+                        console.log("No data fetched");
                     }
                 });
             }
-        })
 
+            // Cas pour les administrateurs
+            if (this.currentRole == "Admin") {
+                this.recentTransactionsTableColumns = ['id', 'titre', 'date', 'duree', 'prof', 'actions'];
+                this.uow.classes.getAll().subscribe((res: any) => {
+                    if (res.data !== null) {
+                        this.data = res.data;
+                        this.recentTransactionsDataSource.data = [...this.data].reverse();
+                        this.recentTransactionsDataSource.paginator = this.paginator;
+                    } else {
+                        console.log("No data fetched");
+                    }
+                });
+            }
+        });
     }
 
+    // Lancement du tri du tableau après affichage
     ngAfterViewInit(): void {
         this.recentTransactionsDataSource.sort = this.recentTransactionsTableMatSort;
     }
 
+    // Nettoyage lors de la destruction du composant
     ngOnDestroy(): void {
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
     }
 
+    // Méthode de recherche (non encore implémentée)
     submit() {
         const searchEmail = this.email || '*';
         const searchPrenom = this.prenom || '*';
         const searchNom = this.nom || '*';
+
 
     }
 }

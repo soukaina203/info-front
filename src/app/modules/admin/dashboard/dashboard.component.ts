@@ -6,12 +6,14 @@ import { MatModule } from 'app/mat.module';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatModule,NgFor , CommonModule],
+  imports: [MatModule, NgFor, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
- services = [
+
+  // Liste des services proposés sur le tableau de bord
+  services = [
     {
       icon: 'book',
       title: 'Soutien scolaire',
@@ -35,6 +37,7 @@ export class DashboardComponent {
     }
   ];
 
+  // Statistiques affichées sur la page d’accueil
   stats = [
     { icon: 'group', value: '750+', label: 'Étudiants actifs' },
     { icon: 'star', value: '4.9', label: 'Note moyenne' },
@@ -43,6 +46,7 @@ export class DashboardComponent {
 
   constructor(private router: Router) {}
 
+  // Fonction de navigation vers un service spécifique
   navigateTo(link: string): void {
     this.router.navigate([link]);
   }

@@ -1,104 +1,115 @@
+<!-- Conteneur principal de la page -->
 <div class="flex flex-col flex-auto w-full">
     <div class="flex flex-wrap w-full max-w-screen-xl p-6 mx-auto md:p-8">
-        <!-- Title and action buttons -->
+
+        <!-- En-tête : Titre du dashboard + bouton d'action -->
         <div class="flex items-center justify-between w-full">
             <div>
                 <h2 class="text-3xl font-semibold leading-8 tracking-tight">Info Academie dashboard</h2>
                 <div class="font-medium tracking-tight text-secondary">Commencez votre aventure avec nous</div>
             </div>
 
+            <!-- Bouton de création de nouvelle classe virtuelle -->
             <span [routerLink]="['/user/planification/create']">
-                <button class=" md:ml-3 bg-[#2E849D] sm:inline-flex flex gap-1" mat-flat-button [color]="'primary'">
+                <button class="md:ml-3 bg-[#2E849D] sm:inline-flex flex gap-1" mat-flat-button [color]="'primary'">
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus'"></mat-icon>
-                    <span>
-                        Créer
-                    </span>
+                    <span>Créer</span>
                 </button>
             </span>
         </div>
 
-    <div class="flex items-center justify-between w-full mt-[2rem]">
-        <div class="flex flex-col flex-auto overflow-hidden shadow xl:col-span-2 bg-card rounded-2xl">
-            <div class="p-6">
-                <div class="mr-4 text-lg font-medium leading-6 tracking-tight truncate">List des classs</div>
-            </div>
-            <div class="mx-6 overflow-x-auto">
-                <table class="w-full bg-transparent" mat-table matSort [dataSource]="recentTransactionsDataSource"
-                    #recentTransactionsTable>
-                    <ng-container matColumnDef="id">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>ID</th>
-                        <td mat-cell *matCellDef="let class">
-                            <span class="pr-6 text-sm font-medium text-secondary whitespace-nowrap">{{class.id}}</span>
-                        </td>
-                    </ng-container>
+        <!-- Bloc contenant la liste des classes -->
+        <div class="flex items-center justify-between w-full mt-[2rem]">
+            <div class="flex flex-col flex-auto overflow-hidden shadow xl:col-span-2 bg-card rounded-2xl">
 
-                    <ng-container matColumnDef="titre">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Titre</th>
-                        <td mat-cell *matCellDef="let class">
-                            <span class="pr-6 whitespace-nowrap">{{class.title}} </span>
-                        </td>
-                    </ng-container>
+                <!-- Titre de la section liste -->
+                <div class="p-6">
+                    <div class="mr-4 text-lg font-medium leading-6 tracking-tight truncate">Liste des classes Virtuelles
+                    </div>
+                </div>
 
-                    <ng-container matColumnDef="date">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Date</th>
-                        <td mat-cell *matCellDef="let class">
-                            <span class="pr-6 whitespace-nowrap">{{ class.date | date: 'yyyy-MM-dd' }}
-                            </span>
-                        </td>
-                    </ng-container>
+                <!-- Tableau des classes -->
+                <div class="mx-6 overflow-x-auto">
+                    <table class="w-full bg-transparent" mat-table matSort [dataSource]="recentTransactionsDataSource"
+                        #recentTransactionsTable>
 
+                        <!-- Colonne ID -->
+                        <ng-container matColumnDef="id">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>ID</th>
+                            <td mat-cell *matCellDef="let class">
+                                <span class="pr-6 text-sm font-medium text-secondary whitespace-nowrap">{{ class.id
+                                    }}</span>
+                            </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="duree">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Horaire</th>
-                        <td mat-cell *matCellDef="let class">
-                            <span class="pr-6 whitespace-nowrap">{{ class.duree }}
-                            </span>
-                        </td>
-                    </ng-container>
+                        <!-- Colonne Titre -->
+                        <ng-container matColumnDef="titre">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Titre</th>
+                            <td mat-cell *matCellDef="let class">
+                                <span class="pr-6 whitespace-nowrap">{{ class.title }}</span>
+                            </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="prof">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Prof</th>
-                        <td mat-cell *matCellDef="let class">
-                            <span class="pr-6 whitespace-nowrap">{{class.user.firstName}}
-                                {{class.user.lastName}}</span>
+                        <!-- Colonne Date -->
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Date</th>
+                            <td mat-cell *matCellDef="let class">
+                                <span class="pr-6 whitespace-nowrap">{{ class.date | date: 'yyyy-MM-dd' }}</span>
+                            </td>
+                        </ng-container>
 
-                        </td>
-                    </ng-container>
+                        <!-- Colonne Horaire -->
+                        <ng-container matColumnDef="duree">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Horaire</th>
+                            <td mat-cell *matCellDef="let class">
+                                <span class="pr-6 whitespace-nowrap">{{ class.duree }}</span>
+                            </td>
+                        </ng-container>
 
-                    <ng-container matColumnDef="actions">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef>Actions</th>
-                        <td mat-cell *matCellDef="let transaction">
-                            <span class="pr-6 font-medium whitespace-nowrap">
-                                <button mat-icon-button color="accent" [routerLink]="['/user/planification/', transaction.id]">
-                                    <mat-icon>create</mat-icon>
-                                </button>
-                                <button mat-icon-button matTooltip="supprimer" color="warn"
-                                    (click)="delete(transaction.id)">
-                                    <mat-icon>delete_sweep</mat-icon>
-                                </button>
-                            </span>
-                        </td>
-                    </ng-container>
+                        <!-- Colonne Professeur -->
+                        <ng-container matColumnDef="prof">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Prof</th>
+                            <td mat-cell *matCellDef="let class">
+                                <span class="pr-6 whitespace-nowrap">{{ class.user.firstName }} {{ class.user.lastName
+                                    }}</span>
+                            </td>
+                        </ng-container>
 
+                        <!-- Colonne Actions : Modifier / Supprimer -->
+                        <ng-container matColumnDef="actions">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>Actions</th>
+                            <td mat-cell *matCellDef="let transaction">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    <!-- Bouton d'édition -->
+                                    <button mat-icon-button color="accent"
+                                        [routerLink]="['/user/planification/', transaction.id]">
+                                        <mat-icon>create</mat-icon>
+                                    </button>
+                                    <!-- Bouton de suppression -->
+                                    <button mat-icon-button matTooltip="supprimer" color="warn"
+                                        (click)="delete(transaction.id)">
+                                        <mat-icon>delete_sweep</mat-icon>
+                                    </button>
+                                </span>
+                            </td>
+                        </ng-container>
 
+                        <!-- Définition des lignes du tableau -->
+                        <tbody>
+                            <tr mat-header-row *matHeaderRowDef="recentTransactionsTableColumns"></tr>
+                            <tr class="h-16 order-row" mat-row
+                                *matRowDef="let row; columns: recentTransactionsTableColumns;"></tr>
+                            <tr class="h-16 border-0" mat-footer-row></tr>
+                        </tbody>
+                    </table>
 
-                    <tbody>
-                        <tr mat-header-row *matHeaderRowDef="recentTransactionsTableColumns"></tr>
-                        <tr class="h-16 order-row" mat-row
-                            *matRowDef="let row; columns: recentTransactionsTableColumns;">
-                        </tr>
-                        <tr class="h-16 border-0" mat-footer-row>
-                        </tr>
-                    </tbody>
-
-
-                </table>
-                <mat-paginator
-                    class="z-10 border-b sm:absolute sm:inset-x-0 sm:bottom-0 sm:border-t sm:border-b-0 bg-gray-50 dark:bg-transparent"
-                    [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true">
-                </mat-paginator>
+                    <!-- Pagination du tableau -->
+                    <mat-paginator
+                        class="z-10 border-b sm:absolute sm:inset-x-0 sm:bottom-0 sm:border-t sm:border-b-0 bg-gray-50 dark:bg-transparent"
+                        [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true">
+                    </mat-paginator>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </div>

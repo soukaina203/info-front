@@ -1,9 +1,8 @@
 <div class="w-full min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-gray-50">
 
-
-
   <main class="container px-4 py-12 mx-auto">
-    <!-- Hero Section -->
+
+    <!-- Section de bienvenue (Hero) -->
     <section class="max-w-4xl mx-auto mb-16 text-center">
       <h1 class="mb-6 text-4xl font-bold text-[#8C7261] md:text-6xl">
         Bienvenue sur <span class="text-brand-blue">Info Académie</span>
@@ -11,13 +10,12 @@
       <p class="mb-8 text-xl leading-relaxed text-gray-600">
         Votre parcours vers l'excellence académique commence ici. Découvrez nos services personnalisés conçus pour vous accompagner dans votre réussite scolaire.
       </p>
-
     </section>
 
-    <!-- Stats -->
+    <!-- Section de statistiques dynamiques -->
     <div class="grid grid-cols-1 gap-8 p-20 pt-0 mb-16 md:grid-cols-3">
       <div *ngFor="let stat of stats" class="p-6 text-center rounded shadow bg-white/90 backdrop-blur-sm">
-             <div class="flex items-center justify-center w-12 h-12 mx-auto mb-3 text-[#2E849D] bg-[#2E849D]/10 rounded-full">
+        <div class="flex items-center justify-center w-12 h-12 mx-auto mb-3 text-[#2E849D] bg-[#2E849D]/10 rounded-full">
           <mat-icon>{{ stat.icon }}</mat-icon>
         </div>
         <div class="mb-2 text-3xl font-bold text-gray-800">{{ stat.value }}</div>
@@ -25,7 +23,7 @@
       </div>
     </div>
 
-    <!-- Services -->
+    <!-- Section des services proposés -->
     <section class="p-20 pt-0 mb-16">
       <div class="mb-12 text-center">
         <h2 class="mb-4 text-3xl font-bold text-[#2E849D] md:text-4xl">Nos Services Exclusifs</h2>
@@ -34,10 +32,10 @@
         </p>
       </div>
 
+      <!-- Cartes des services avec image, icône, titre et description -->
       <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         <div *ngFor="let service of services" class="overflow-hidden transition-all duration-300 rounded group bg-white/70 backdrop-blur-sm hover:shadow-xl">
           <div class="relative overflow-hidden">
-
             <img [src]="service.image" [alt]="service.title" class="object-cover w-full h-48 transition-transform duration-300 group-hover:scale-105" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
           </div>
@@ -47,12 +45,10 @@
               <h3 class="text-xl font-bold text-gray-800">{{ service.title }}</h3>
             </div>
             <p class="mb-4 text-gray-600">{{ service.description }}</p>
-
           </div>
         </div>
       </div>
     </section>
-
 
   </main>
 </div>

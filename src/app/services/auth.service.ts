@@ -56,13 +56,10 @@ export class AuthService {
         });
     }
 
-    forgotPassword(object: IResetPassword): Observable<any> {
-        return this.http.post(`${this.urlApi}/Account/forgetPassword`, {
-            id: object.id,
-            email: object.email,
-            name: object.name
-
-        });
+    forgotPassword(email:string): Observable<any> {
+        console.log("email")
+        console.log(email)
+        return this.http.get(`${this.urlApi}/Account/forgetPassword/${email}`);
     }
 
     resetPassword(token: string, password: string): Observable<any> {

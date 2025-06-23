@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
     FormBuilder,
     FormsModule,
     NgForm,
     ReactiveFormsModule,
-    UntypedFormBuilder,
-    UntypedFormGroup,
     Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,10 +13,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from 'app/core/auth/auth.service';
 import { UowService } from 'app/services/uow.service';
 
 @Component({
@@ -30,7 +27,6 @@ import { UowService } from 'app/services/uow.service';
     imports: [
         RouterLink,
         FuseAlertComponent,
-
         FormsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -44,85 +40,94 @@ import { UowService } from 'app/services/uow.service';
 })
 export class AuthSignInComponent {
 
+    // Accès au formulaire dans le template
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
-    private fb = inject(FormBuilder)
-    private uow = inject(UowService)
-    private router = inject(Router)
+    // Injection des services et utilitaires Angular
+    private fb = inject(FormBuilder);
+    private uow = inject(UowService);
+    private router = inject(Router);
 
-    errorText: string = ""
+    // Variables pour gérer l’affichage des alertes
+    errorText: string = "";
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
-
     showAlert: boolean = false;
 
+    // Définition du formulaire réactif avec validation
     myForm = this.fb.group({
-        email: ["xafoya3057@nab4.com", [Validators.email, Validators.required]],
-        password: ["xafoya3057@nab4.com", [Validators.required/*, Validators.minLength(6)*/]],
-
+        email: ["", [Validators.email, Validators.required]],   // Email obligatoire et format valide
+        password: ["", [Validators.required]],                   // Mot de passe obligatoire
     });
 
-
+    // Méthode appelée à la soumission du formulaire
     signIn(): void {
         const user = this.myForm.getRawValue();
 
-        // Return if the form is invalid
+        // Si le formulaire est invalide, on arrête la fonction
         if (this.myForm.invalid) {
             return;
         }
 
-        // Disable the form
+        // Désactivation du formulaire pendant la requête
         this.myForm.disable();
 
-        // Hide the alert
+        // Cacher toute alerte avant la requête
         this.showAlert = false;
 
-        // Sign in
+        // Appel au service de connexion (login)
         this.uow.auth.login(user).subscribe((res) => {
-
+            // Réactivation du formulaire après réponse
             this.myForm.enable();
+
+            // Gestion des différentes réponses du serveur selon le code retourné
+
             if (res.code === -3) {
+                // Email non trouvé dans la base
                 this.alert = {
                     type: 'error',
                     message: 'Email non trouvé',
                 };
-                // Show the alert
                 this.showAlert = true;
             }
-            if (res.code === -4) { // sending email error
+
+            if (res.code === -4) {
+                // Erreur lors de l'envoi d'email (ex: problème serveur)
                 this.alert = {
                     type: 'error',
                     message: res.message,
                 };
-                // Show the alert
                 this.showAlert = true;
             }
+
             if (res.code === -1) {
+                // Mot de passe incorrect
                 this.alert = {
                     type: 'error',
                     message: 'Mot de passe incorrect',
                 };
-                // Show the alert
                 this.showAlert = true;
-
             }
-
 
             if (res.code === 1) {
-                this.uow.auth._authenticated=true;
-                this.uow.auth.setAccessToken(res.token);
-                console.log(res)
-                localStorage.setItem('userId', res.userId)
-                localStorage.setItem('userData', JSON.stringify(res.userData))
-                this.uow.users.currentUser$.next(res.userData)
+                // Connexion réussie
+                this.uow.auth._authenticated = true;
 
+                // Sauvegarde du token d'accès dans le service
+                this.uow.auth.setAccessToken(res.token);
+
+                // Sauvegarde des données utilisateur dans localStorage
+                localStorage.setItem('userId', res.userId);
+                localStorage.setItem('userData', JSON.stringify(res.userData));
+
+                // Mise à jour de l'utilisateur courant dans le service utilisateur
+                this.uow.users.currentUser$.next(res.userData);
+
+                // Redirection vers le tableau de bord utilisateur
                 this.router.navigateByUrl('user/dashboard');
             }
-
-
-        })
-
+        });
     }
 }

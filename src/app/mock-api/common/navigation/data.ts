@@ -11,42 +11,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/user'
     },
 
-    {
-        id: 'Profile',
-        title: 'Profile',
-        type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
-        link: '/user/profile'
-    },
 
-    {
-        id: 'Planification',
-        title: 'Planification',
-        type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
-        link: '/user/planification'
-    },
-    {
-        id: 'cours',
-        title: 'Cours en lignes',
-        type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
-        link: '/user/cours'
-    },
-
-    {
-        id: 'users',
-        title: 'Utilisateurs',
-        type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
-        link: 'user/users'
-    },
 
 
 ];
 export const compactNavigation: FuseNavigationItem[] = [
-{
-        id: 'dashboard',
+   {
+        id: 'Dashboard',
         title: 'Dashboard',
         type: 'basic',
         icon: 'heroicons_outline:rocket-launch',
@@ -54,25 +25,25 @@ export const compactNavigation: FuseNavigationItem[] = [
     },
 
     {
-        id: 'profile',
+        id: 'Profile',
         title: 'Profile',
         type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
+        icon: 'heroicons_outline:user',
         link: '/user/profile'
     },
 
     {
-        id: 'planification',
+        id: 'Planification',
         title: 'Planification',
         type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
+        icon: 'heroicons_outline:document-chart-bar',
         link: '/user/planification'
     },
     {
         id: 'cours',
         title: 'Cours en lignes',
         type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
+        icon: 'heroicons_outline:clipboard-document-list',
         link: '/user/cours'
     },
 
@@ -80,7 +51,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         id: 'users',
         title: 'Utilisateurs',
         type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
+        icon: 'heroicons_outline:users',
         link: 'user/users'
     },
 

@@ -39,7 +39,7 @@
 
                 <!-- Basic -->
                 @if (item.type === 'basic') {
-                <ng-container *ngIf="user.role?.name==='Admin' && item.id === 'users' || user.role?.name==='Admin' && item.id === 'planification'" >
+                <ng-container *ngIf="user.role?.name==='Admin' && item.id === 'users' || user.role?.name==='Admin' && item.id === 'Planification'" >
                         <fuse-vertical-navigation-basic-item
                             [item]="item"
                             [name]="name">
@@ -48,7 +48,7 @@
 
                         <!-- showing planification to prof and admin CRUD just to admin -->
 
-                    <ng-container *ngIf="user.role?.name==='Prof' &&  item.id === 'planification' || user.isAdmin===true &&  item.id === 'planification'">
+                    <ng-container *ngIf="user.role?.name==='Prof' &&  item.id === 'Planification' || user.isAdmin===true &&  item.id === 'Planification'">
                         <fuse-vertical-navigation-basic-item
                             [item]="item"
                             [name]="name">
@@ -56,7 +56,7 @@
                     </ng-container>
 
 
-                    <ng-container *ngIf=" item.id !== 'users' &&  item.id !== 'planification'  ">
+                    <ng-container *ngIf=" item.id !== 'users' &&  item.id !== 'Planification'  ">
                         <fuse-vertical-navigation-basic-item
                             [item]="item"
                             [name]="name">

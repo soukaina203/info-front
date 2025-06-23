@@ -1,218 +1,199 @@
-<div class="flex flex-col items-center flex-auto min-w-0 bg-white sm:flex-row md:items-start sm:justify-center md:justify-start">
-    <div class="w-full px-4 py-8 mt-auto mb-auto md:flex md:items-center md:justify-end sm:w-auto md:h-full md:w-1/2 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow lg:items-center md:shadow-none sm:bg-card">
-        <div class="w-full mx-auto max-w-80 sm:w-80 sm:mx-0">
-            <!-- Logo -->
-            <div class="w-12">
-                <img src="images/logo/logo.png" alt="Info Académie" class="w-8 h-10" />
+<div
+  class="flex flex-col items-center flex-auto min-w-0 bg-white sm:flex-row md:items-start sm:justify-center md:justify-start"
+>
+  <!-- Partie gauche : formulaire de connexion -->
+  <div
+    class="w-full px-4 py-8 mt-auto mb-auto md:flex md:items-center md:justify-end sm:w-auto md:h-full md:w-1/2 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow lg:items-center md:shadow-none sm:bg-card"
+  >
+    <div class="w-full mx-auto max-w-80 sm:w-80 sm:mx-0">
+      <!-- Logo Info Académie -->
+      <div class="w-12">
+        <img src="images/logo/logo.png" alt="Info Académie" class="w-8 h-10" />
+      </div>
 
-            </div>
+      <!-- Titre principal -->
+      <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">
+        Se connecter
+      </div>
 
-            <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">Se connecter</div>
-            <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Vous n'avez pas de compte ?</div>
-                <a
-                    class="ml-1  hover:underline text-[#2E849D]"
-                    [routerLink]="['/choose']"
-                >
-                    S'inscrire
-                </a>
-            </div>
+      <!-- Invitation à s'inscrire si pas de compte -->
+      <div class="flex items-baseline mt-0.5 font-medium">
+        <div>Vous n'avez pas de compte ?</div>
+        <a class="ml-1  hover:underline text-[#2E849D]" [routerLink]="['/choose']">
+          S'inscrire
+        </a>
+      </div>
 
-            <!-- Alert -->
-            <fuse-alert
-                class="mt-8"
-                *ngIf="showAlert"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="alert.type"
-                [@shake]="alert.type === 'error'"
-            >
-                {{alert.message}}
-            </fuse-alert>
+      <!-- Affichage conditionnel d'une alerte -->
+      <fuse-alert
+        class="mt-8"
+        *ngIf="showAlert"
+        [appearance]="'outline'"
+        [showIcon]="false"
+        [type]="alert.type"
+        [@shake]="alert.type === 'error'"
+      >
+        {{alert.message}}
+      </fuse-alert>
 
-            <!-- Sign in form -->
-            <form
-                class="mt-8"
-                [formGroup]="myForm"
-                #signInNgForm="ngForm"
-            >
+      <!-- Formulaire de connexion avec Reactive Forms -->
+      <form class="mt-8" [formGroup]="myForm" #signInNgForm="ngForm">
+        <!-- Champ Email -->
+        <mat-form-field class="w-full">
+          <mat-label>Email address</mat-label>
+          <input id="email" matInput [formControlName]="'email'" />
+          <!-- Messages d'erreur spécifiques -->
+          <mat-error *ngIf="myForm.controls['email'].errors?.['required']" class="text-red-500">
+            Ce champ est obligatoire
+          </mat-error>
+          <mat-error *ngIf="myForm.controls['email'].errors?.['email']" class="text-red-500">
+            Veuillez saisir une adresse électronique valide
+          </mat-error>
+        </mat-form-field>
 
-                <!-- Email field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
-                    <input
-                        id="email"
-                        matInput
-                        [formControlName]="'email'"
-                    >
-                    <mat-error
-                        *ngIf="myForm.controls['email'].errors?.['required']"
-                        class="text-red-500"
-                    >
-                        Ce champ
-                        est
-                        obligatoire
-                    </mat-error>
-                    <mat-error
-                        *ngIf="myForm.controls['email'].errors?.['email']"
-                        class="text-red-500"
-                    >
-                        Veuillez
-                        saisir
-                        une adresse électronique valide
-                    </mat-error>
-                </mat-form-field>
+        <!-- Champ Mot de passe -->
+        <mat-form-field class="w-full">
+          <mat-label>Mot de passe</mat-label>
+          <input
+            id="password"
+            matInput
+            type="password"
+            [formControlName]="'password'"
+            #passwordField
+          />
+          <!-- Bouton pour basculer visibilité du mot de passe -->
+          <button
+            mat-icon-button
+            type="button"
+            (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+            matSuffix
+          >
+            <mat-icon
+              class="icon-size-5"
+              *ngIf="passwordField.type === 'password'"
+              [svgIcon]="'heroicons_solid:eye'"
+            ></mat-icon>
+            <mat-icon
+              class="icon-size-5"
+              *ngIf="passwordField.type === 'text'"
+              [svgIcon]="'heroicons_solid:eye-slash'"
+            ></mat-icon>
+          </button>
 
-                <!-- Password field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Mot de passe</mat-label>
-                    <input
-                        id="password"
-                        matInput
-                        type="password"
-                        [formControlName]="'password'"
-                        #passwordField
-                    >
-                    <button
-                        mat-icon-button
-                        type="button"
-                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
-                        matSuffix
-                    >
-                        <mat-icon
-                            class="icon-size-5"
-                            *ngIf="passwordField.type === 'password'"
-                            [svgIcon]="'heroicons_solid:eye'"
-                        ></mat-icon>
-                        <mat-icon
-                            class="icon-size-5"
-                            *ngIf="passwordField.type === 'text'"
-                            [svgIcon]="'heroicons_solid:eye-slash'"
-                        ></mat-icon>
-                    </button>
-                    <mat-error
-                        *ngIf="myForm.controls['password'].errors?.['required']"
-                        class="text-red-500"
-                    >
-                        Ce
-                        champ
-                        est obligatoire
-                    </mat-error>
+          <!-- Messages d'erreur pour le mot de passe -->
+          <mat-error *ngIf="myForm.controls['password'].errors?.['required']" class="text-red-500">
+            Ce champ est obligatoire
+          </mat-error>
+          <mat-error *ngIf="myForm.controls['password'].errors?.['minlength']" class="text-red-500">
+            Ce champ doit contenir plus que 6 caractères
+          </mat-error>
+        </mat-form-field>
 
-                    <mat-error
-                        *ngIf="myForm.controls['password'].errors?.['minlength']"
-                        class="text-red-500"
-                    >
-                        Ce
-                        champ doit contenir plus que 6 caracteres
-                    </mat-error>
-                </mat-form-field>
-
-                <!-- Actions -->
-                <div class="inline-flex items-center justify-between w-full mt-1.5">
-
-                    <a
-                        class="font-medium text-md hover:underline text-[#2E849D]"
-                        [routerLink]="['/forgot-password']"
-                    >
-                        Mot de passe oublié?
-                    </a>
-                </div>
-
-                <!-- Submit button -->
-                <button
-                    class="w-full mt-6 bg-[#2E849D] text-white fuse-mat-button-large"
-                    mat-flat-button
-                    [color]="'primary'"
-                    [disabled]="myForm.disabled"
-                    (click)="signIn()"
-                >
-                    <span *ngIf="!myForm.disabled">Se connecter</span>
-                    <mat-progress-spinner
-                        *ngIf="myForm.disabled"
-                        [diameter]="24"
-                        [mode]="'indeterminate'"
-                    ></mat-progress-spinner>
-                </button>
-
-            </form>
+        <!-- Lien mot de passe oublié -->
+        <div class="inline-flex items-center justify-between w-full mt-1.5">
+          <a class="font-medium text-md hover:underline text-[#2E849D]" [routerLink]="['/forgot-password']">
+            Mot de passe oublié?
+          </a>
         </div>
-    </div>
-    <div class="relative items-center justify-center flex-auto hidden w-1/2 h-[100vh] p-16 overflow-hidden bg-[#2E849D] md:flex lg:px-28 dark:border-l">
-        <!-- Background - @formatter:off -->
-        <!-- Rings -->
-        <svg
-            class="absolute inset-0 pointer-events-none"
-            viewBox="0 0 960 540"
-            width="100%"
-            height="100%"
-            preserveAspectRatio="xMidYMax slice"
-            xmlns="http://www.w3.org/2000/svg"
+
+        <!-- Bouton de soumission du formulaire -->
+        <button
+          class="w-full mt-6 bg-[#2E849D] text-white fuse-mat-button-large"
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="myForm.disabled"
+          (click)="signIn()"
         >
-            <g
-                class="text-gray-700 opacity-25"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="100"
-            >
-                <circle
-                    r="234"
-                    cx="196"
-                    cy="23"
-                ></circle>
-                <circle
-                    r="234"
-                    cx="790"
-                    cy="491"
-                ></circle>
-            </g>
-        </svg>
-        <!-- Dots -->
-        <svg
-            class="absolute text-gray-700 -top-16 -right-16"
-            viewBox="0 0 220 192"
-            width="220"
-            height="192"
-            fill="none"
-        >
-            <defs>
-                <pattern
-                    id="837c3e70-6c3a-44e6-8854-cc48c737b659"
-                    x="0"
-                    y="0"
-                    width="20"
-                    height="20"
-                    patternUnits="userSpaceOnUse"
-                >
-                    <rect
-                        x="0"
-                        y="0"
-                        width="4"
-                        height="4"
-                        fill="currentColor"
-                    ></rect>
-                </pattern>
-            </defs>
-            <rect
-                width="220"
-                height="192"
-                fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
-            ></rect>
-        </svg>
-        <!-- @formatter:on -->
-        <!-- Content -->
-        <div class="relative z-10 w-full max-w-2xl">
-            <div class="font-bold leading-none text-gray-100 text-7xl">
-                <div>Bienvenue Sur</div>
-                <div>Info Academie</div>
-            </div>
-            <div class="mt-6 text-lg leading-6 tracking-tight text-gray-300">
-              Centre spécialisé en soutien scolaire et apprentissage des langues, offrant des services personnalisés
-                pour réussir vos études et maîtriser de nouvelles langues. Boostez vos compétences avec nos
-                experts et atteignez vos objectifs académiques et linguistiques!
-            </div>
-            <div class="flex items-center mt-8"></div>
-        </div>
+          <span *ngIf="!myForm.disabled">Se connecter</span>
+          <mat-progress-spinner
+            *ngIf="myForm.disabled"
+            [diameter]="24"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </button>
+      </form>
     </div>
+
+    <!-- Lien retour à l'accueil -->
+    <div class="absolute top-8 left-8">
+      <a routerLink="/" class="flex items-center text-[#2E849D] hover:underline hover:cursor-pointer">
+        <!-- Icône flèche retour -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.707 14.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L4.414 9H17a1 1 0 110 2H4.414l3.293 3.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Retour à l'accueil
+      </a>
+    </div>
+  </div>
+
+  <!-- Partie droite : visuel / présentation (visible sur grand écran) -->
+  <div
+    class="relative items-center justify-center flex-auto hidden w-1/2 h-[100vh] p-16 overflow-hidden bg-[#2E849D] md:flex lg:px-28 dark:border-l"
+  >
+    <!-- Décors SVG -->
+    <svg
+      class="absolute inset-0 pointer-events-none"
+      viewBox="0 0 960 540"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMax slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        class="text-gray-700 opacity-25"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="100"
+      >
+        <circle r="234" cx="196" cy="23"></circle>
+        <circle r="234" cx="790" cy="491"></circle>
+      </g>
+    </svg>
+
+    <svg
+      class="absolute text-gray-700 -top-16 -right-16"
+      viewBox="0 0 220 192"
+      width="220"
+      height="192"
+      fill="none"
+    >
+      <defs>
+        <pattern
+          id="837c3e70-6c3a-44e6-8854-cc48c737b659"
+          x="0"
+          y="0"
+          width="20"
+          height="20"
+          patternUnits="userSpaceOnUse"
+        >
+          <rect x="0" y="0" width="4" height="4" fill="currentColor"></rect>
+        </pattern>
+      </defs>
+      <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+    </svg>
+
+    <!-- Texte de présentation à droite -->
+    <div class="relative z-10 w-full max-w-2xl">
+      <div class="font-bold leading-none text-gray-100 text-7xl">
+        <div>Bienvenue Sur</div>
+        <div>Info Academie</div>
+      </div>
+      <div class="mt-6 text-lg leading-6 tracking-tight text-gray-300">
+        Centre spécialisé en soutien scolaire et apprentissage des langues,
+        offrant des services personnalisés pour réussir vos études et maîtriser
+        de nouvelles langues. Boostez vos compétences avec nos experts et atteignez
+        vos objectifs académiques et linguistiques!
+      </div>
+      <div class="flex items-center mt-8"></div>
+    </div>
+  </div>
 </div>

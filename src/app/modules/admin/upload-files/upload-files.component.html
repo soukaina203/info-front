@@ -1,3 +1,4 @@
+<!-- Composant d'alerte pour afficher un message, visible selon showAlert -->
 <fuse-alert
     class="mt-8"
     *ngIf="showAlert"
@@ -9,6 +10,7 @@
     {{alert.message}}
 </fuse-alert>
 
+<!-- Input fichier masqué, déclenché par les interactions utilisateur -->
 <input
     type="file"
     #cv
@@ -16,12 +18,12 @@
     style="display: none;"
 >
 
-
-
-
+<!-- Conteneur flex pour le champ de formulaire lié au CV -->
 <div class="flex w-full">
     <mat-form-field class="w-full ">
         <mat-label>Votre Cv</mat-label>
+
+        <!-- Icône cliquable qui ouvre la sélection de fichier -->
         <mat-icon
             (click)="openInput(cv)"
             matPrefix
@@ -29,10 +31,7 @@
             [svgIcon]="'heroicons_solid:arrow-up-tray'"
         ></mat-icon>
 
-
-
-
-
+        <!-- Champ texte affichant le nom du CV sélectionné -->
         <input
             matInput
             formControlName="cv"
@@ -41,9 +40,7 @@
             class="text-gray-500"
         >
 
-
-
-
+        <!-- Bouton pour supprimer le fichier sélectionné, affiché si un CV est présent -->
         <button
             *ngIf="CvTitle!=''"
             mat-icon-button
@@ -57,13 +54,5 @@
                 [svgIcon]="'heroicons_outline:trash'"
             ></mat-icon>
         </button>
-
-
-
-
     </mat-form-field>
-
-
-
-
 </div>

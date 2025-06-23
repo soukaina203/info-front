@@ -63,14 +63,14 @@ export class SignUpTeacherComponent {
 
     myForm = this.fb.group({
         id: 0,
-        firstName: ['hgfhg', [Validators.required, Validators.minLength(3)]],
-        lastName: ['gfgf', [Validators.required, Validators.minLength(3)]],
+        firstName: ['Souad', [Validators.required, Validators.minLength(3)]],
+        lastName: ['Berna', [Validators.required, Validators.minLength(3)]],
         email: ['motoso5004@daupload.com', [Validators.email, Validators.required]],
         password: ['motoso5004@daupload.com', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['motoso5004@daupload.com', [Validators.required]],
         telephone: ['0625147896', [Validators.required, Validators.pattern(/^(06|07)\d{8}$/)]],
         roleId: 1,
-        city: ['hgfhgf', [Validators.required, Validators.minLength(2)]],
+        city: ['Rabat', [Validators.required, Validators.minLength(2)]],
         cv: [''],
         photo: [null],
 
@@ -78,7 +78,7 @@ export class SignUpTeacherComponent {
         specialities: [[1], [Validators.required]],
         niveaux: [[1], [Validators.required]],
         methodes: [[1], [Validators.required]],
-        userId: 0, // assigne dans le backend
+        userId: 0,
         user: null
     });
 

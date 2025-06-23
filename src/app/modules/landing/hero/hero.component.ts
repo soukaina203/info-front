@@ -10,5 +10,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './hero.component.scss'
 })
 export class HeroComponent {
+    scrollTo(section: any) {
+        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' ,  block: 'start'
+ });
+    }
 
 }

@@ -1,82 +1,52 @@
 <nav class="sticky top-0 z-50 py-4 bg-white shadow-sm">
-    <div class="container flex items-center justify-between px-4 mx-auto md:px-6">
+    <div class="container flex items-center justify-between px-6 mx-auto md:px-6">
+        <!-- Logo à gauche -->
         <div class="flex items-center">
             <a href="#" class="flex items-center space-x-2">
                 <img src="images/logo/logo.png" alt="Info Académie" class="h-8 w-7" />
-                <span class="text-xl font-bold text-brand-blue">Info Académie</span>
+                <span class="text-xl font-bold text-brand-blue text-[#2E849D]">Info Académie</span>
             </a>
         </div>
 
-        <!-- Desktop Navigation -->
-        <div class="items-center hidden space-x-6 md:flex">
-            <a href="#Hero" class="font-medium text-gray-700 transition duration-300 hover:text-brand-blue">Accueil</a>
-            <a href="#services" class="font-medium text-gray-700 transition duration-300 hover:text-brand-blue">Nos
+        <!-- Liens centrés -->
+        <div class="justify-center flex-1 hidden space-x-6 md:flex">
+            <a class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue" (click)="scrollTo('Hero')">Accueil</a>
+            <a class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue"
+            (click)="scrollTo('services')">Nos
                 Services</a>
-            <a href="#about" class="font-medium text-gray-700 transition duration-300 hover:text-brand-blue">À
+            <a class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue" (click)="scrollTo('cta')">À
                 Propos</a>
-            <a href="#contact"
-                class="font-medium text-gray-700 transition duration-300 hover:text-brand-blue">Contact</a>
-            <a href="#contact"
-                class="px-5 py-2 font-medium text-white transition duration-300 rounded-md bg-brand-blue hover:bg-opacity-90">Inscription</a>
+            <a
+                class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue" (click)="scrollTo('contact')">Contact</a>
+        </div>
 
+        <!-- Auth / user actions à droite -->
+        <div class="items-center hidden space-x-4 md:flex">
+            <ng-container *ngIf="!isConnected">
+                <button class="px-6 py-1 text-[1rem] text-white rounded-md bg-[#2E849D] hover:bg-[#2E849D]/90"
+                    routerLink="/choose">
+                    S'inscrire
+                </button>
+                <button
+                    class="px-6 py-1 text-[1rem] border rounded-md border-[#2E849D] text-[#2E849D] hover:bg-[#2E849D]/10"
+                    routerLink="/sign-in">
+                    s'authentifier
+                </button>
+            </ng-container>
 
-            <div>
-
-                <div *ngIf="!isConnected"
-                    class="flex flex-col-reverse items-center justify-center gap-3 space-y-4 text-left lg:flex-row lg:space-y-0">
-                    <div class="flex flex-wrap gap-4" *ngIf="!isConnected">
-                        <button class="px-6 py-1 text-[1rem] text-white rounded-md bg-[#2E849D] hover:bg-[#2E849D]/90"
-                            routerLink="/choose">
-                            S'inscrire
-                        </button>
-                        <button
-                            class="px-6 py-1 text-[1rem] border rounded-md border-[#2E849D] text-[#2E849D] hover:bg-[#2E849D]/10"
-                            routerLink="/sign-in">
-                            s'authentifier
-                        </button>
-                    </div>
-
-                    <div class="flex flex-wrap gap-4" *ngIf="isConnected">
-
-                        <button [matMenuTriggerFor]="userActions">
-
-                            <!-- <span class="relative"> -->
-                            <img *ngIf="user.photo" class="rounded-full h-7 w-7" [src]="Url" />
-
-                            <mat-icon *ngIf="!user.photo" [svgIcon]="'heroicons_outline:user-circle'"
-                                class="w-7 h-7"></mat-icon>
-
-                            <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full"></span>
-                            <!-- </span> -->
-
-
-                        </button>
-                    </div>
+            <ng-container *ngIf="isConnected">
+                <button [matMenuTriggerFor]="userActions">
+                    <img *ngIf="user.photo" class="rounded-full h-7 w-7" [src]="Url" />
+                    <mat-icon *ngIf="!user.photo" [svgIcon]="'heroicons_outline:user-circle'"
+                        class="w-7 h-7"></mat-icon>
+                </button>
+                <div *ngIf="isShowen"
+                    class="absolute right-0 z-40 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <a href="/user" class="block px-4 py-2 text-gray-800 hover:text-[#2E849D]">Profile</a>
+                    <a (click)="logout()"
+                        class="block px-4 py-2 text-gray-800 hover:text-[#2E849D] cursor-pointer">Logout</a>
                 </div>
-
-                <div *ngIf="isConnected"
-                    class="flex flex-col-reverse items-center justify-center gap-3 space-y-4 text-left lg:flex-row lg:space-y-0">
-                    <div class="flex items-center pl-8 ml-auto  space-x-0.5 sm:space-x-2">
-                        <button mat-icon-button class="mr-[1rem]" (click)="profileOptions()">
-
-                            <mat-icon>person</mat-icon>
-                        </button>
-
-                        <div *ngIf="isShowen"
-                            class="absolute right-0 z-40 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <a href="/user" class="block px-4 py-2 text-gray-800 hover:text-[#2E849D] ">Profile</a>
-
-                            <a (click)="logout()"
-                                class="block hover:cursor-pointer px-4 py-2 text-gray-800 hover:text-[#2E849D] ">Logout</a>
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-            </div>
+            </ng-container>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -95,16 +65,22 @@
         [class.invisible]="!isMenuOpen" [class.h-0]="!isMenuOpen">
 
         <div class="container flex flex-col px-4 py-3 mx-auto space-y-3">
-            <a href="#" class="py-2 text-gray-700 border-b border-gray-100 hover:text-brand-blue">Accueil</a>
+            <a href="#Hero" class="py-2 text-gray-700 border-b border-gray-100 hover:text-brand-blue">Accueil</a>
             <a href="#services" class="py-2 text-gray-700 border-b border-gray-100 hover:text-brand-blue">Nos
                 Services</a>
             <a href="#about" class="py-2 text-gray-700 border-b border-gray-100 hover:text-brand-blue">À Propos</a>
             <a href="#contact" class="py-2 text-gray-700 hover:text-brand-blue">Contact</a>
-            <a href="#contact"
-                class="px-5 py-2 mt-2 text-center text-white transition duration-300 rounded-md bg-brand-blue hover:bg-opacity-90">Inscription</a>
+            <ng-container *ngIf="!isConnected">
+                <button class="px-6 py-1 text-[1rem] text-white rounded-md bg-[#2E849D] hover:bg-[#2E849D]/90"
+                    routerLink="/choose">
+                    S'inscrire
+                </button>
+                <button
+                    class="px-6 py-1 text-[1rem] border rounded-md border-[#2E849D] text-[#2E849D] hover:bg-[#2E849D]/10"
+                    routerLink="/sign-in">
+                    s'authentifier
+                </button>
+            </ng-container>
         </div>
     </div>
-
-
-
 </nav>

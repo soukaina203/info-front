@@ -15,17 +15,14 @@ import { CommonModule } from '@angular/common';
     templateUrl: './home.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
-    imports: [MatButtonModule, RouterLink, MatIconModule,ServicesComponent
-        ,CtaComponent,TestimonialComponent,
-    HeroComponent,HeaderComponent,FooterComponent,CommonModule
+    imports: [MatButtonModule, RouterLink, MatIconModule, ServicesComponent
+        , CtaComponent, TestimonialComponent,
+        HeroComponent, HeaderComponent, FooterComponent, CommonModule
     ],
     styleUrls: ['./home.component.scss'],
 
 
 })
 export class LandingHomeComponent {
-    /**
-     * Constructor
-     */
-    constructor() {}
+
 }

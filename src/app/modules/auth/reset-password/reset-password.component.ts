@@ -38,34 +38,35 @@ import { finalize } from 'rxjs';
     ],
 })
 export class AuthResetPasswordComponent implements OnInit {
+    // Référence au formulaire Angular
     @ViewChild('resetPasswordNgForm') resetPasswordNgForm: NgForm;
 
+    // Objet pour gérer l'affichage des alertes (type + message)
     alert: { type: FuseAlertType; message: string } = {
         type: 'success',
         message: '',
     };
+
+    // FormGroup réactif pour gérer le formulaire de réinitialisation
     resetPasswordForm: UntypedFormGroup;
+
+    // Booléen pour afficher/cacher l'alerte
     showAlert: boolean = false;
+
+    // Token extrait de l'URL pour valider la requête
     token: string;
-    /**
-     * Constructor
-     */
+
+    // Injection des services Angular nécessaires
     private route = inject(ActivatedRoute);
     private _authService = inject(AuthService);
     private _formBuilder = inject(UntypedFormBuilder);
-    private router = inject(Router)
-
-
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+    private router = inject(Router);
 
     /**
-     * On init
+     * Méthode appelée au chargement du composant
      */
     ngOnInit(): void {
-        // Create the form
+        // Création du formulaire avec validation : password et confirmation requises et doivent correspondre
         this.resetPasswordForm = this._formBuilder.group(
             {
                 password: ['', Validators.required],
@@ -79,46 +80,43 @@ export class AuthResetPasswordComponent implements OnInit {
             }
         );
 
-        this.token = this.route.snapshot.paramMap.get('token')
+        // Récupération du token depuis les paramètres de l'URL
+        this.token = this.route.snapshot.paramMap.get('token');
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
     /**
-     * Reset password
+     * Méthode appelée lors de la soumission du formulaire pour réinitialiser le mot de passe
      */
     resetPassword(): void {
-        // Return if the form is invalid
+        // Ne rien faire si le formulaire est invalide
         if (this.resetPasswordForm.invalid) {
             return;
         }
 
-        // Disable the form
+        // Désactiver le formulaire pour empêcher plusieurs soumissions
         this.resetPasswordForm.disable();
 
-        // Hide the alert
+        // Cacher toute alerte existante
         this.showAlert = false;
 
-        // Send the request to the server
+        // Appel du service pour réinitialiser le mot de passe avec le token et le nouveau mot de passe
         this._authService
             .resetPassword(this.token, this.resetPasswordForm.get('password').value)
             .pipe(
                 finalize(() => {
-                    //   Re-enable the form
+                    // Réactiver le formulaire après la requête
                     this.resetPasswordForm.enable();
 
-                    //   Reset the form
+                    // Réinitialiser visuellement le formulaire
                     this.resetPasswordNgForm.resetForm();
 
-                    //   Show the alert
+                    // Afficher l'alerte avec le résultat
                     this.showAlert = true;
                 })
             )
             .subscribe(
                 response => {
-                    // Set the alert
+                    // Si succès, afficher message et rediriger vers connexion
                     if (response.success) {
                         this.alert = {
                             type: 'success',
@@ -127,19 +125,16 @@ export class AuthResetPasswordComponent implements OnInit {
 
                         setTimeout(() => {
                             this.router.navigateByUrl('sign-in');
-                        }, 1000); // 1000 ms = 1 second
+                        }, 1000); // délai 1 seconde avant redirection
                     }
-
-
+                    // Sinon afficher message d'erreur générique
                     else {
                         this.alert = {
                             type: 'error',
                             message: "Une erreur s'est produite, veuillez réessayer.",
                         };
                     }
-
                 }
-
             );
     }
 }

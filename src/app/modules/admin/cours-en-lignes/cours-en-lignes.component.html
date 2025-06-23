@@ -1,16 +1,15 @@
 <div class="flex flex-col flex-auto w-full">
     <div class="flex flex-wrap w-full max-w-screen-xl p-6 mx-auto md:p-8">
-        <!-- Title and action buttons -->
-        <div class="flex items-center justify-between w-full">
 
+        <!-- En-tête avec le titre de la page et le bouton de recherche -->
+        <div class="flex items-center justify-between w-full">
             <div>
                 <h2 class="text-3xl font-semibold leading-8 tracking-tight">Info Academie </h2>
                 <div class="font-medium tracking-tight text-secondary">Tableau de Cours en lignes</div>
             </div>
+
             <div class="flex items-center ml-6">
-
-
-
+                <!-- Bouton pour ouvrir la barre de recherche -->
                 <button class="ml-auto bg-gray-200" mat-button (click)="openSearchBar()">
                     <mat-icon class="icon-size-5">search</mat-icon>
                     Recherche
@@ -18,23 +17,22 @@
             </div>
         </div>
 
-        <!-- Search bar -->
+        <!-- Barre de recherche affichée dynamiquement -->
         <div class="flex items-center justify-between w-full mt-[2rem] transition-opacity duration-500 ease-in-out"
             *ngIf="isSearchBarOpened" [class.opacity-100]="isSearchBarOpened" [class.opacity-0]="!isSearchBarOpened">
+
             <div class="flex flex-col flex-auto overflow-hidden shadow xl:col-span-2 bg-card rounded-2xl">
                 <div class="p-6">
                     <div>
                         <div class="flex">
+                            <!-- Champ de recherche par titre -->
                             <mat-form-field class="w-full">
                                 <mat-label>Titre de cours</mat-label>
-
                                 <input matInput [(ngModel)]="title">
                             </mat-form-field>
-
-
                         </div>
 
-
+                        <!-- Champ de recherche par date -->
                         <mat-form-field class="w-full " [subscriptSizing]="'dynamic'">
                             <mat-label>Date (Mois/Jours/Annee)</mat-label>
                             <input matInput [matDatepicker]="picker2" [(ngModel)]="date">
@@ -42,74 +40,67 @@
                             <mat-datepicker #picker2></mat-datepicker>
                         </mat-form-field>
 
+                        <!-- Champ de recherche par professeur -->
                         <mat-form-field class="w-full mt-2">
                             <mat-label>Prof</mat-label>
-
                             <input matInput [(ngModel)]="prof" placeholder="email" spellcheck="false">
                         </mat-form-field>
 
-
+                        <!-- Boutons d'action de la recherche -->
                         <button class="ml-2 bg-[#2E849D] text-white" mat-flat-button (click)="submit()">
-                            Enregistrer
+                            Rechercher
                         </button>
-
                         <button class="ml-2 ml-auto bg-gray-200" mat-flat-button (click)="openSearchBar()">
-                            Cancel
+                            Annuler
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- <div class="flex flex-wrap justify-center w-full mt-8"> -->
-            <div class="grid grid-cols-1 gap-6 mt-5 md:grid-cols-2 lg:grid-cols-3">
-              <div
+        <!-- Liste des cours sous forme de cartes -->
+        <div class="grid grid-cols-1 gap-6 mt-5 md:grid-cols-2 lg:grid-cols-3">
+            <div
                 class="w-[300px] bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 group cursor-pointer"
-                *ngFor="let reunion of data"
-              >
-                <!-- Image -->
+                *ngFor="let reunion of data">
+
+                <!-- Image du cours -->
                 <img
-                  [src]="reunion.picture"
-                  alt="Course Image"
-                  class="w-full h-[200px] object-cover"
+                    [src]="reunion.picture"
+                    alt="Course Image"
+                    class="w-full h-[200px] object-cover"
                 />
 
-                <!-- Content -->
+                <!-- Contenu de la carte du cours -->
                 <div class="p-5 space-y-2">
-                  <h2 class="text-xl font-semibold text-gray-800 group-hover:text-blue-600">
-                    {{ reunion.title }}
-                  </h2>
+                    <h2 class="text-xl font-semibold text-gray-800 group-hover:text-blue-600">
+                        {{ reunion.title }}
+                    </h2>
 
-                  <p class="text-sm text-gray-500">
-                    {{ getFormattedDate(reunion.date ) |  date: 'd MMMM y' }}
-                  </p>
+                    <p class="text-sm text-gray-500">
+                        {{ getFormattedDate(reunion.date ) |  date: 'd MMMM y' }}
+                    </p>
 
-                  <p class="text-gray-700">
-                    Horaire: <span class="font-medium">{{ reunion.duree }}</span>
-                  </p>
+                    <p class="text-gray-700">
+                        Horaire: <span class="font-medium">{{ reunion.duree }}</span>
+                    </p>
 
-                  <p class="text-gray-700">
-                    Prof: <span class="font-medium">{{ reunion.user.firstName }} {{ reunion.user.lastName }}</span>
-                  </p>
+                    <p class="text-gray-700">
+                        Prof: <span class="font-medium">{{ reunion.user.firstName }} {{ reunion.user.lastName }}</span>
+                    </p>
 
-                  <!-- View button -->
-                  <div class="pt-3">
-                    <a
-                      [routerLink]="reunion.id"
-                      class="inline-flex items-center gap-2 px-4 py-2 text-sm text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
-                    >
-                      <mat-icon class="text-white">visibility</mat-icon>
-                      View Course
-                    </a>
-                  </div>
+                    <!-- Bouton pour voir les détails du cours -->
+                    <div class="pt-3">
+                        <a
+                            [routerLink]="reunion.id"
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm border-[#2E849D] border-2  transition text-[#2E849D] rounded-md ">
+                            <mat-icon class="text-[#2E849D]">visibility</mat-icon>
+                           Voir le cours
+                        </a>
+                    </div>
                 </div>
-              </div>
             </div>
-          <!-- </div> -->
-
-
-
-
+        </div>
 
     </div>
 </div>
