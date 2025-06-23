@@ -22,8 +22,11 @@ Application web développée avec **Angular**, permettant aux étudiants de choi
 **Cloner le projet** :
 git clone https://github.com/soukaina203/info-front.git
 cd info-front
-**Configurer l’URL de l’API backend :**
-Modifier le fichier src/environments/environment.ts :
+**Configurer l’URL de l’API backend**:
+Si votre backend est lancé sur une URL différente du port 5107, veuillez penser à la modifier. Voici comment procéder :
+
+Modifiez le fichier src/environments/environment.ts en adaptant la constante URL_DEV à votre URL :
+
 const URL_DEV = `http://localhost:5107`;
 
 export const environment = {
@@ -32,6 +35,7 @@ export const environment = {
   url: `${URL_DEV}`,
   mobile: false
 };
+
 
 **Installer les dépendances :**
 npm install
