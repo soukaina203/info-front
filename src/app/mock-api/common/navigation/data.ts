@@ -41,10 +41,10 @@ export const compactNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'cours',
-        title: 'Cours en lignes',
+        title: 'Classes virtuelles',
         type: 'basic',
         icon: 'heroicons_outline:clipboard-document-list',
-        link: '/user/cours'
+        link: '/user/classes'
     },
 
     {

@@ -19,7 +19,7 @@ export default [
         ]
     },
     {
-        path: 'cours',
+        path: 'classes',
         children: [
             { path: '', loadChildren: () => import('app/modules/admin/cours-en-lignes/cours.routes') },
         ]
