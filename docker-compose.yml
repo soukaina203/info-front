@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "4200:4200"  # Use "80" if Nginx serves your built app on default port
+    restart: unless-stopped
+
+
+
+# docker-compose up -d --build

@@ -11,8 +11,8 @@
         "test": "ng test",
         "lint": "ng lint",
         "start": "ng serve --host 0.0.0.0",
-        "build": "ng build",
-        "prod": "ng build --prod"
+         "prod": "ng build --progress --configuration=production --output-path dist",
+        "build": "ng build"
     },
     "dependencies": {
         "@angular-material-components/datetime-picker": "^16.0.1",

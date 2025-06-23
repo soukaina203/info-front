@@ -1,16 +1,29 @@
-FROM node:18.20.0-alpine3.19
-
+FROM node:18.20.0-alpine3.19 as build-env
 WORKDIR /app
 
-# Copier les fichiers package.json et installer les dépendances
+# copy and cahe
 COPY package*.json ./
-RUN npm install --force
 
-# Copier tout le projet
-COPY . .
+RUN npm i --force
 
-# Exposer le port Angular
-EXPOSE 4200
+COPY src src
+COPY .editorconfig .
+COPY angular.json .
+# COPY server.ts .
+COPY transloco.config.js .
+COPY tailwind.config.js .
+COPY tsconfig*.json ./
 
-# Lancer le serveur Angular
-CMD ["npm", "run", "start"]
+RUN npm run prod
+# RUN ls -al
+
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+COPY ./ngx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build-env /app/dist/browser .
+# COPY ./dist .
+
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
