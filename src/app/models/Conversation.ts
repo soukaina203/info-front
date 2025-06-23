@@ -3,11 +3,11 @@ import { User } from "./User";
 
 export class Conversation {
     id: number;
-    title: string; // Optional
+    title: string;
     createdAt: Date;
 
-    senderId: number; // User who initiated the conversation
-    receiverId: number; // Recipient of the conversation
+    senderId: number;
+    receiverId: number;
 
     sender:User
     receiver:User

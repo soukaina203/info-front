@@ -1,4 +1,3 @@
-import { User } from './User';
 export class ProfProfile {
     city?: string | null;
     cv?: string | null;

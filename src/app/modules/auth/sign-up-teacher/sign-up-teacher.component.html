@@ -4,12 +4,10 @@
     <div
         class="w-full px-4 py-8 md:flex md:items-start md:justify-end sm:w-auto md:h-full md:w-1/2 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full mx-auto  max-w-96 sm:w-[32rem] sm:mx-0">
-            <!-- Logo -->
             <div class="w-12">
                 <img src="images/logo/logo.png">
             </div>
 
-            <!-- Title -->
             <div class="mt-8 text-4xl font-extrabold leading-tight tracking-tight">Inscription Prof</div>
             <div class="flex items-baseline mt-0.5 font-medium">
                 <div>vous avez déjà un compte?</div>
@@ -19,7 +17,6 @@
             </div>
             <div class="absolute top-8 left-8">
                 <a routerLink="/" class="flex items-center text-[#2E849D] hover:underline hover:cursor-pointer">
-                    <!-- Icône flèche retour -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" viewBox="0 0 20 20"
                         fill="currentColor">
                         <path fill-rule="evenodd"
@@ -245,9 +242,6 @@
                 </div>
 
 
-                <!-- Actions -->
-
-                <!-- Submit button -->
                 <button class="w-full bg-[#2E849D] text-white font-semibold text-lg mt-6 fuse-mat-button-large"
                     mat-flat-button color='primary' [disabled]="myForm.disabled" (click)="signIn()">
                     <span *ngIf="!myForm.disabled">S'inscrire</span>
@@ -255,9 +249,6 @@
                         [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
 
-                <!-- Separator -->
-
-                <!-- Single sign-on buttons -->
 
             </form>
         </div>
@@ -268,8 +259,7 @@
          items-center justify-center flex-auto hidden fixed
         w-1/2 lg:h-full p-16 overflow-hidden bg-[#2E849D]
          md:flex lg:px-28 ">
-            <!-- Background - @formatter:off -->
-            <!-- Rings -->
+
             <svg class="absolute inset-0 pointer-events-none" viewBox="0 0 960 540" width="100%" height="100%"
                 preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
                 <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
@@ -277,7 +267,6 @@
                     <circle r="234" cx="790" cy="491"></circle>
                 </g>
             </svg>
-            <!-- Dots -->
             <svg class="absolute text-gray-700 -top-16 -right-16" viewBox="0 0 220 192" width="220" height="192"
                 fill="none">
                 <defs>
@@ -288,8 +277,7 @@
                 </defs>
                 <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
             </svg>
-            <!-- @formatter:on -->
-            <!-- Content -->
+
             <div class="relative z-10 flex flex-col justify-center w-full h-screen max-w-2xl">
                 <div class="font-bold leading-none text-white text-7xl">
                     <div>Bienvenue à</div>
@@ -306,12 +294,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
 
 
 <!-- Poppups -->

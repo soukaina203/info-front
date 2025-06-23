@@ -183,57 +183,48 @@ export class SignUpTeacherComponent {
     }
 
     // send the profProfile and user objects
-private registerUser(user: inscriptionProfInterface): void {
-    this.myForm.disable();
-    this.showAlert = false;
+    private registerUser(user: inscriptionProfInterface): void {
+        this.myForm.disable();
+        this.showAlert = false;
 
-    this.authService.registerProf(user).subscribe({
-        next: (res) => {
-            this.myForm.enable();
-            console.log("==============");
-            console.log(res);
+        this.authService.registerProf(user).subscribe({
+            next: (res) => {
+                this.myForm.enable();
+                console.log("==============");
+                console.log(res);
 
-            if (res.code === -1) {
+                if (res.code === -1) {
+                    this.showAlert = true;
+                    this.alert = {
+                        type: 'error',
+                        message: 'Email existe déjà',
+                    };
+                } else if (res.code === 1 && res.isEmailSended) {
+                    localStorage.setItem('accessToken', res.token);
+                    localStorage.setItem('userId', res.userId);
+                    localStorage.setItem('userData', res.userData);
+                    this.uow.users.currentUser$.next(res.userData);
+                    this.router.navigateByUrl('verify/mail');
+                } else {
+                    this.showAlert = true;
+                    this.alert = {
+                        type: 'error',
+                        message: 'Erreur lors de l’inscription. Veuillez réessayer.',
+                    };
+                }
+            },
+            error: (err) => {
+                this.myForm.enable();
                 this.showAlert = true;
                 this.alert = {
                     type: 'error',
-                    message: 'Email existe déjà',
+                    message: 'Une erreur s’est produite. Veuillez réessayer.',
                 };
-            } else if (res.code === 1 && res.isEmailSended) {
-                localStorage.setItem('accessToken', res.token);
-                localStorage.setItem('userId', res.userId);
-                localStorage.setItem('userData', res.userData);
-                this.uow.users.currentUser$.next(res.userData);
-                this.router.navigateByUrl('verify/mail');
-            } else {
-                this.showAlert = true;
-                this.alert = {
-                    type: 'error',
-                    message: 'Erreur lors de l’inscription. Veuillez réessayer.',
-                };
+                console.error('Erreur inscription :', err);
             }
-        },
-        error: (err) => {
-            this.myForm.enable();
-            this.showAlert = true;
-            this.alert = {
-                type: 'error',
-                message: 'Une erreur s’est produite. Veuillez réessayer.',
-            };
-            console.error('Erreur inscription :', err);
-        }
-    });
-}
+        });
+    }
 
-
-
-
-
-
-
-
-
-    //poppups
 
     openInput(o) {
         o.click();

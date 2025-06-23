@@ -25,6 +25,6 @@ export function extractProfProfileFromForm(formValue: any): ProfProfile {
         niveaux: formValue.niveaux,
         methodes: formValue.methodes,
         userId: formValue.id,
-        user: null // à adapter si besoin
+        user: null
     };
 }

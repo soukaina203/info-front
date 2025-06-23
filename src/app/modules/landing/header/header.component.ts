@@ -34,9 +34,7 @@ export class HeaderComponent {
     }
 
     ngOnInit() {
-        // let user = localStorage.getItem("user");
-        // user !== null ? this.isConnected = true : this.isConnected = false
-        // console.log(user)
+
         this.authService._authenticated ? this.isConnected = true : this.isConnected = false;
         this.user = JSON.parse(localStorage.getItem("userData"));
         console.log(this.user)

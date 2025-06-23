@@ -1,6 +1,5 @@
 <nav class="sticky top-0 z-50 py-4 bg-white shadow-sm">
     <div class="container flex items-center justify-between px-6 mx-auto md:px-6">
-        <!-- Logo à gauche -->
         <div class="flex items-center">
             <a href="#" class="flex items-center space-x-2">
                 <img src="images/logo/logo.png" alt="Info Académie" class="h-8 w-7" />
@@ -8,7 +7,6 @@
             </a>
         </div>
 
-        <!-- Liens centrés -->
         <div class="justify-center flex-1 hidden space-x-6 md:flex">
             <a class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue" (click)="scrollTo('Hero')">Accueil</a>
             <a class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue"
@@ -20,7 +18,6 @@
                 class="font-medium text-gray-700 transition duration-300 hover:cursor-pointer hover:text-brand-blue" (click)="scrollTo('contact')">Contact</a>
         </div>
 
-        <!-- Auth / user actions à droite -->
         <div class="items-center hidden space-x-4 md:flex">
             <ng-container *ngIf="!isConnected">
                 <button class="px-6 py-1 text-[1rem] text-white rounded-md bg-[#2E849D] hover:bg-[#2E849D]/90"
@@ -49,7 +46,6 @@
             </ng-container>
         </div>
 
-        <!-- Mobile Menu Button -->
         <button (click)="toggleMenu()" class="flex items-center md:hidden">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-brand-blue" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -59,7 +55,6 @@
         </button>
     </div>
 
-    <!-- Mobile Menu -->
     <div class="absolute left-0 right-0 w-full transition-all duration-300 bg-white shadow-md md:hidden"
         [class.opacity-100]="isMenuOpen" [class.visible]="isMenuOpen" [class.opacity-0]="!isMenuOpen"
         [class.invisible]="!isMenuOpen" [class.h-0]="!isMenuOpen">

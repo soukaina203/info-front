@@ -25,13 +25,11 @@ export class VerifiedComponent {
                 if (response.success) {
                     this.isVerified = true;
                     this.authService.activeAccount(userId).subscribe((res) => {
-                        // Wait 2 seconds and redirect to login
                         if (res.code === 1 ) {
                             setTimeout(() => {
                                 this.router.navigate(['/sign-in']);
                             }, 2000);
                         } else {
-                            // fuse poppups
                             console.log("Error of activating user account");
 
                         }
@@ -46,7 +44,6 @@ export class VerifiedComponent {
             })
 
         }
-        // const localToken = localStorage.getItem('token');
 
 
     }

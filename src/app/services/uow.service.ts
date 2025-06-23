@@ -5,7 +5,6 @@ import { NiveauService } from 'app/services/niveau.service';
 import { RoleService } from 'app/services/role.service';
 import { UserService } from 'app/services/user.service';
 import { ServiceService } from './service.service';
-import { SuperService } from './super.service';
 import { UploadService } from './upload.service';
 import { ClassService } from './class.service';
 

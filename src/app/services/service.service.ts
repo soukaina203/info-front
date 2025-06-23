@@ -4,14 +4,14 @@ import { environment } from 'environment/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ServiceService {
-    protected urlApi: string = environment.apiUrl;// InjectService.injector.get('API_URL');
+    protected urlApi: string = environment.apiUrl;
     protected http = inject(HttpClient);
-  constructor() { }
-  getServicesData(): Observable<any> {
-    return this.http.get(`${this.urlApi}/Account/GetServicesData`);
-}
+    constructor() { }
+    getServicesData(): Observable<any> {
+        return this.http.get(`${this.urlApi}/Account/GetServicesData`);
+    }
 
 }
