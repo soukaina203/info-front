@@ -50,7 +50,7 @@ export class AuthService {
     }
 
     refreshToken(): Observable<any> {
-        return this.http.get(`${this.urlApi}/Account/refresh`, {
+        return this.http.get(`${this.urlApi}/Account/refresh/${localStorage.getItem("userId")}`, {
             withCredentials: true
         });
     }

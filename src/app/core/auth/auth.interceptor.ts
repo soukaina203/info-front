@@ -45,6 +45,7 @@ export const authInterceptor = (
                         const newToken = response?.token;
 
                         if (newToken) {
+                            authService.setAccessToken(newToken);
                             const retryReq = req.clone({
                                 headers: req.headers.set('Authorization', 'Bearer ' + newToken),
                             });
